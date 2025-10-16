@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkiakli6c0inb"]
+
+[ext_resource type="SpriteFrames" uid="uid://dgtq2ixiutcfr" path="res://sprites/cursor.tres" id="2_n5qf0"]
+[ext_resource type="Script" uid="uid://by5iwecyk4jjt" path="res://butterknife.gd" id="2_ndevg"]
+[ext_resource type="Texture2D" uid="uid://dncw1oaolqvuj" path="res://sprites/butter knife jam.png" id="3_ndevg"]
+
+[node name="cursor" type="Node2D"]
+script = ExtResource("2_ndevg")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(95, 96.26316)
+scale = Vector2(0.25, 0.25)
+sprite_frames = ExtResource("2_n5qf0")
+animation = &"knife"
+
+[node name="jam" type="Sprite2D" parent="sprite"]
+texture = ExtResource("3_ndevg")

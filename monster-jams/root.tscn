@@ -1,0 +1,215 @@
+[gd_scene load_steps=20 format=3 uid="uid://b30031jciilha"]
+
+[ext_resource type="Script" uid="uid://ckxqn8ojr34h" path="res://gm.gd" id="1_28aoi"]
+[ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
+[ext_resource type="PackedScene" uid="uid://bfm7auhksprnd" path="res://scenes/franken.tscn" id="2_28aoi"]
+[ext_resource type="Texture2D" uid="uid://d1e75onernii5" path="res://sprites/counter.png" id="3_jnlp7"]
+[ext_resource type="Script" uid="uid://irgbo4ytl3i" path="res://scripts/monster_spawner.gd" id="3_l8v81"]
+[ext_resource type="Script" uid="uid://dki77rwd3jh7w" path="res://jelly_table.gd" id="6_bf3um"]
+[ext_resource type="PackedScene" uid="uid://cntnegmjxudhe" path="res://ui.tscn" id="6_l8v81"]
+[ext_resource type="PackedScene" uid="uid://ddaegylgotei7" path="res://scenes/jam.tscn" id="7_gd4vy"]
+[ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="7_qw60f"]
+[ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://ui.gd" id="7_vyht1"]
+[ext_resource type="Script" uid="uid://2bpnwlnnu5uy" path="res://scripts/input_handler.gd" id="9_huihk"]
+[ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
+
+[sub_resource type="Environment" id="Environment_28aoi"]
+background_mode = 1
+background_color = Color(0.44705883, 0, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_28aoi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jnlp7"]
+albedo_color = Color(0.627451, 0.34117648, 0.17254902, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jnlp7"]
+material = SubResource("StandardMaterial3D_jnlp7")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vyht1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jnlp7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l8v81"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyht1"]
+size = Vector3(0.8, 0.1, 0.8)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_28aoi")
+
+[node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 1.3)
+environment = SubResource("Environment_28aoi")
+fov = 80.0
+script = ExtResource("1_vvh5c")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
+visible = false
+light_energy = 0.5
+shadow_enabled = true
+omni_range = 3.769
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+visible = false
+directional_shadow_mode = 0
+sky_mode = 1
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
+spot_angle = 80.83
+
+[node name="MonsterSpawner" type="Node3D" parent="."]
+script = ExtResource("3_l8v81")
+
+[node name="right side" type="Node3D" parent="MonsterSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
+
+[node name="left side" type="Node3D" parent="MonsterSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2.25)
+
+[node name="franken" parent="." instance=ExtResource("2_28aoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="sprite" parent="franken/spriteParent" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48984873, 0)
+shaded = true
+alpha_cut = 2
+
+[node name="world" type="Node3D" parent="."]
+
+[node name="Wall" type="MeshInstance3D" parent="world"]
+transform = Transform3D(1.5, 0, 0, 0, -2.2380231e-08, -0.512, 0, 0.512, -2.2380231e-08, 2.1, 0.46, -1.994)
+mesh = SubResource("PlaneMesh_28aoi")
+skeleton = NodePath("../..")
+
+[node name="Wall5" type="MeshInstance3D" parent="world"]
+transform = Transform3D(1.5, 0, 0, 0, -2.2380231e-08, -0.512, 0, 0.512, -2.2380231e-08, -2.1, 0.46, -1.994)
+mesh = SubResource("PlaneMesh_28aoi")
+skeleton = NodePath("../..")
+
+[node name="Wall6" type="MeshInstance3D" parent="world"]
+transform = Transform3D(-6.556708e-08, 0.51199996, -2.238023e-08, 0, -2.238023e-08, -0.51199996, -1.4999999, -2.238023e-08, 9.782709e-16, -3.6, 0.46, -0.645)
+mesh = SubResource("PlaneMesh_28aoi")
+skeleton = NodePath("../..")
+
+[node name="Wall7" type="MeshInstance3D" parent="world"]
+transform = Transform3D(-6.556708e-08, -0.51199996, 2.238023e-08, 0, -2.238023e-08, -0.51199996, 1.4999999, -2.238023e-08, 9.782709e-16, 3.6, 0.46, -0.539)
+mesh = SubResource("PlaneMesh_28aoi")
+skeleton = NodePath("../..")
+
+[node name="Floor" type="MeshInstance3D" parent="world"]
+transform = Transform3D(3.63, 0, 0, 0, 1, 0, 0, 0, 3.705, 0, 0, 0)
+mesh = SubResource("PlaneMesh_jnlp7")
+skeleton = NodePath("../..")
+
+[node name="counterfront" type="Node3D" parent="." groups=["counterfront"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0.725)
+
+[node name="front door" type="Node3D" parent="." groups=["counterfront"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.25)
+
+[node name="right side" type="Node3D" parent="." groups=["counterfront"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
+
+[node name="waitingline" type="Node3D" parent="." groups=["counterfront"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9880238, 0, -1.9206853)
+
+[node name="counter" type="Node3D" parent="." groups=["counter"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.030716658, 0.80254006)
+
+[node name="sprite" type="AnimatedSprite3D" parent="counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20212203, -0.053066015)
+pixel_size = 0.0005
+sprite_frames = SubResource("SpriteFrames_vyht1")
+
+[node name="jelly table" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26104406, 1.4209297)
+script = ExtResource("6_bf3um")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="jelly table"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = SubResource("PlaneMesh_l8v81")
+skeleton = NodePath("../../counter")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="jelly table"]
+script = ExtResource("7_qw60f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="jelly table/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.044727206, 0)
+shape = SubResource("BoxShape3D_vyht1")
+
+[node name="Jam" parent="jelly table" instance=ExtResource("7_gd4vy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28970554, 0, -0.3001746)
+
+[node name="UI" parent="." groups=["ui"] instance=ExtResource("6_l8v81")]
+script = ExtResource("7_vyht1")
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="upperhalf" type="Control" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 324.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="CounterButton" type="Button" parent="UI/Control/upperhalf"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="lowerhalf" type="Control" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -324.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="TableButton" type="Button" parent="UI/Control/lowerhalf"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 238.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
+position = Vector2(0, 1)
+
+[node name="input handler" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_huihk")
+
+[editable path="franken"]
+[editable path="UI"]

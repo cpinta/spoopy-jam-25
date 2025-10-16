@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dgtq2ixiutcfr"]
+
+[ext_resource type="Texture2D" uid="uid://csna2gkwu1gs2" path="res://sprites/butter knife.png" id="1_ikv4d"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ikv4d")
+}],
+"loop": true,
+"name": &"knife",
+"speed": 5.0
+}]

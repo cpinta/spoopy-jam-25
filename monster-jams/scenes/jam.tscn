@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddaegylgotei7"]
+
+[ext_resource type="Script" uid="uid://yawt0oubinic" path="res://scripts/selectable_topping.gd" id="1_gyxef"]
+[ext_resource type="Texture2D" uid="uid://bs3rk3nbtdota" path="res://sprites/jam jar.png" id="2_hxmil"]
+[ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="3_hxmil"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eji0w"]
+size = Vector3(0.09716797, 0.15045166, 0.11917114)
+
+[node name="Jam" type="Node3D"]
+script = ExtResource("1_gyxef")
+
+[node name="sprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.052845508, 0)
+pixel_size = 0.0003
+billboard = 1
+double_sided = false
+texture = ExtResource("2_hxmil")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+script = ExtResource("3_hxmil")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.021453857, -0.023422241)
+shape = SubResource("BoxShape3D_eji0w")
