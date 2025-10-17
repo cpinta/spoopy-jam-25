@@ -17,9 +17,12 @@ var currentImage: Image
 var targetTexture: ImageTexture
 
 var jamOverlay: Sprite2D
+var curColor: Color = Color.GREEN
 
 func _ready():
+	sprite = $sprite
 	jamOverlay = $sprite/jam
+	jamOverlay.visible = false
 	pass
 
 func _process(delta):
@@ -28,6 +31,9 @@ func _process(delta):
 func topping_selected(topping: GM.Toppings):
 	if GM.is_knife_topping(topping):
 		set_cursor(CursorMode.KNIFE)
+		jamOverlay.visible = true
+		curColor = GM.dictToppings[topping].color
+		jamOverlay.modulate = curColor
 	else:
 		match(topping):
 			GM.Toppings.Ham:
@@ -51,8 +57,4 @@ func set_cursor(mode:CursorMode):
 		CursorMode.HAM:
 			sprite.play(strHAM)
 			pass
-	pass
-
-func write_around_point(pos: Vector2i, color:Color):
-	currentImage.set_pixelv(pos, color)
 	pass

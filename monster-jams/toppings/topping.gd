@@ -1,9 +1,9 @@
 class_name Topping
-extends Node
 
 var toppingType: GM.Toppings
 var toppingName: String
 var desc: String
+var color: Color
 
 func _init():
 	pass

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkkweykmijykh"]
+
+[ext_resource type="Script" uid="uid://bb2334772mc0r" path="res://scripts/franken.gd" id="1_txkty"]
+[ext_resource type="Texture2D" uid="uid://daqguqisip1bo" path="res://sprites/skeleton.png" id="2_txkty"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ivqcw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_txkty")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="franken" type="Node3D"]
+script = ExtResource("1_txkty")
+
+[node name="spriteParent" type="Node3D" parent="."]
+
+[node name="sprite" type="AnimatedSprite3D" parent="spriteParent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+pixel_size = 0.0014
+sprite_frames = SubResource("SpriteFrames_ivqcw")

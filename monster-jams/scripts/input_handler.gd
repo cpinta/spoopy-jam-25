@@ -41,7 +41,7 @@ func _process(_delta):
 						GM.cursor.visible = false
 						pass
 					GM.CamView.JellyTable:
-						#GM.cursor.global_position = get_global_mouse_position()
+						GM.cursor.global_position = get_global_mouse_position()
 						GM.cursor.visible = true
 						pass
 		GameInput.TOUCH:
