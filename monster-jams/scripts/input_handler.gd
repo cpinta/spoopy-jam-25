@@ -15,6 +15,7 @@ var cursor: Cursor
 
 signal inputLeftClickPressed(Vector2)
 signal inputLeftClickReleased(Vector2)
+var leftClickCurrentlyPressed: bool = false
 
 signal inputSet(input: GameInput)
 
@@ -32,7 +33,7 @@ func _process(_delta):
 		GameInput.MOUSE:
 			if Input.is_action_just_pressed("left_click"):
 				left_click_pressed(get_global_mouse_position())
-			if Input.is_action_just_released("right_click"):
+			if Input.is_action_just_released("left_click"):
 				left_click_released(get_global_mouse_position())
 			pass
 			if GM.cursor:
@@ -50,8 +51,10 @@ func _process(_delta):
 	
 func left_click_pressed(pos: Vector2):
 	inputLeftClickPressed.emit(pos)
+	leftClickCurrentlyPressed = true
 func left_click_released(pos: Vector2):
 	inputLeftClickReleased.emit(pos)
+	leftClickCurrentlyPressed = false
 	
 	
 

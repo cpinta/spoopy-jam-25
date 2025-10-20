@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ddaegylgotei7" path="res://scenes/jam.tscn" id="7_gd4vy"]
 [ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="7_qw60f"]
 [ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://ui.gd" id="7_vyht1"]
-[ext_resource type="Script" uid="uid://278anbqs2k5j" path="res://bread3d.gd" id="9_eji0w"]
+[ext_resource type="PackedScene" uid="uid://ldrwlrk0as00" path="res://scenes/bread.tscn" id="9_eji0w"]
 [ext_resource type="Script" uid="uid://2bpnwlnnu5uy" path="res://scripts/input_handler.gd" id="9_huihk"]
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
 
@@ -161,22 +161,8 @@ toppingEnum = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23032492, 0, 0)
 toppingEnum = 3
 
-[node name="Node3D" type="Node3D" parent="jam table"]
+[node name="Bread" parent="jam table" instance=ExtResource("9_eji0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.053260148, -0.11255121)
-script = ExtResource("9_eji0w")
-
-[node name="bread" type="MeshInstance3D" parent="jam table/Node3D"]
-transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_eji0w")
-mesh = SubResource("PlaneMesh_l8v81")
-skeleton = NodePath("../../../counter")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="jam table/Node3D"]
-script = ExtResource("7_qw60f")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="jam table/Node3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016616806, 0, 0.0012786388)
-shape = SubResource("BoxShape3D_vyht1")
 
 [node name="UI" parent="." groups=["ui"] instance=ExtResource("6_l8v81")]
 script = ExtResource("7_vyht1")
@@ -232,7 +218,7 @@ grow_vertical = 2
 [node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
 position = Vector2(0, 1)
 
-[node name="input handler" type="Control" parent="UI"]
+[node name="input handler" type="Control" parent="UI" groups=["input"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

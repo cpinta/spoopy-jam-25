@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://ldrwlrk0as00"]
+
+[ext_resource type="Script" uid="uid://278anbqs2k5j" path="res://bread3d.gd" id="1_ihbfu"]
+[ext_resource type="Texture2D" uid="uid://b4147uhpv5drj" path="res://sprites/empty256x256.png" id="2_eqjjp"]
+[ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="3_bp5ul"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eji0w"]
+albedo_texture = ExtResource("2_eqjjp")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l8v81"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyht1"]
+size = Vector3(0.23989563, 0.01826172, 0.24083862)
+
+[node name="Bread" type="Node3D"]
+script = ExtResource("1_ihbfu")
+
+[node name="bread" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_eji0w")
+mesh = SubResource("PlaneMesh_l8v81")
+skeleton = NodePath("../../../counter")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+script = ExtResource("3_bp5ul")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016616806, 0, 0.0012786388)
+shape = SubResource("BoxShape3D_vyht1")
