@@ -55,27 +55,32 @@ func write_pixel(pos: Vector2i, color:Color, update:bool = true):
 		currentImage.set_pixelv(corrected_pos, color)
 		if update:
 			imgTex.update(currentImage)
-	pass
+		return 1
+	return 0
 
 func write_line(start_pos:Vector2i, end_pos:Vector2i, color:Color):
 	var slope = Vector2(end_pos.x - start_pos.x, end_pos.y - start_pos.y)
 	var stepCount = max(abs(slope.x), abs(slope.y))
 	var stepSlope = Vector2(slope.x/stepCount, slope.y/stepCount)
 	var curPoint: Vector2 = start_pos
-	write_pixel_plus(curPoint, color)
+	
+	var sum: int = 0
+	
+	sum += write_pixel_plus(curPoint, color)
 	for i in range(0, stepCount):
 		curPoint += stepSlope
-		write_pixel_plus(curPoint, color)
+		sum += write_pixel_plus(curPoint, color)
 		pass
-	pass
+	return sum
 
 func write_pixel_plus(pos: Vector2i, color:Color):
-	write_pixel(pos, color)
-	write_pixel(pos + Vector2i(1,0), color)
-	write_pixel(pos + Vector2i(-1,0), color)
-	write_pixel(pos + Vector2i(0,1), color)
-	write_pixel(pos + Vector2i(0,-1), color)
-	pass
+	var sum: int = 0
+	sum += write_pixel(pos, color)
+	sum += write_pixel(pos + Vector2i(1,0), color)
+	sum += write_pixel(pos + Vector2i(-1,0), color)
+	sum += write_pixel(pos + Vector2i(0,1), color)
+	sum += write_pixel(pos + Vector2i(0,-1), color)
+	return sum
 
 func _process(delta):
 	pass
@@ -86,12 +91,18 @@ func lifted_up(pos: Vector2):
 	pass
 
 func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
-	if(GM.input.leftClickCurrentlyPressed):
+	if GM.input.leftClickCurrentlyPressed:
+		if not GM.cursor.has_jam_left_on_it():
+			return
+
 		var finalpos:Vector2i = Vector2i(((event_position.x - minMaxX.x) / (minMaxX.y - minMaxX.x)) * imgTex.get_width(), ((event_position.z - minMaxZ.x) / (minMaxZ.y - minMaxZ.x)) * imgTex.get_height())
+		var pxChanged: int = 0
 		if usePrevPos:
-			write_line(prevImagePos, finalpos, GM.cursor.curColor)
+			pxChanged = write_line(prevImagePos, finalpos, GM.cursor.curColor)
 		else:
-			write_pixel(finalpos, GM.cursor.curColor)
+			pxChanged = write_pixel(finalpos, GM.cursor.curColor)
 		prevImagePos = finalpos
 		usePrevPos = true
+		
+		GM.cursor.apply_jam_pixels(pxChanged)
 	pass
