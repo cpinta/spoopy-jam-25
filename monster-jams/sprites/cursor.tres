@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dgtq2ixiutcfr"]
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dgtq2ixiutcfr"]
 
 [ext_resource type="Texture2D" uid="uid://csna2gkwu1gs2" path="res://sprites/butter knife.png" id="1_ikv4d"]
+[ext_resource type="Texture2D" uid="uid://c0pcueiahbvj0" path="res://sprites/blank cursor.png" id="2_4ia1p"]
 
 [resource]
 animations = [{
@@ -10,5 +11,13 @@ animations = [{
 }],
 "loop": true,
 "name": &"knife",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4ia1p")
+}],
+"loop": true,
+"name": &"none",
 "speed": 5.0
 }]

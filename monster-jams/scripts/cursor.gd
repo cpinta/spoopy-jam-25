@@ -1,11 +1,10 @@
 class_name Cursor
 extends Node2D
 
-enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM}
 
-var mode: CursorMode
+var mode: GM.CursorMode
 var sprite: AnimatedSprite2D
-var curTopping: GM.Toppings
+var curTopping: GM.Toppings = GM.Toppings.None
 
 const strNONE: String = "none"
 const strKNIFE: String = "knife"
@@ -41,12 +40,14 @@ func get_current_jam() -> GM.Toppings:
 	return curTopping
 
 func apply_jam_pixels(pxCount: int):
+	if curTopping == GM.Toppings.None:
+		return
 	amountJamOnKnife -= pxCount * JAM_DECREASE_PER_PX
 	if amountJamOnKnife < 0:
-		
 		amountJamOnKnife = 0
 		jamOverlay.modulate = Color.TRANSPARENT
 		amountJamOnKnife = 0
+		curTopping = GM.Toppings.None
 	else:
 		var alpha: float = JAM_MIN_ALPHA + (amountJamOnKnife/MAX_JAM_AMOUNT)
 		jamOverlay.modulate = Color(curColor, alpha)
@@ -59,7 +60,7 @@ func has_jam_left_on_it():
 
 func topping_selected(topping: GM.Toppings):
 	if GM.is_knife_topping(topping):
-		set_cursor(CursorMode.KNIFE)
+		set_cursor(GM.CursorMode.KNIFE)
 		jamOverlay.visible = true
 		curColor = GM.dictToppings[topping].color
 		curTopping = topping
@@ -69,24 +70,30 @@ func topping_selected(topping: GM.Toppings):
 	else:
 		match(topping):
 			GM.Toppings.Ham:
-				set_cursor(CursorMode.HAM)
+				set_cursor(GM.CursorMode.HAM)
 				pass
 	pass
 
-func set_cursor(mode:CursorMode):
+func set_cursor(mode:GM.CursorMode):
 	self.mode = mode
 	match(mode):
-		CursorMode.NONE:
+		GM.CursorMode.NONE:
 			sprite.play(strNONE)
 			pass
-		CursorMode.KNIFE:
+		GM.CursorMode.KNIFE:
 			sprite.play(strKNIFE)
 			pass
-		CursorMode.BREAD:
+		GM.CursorMode.BREAD:
 			pass
-		CursorMode.BAGEL:
+		GM.CursorMode.BAGEL:
 			pass
-		CursorMode.HAM:
+		GM.CursorMode.HAM:
 			sprite.play(strHAM)
 			pass
+	pass
+
+func remove_cursor():
+	if curTopping == GM.Toppings.None:
+		set_cursor(GM.CursorMode.NONE)
+		pass
 	pass

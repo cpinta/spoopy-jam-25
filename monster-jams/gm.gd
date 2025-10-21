@@ -13,12 +13,13 @@ var camState: GM.CamView = GM.CamView.Counter
 enum Monster { Franken }
 enum CamView {Counter, JellyTable}
 enum BreadType {Wheat=0, Bagel=1}
-enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4}
+enum Toppings {None=-1,StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4}
 var dictToppings = {Toppings.StrawberryJam: StrawberryJam.new(),
 	Toppings.AppleJam: AppleJam.new(), 
 	Toppings.BlueberryJam: BlueberryJam.new(), 
 	Toppings.GrapeJam: GrapeJam.new(), 
 	Toppings.Ham: Ham.new()}
+enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM}
 
 var COUNTER_FRONT_LOCATION: Vector3 = Vector3(0,10, 0.8)
 

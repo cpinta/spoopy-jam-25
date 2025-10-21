@@ -11,7 +11,7 @@ script = ExtResource("2_ndevg")
 position = Vector2(65.125, 66.27585)
 scale = Vector2(0.17512532, 0.17512532)
 sprite_frames = ExtResource("2_n5qf0")
-animation = &"knife"
+animation = &"none"
 
 [node name="jam" type="Sprite2D" parent="sprite"]
 texture = ExtResource("3_ndevg")
