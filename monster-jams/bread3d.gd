@@ -15,6 +15,7 @@ var minMaxX: Vector2 = Vector2(1000, -1000)
 var prevImagePos: Vector2i = Vector2i.ONE
 var usePrevPos: bool = false
 
+var jamAmountsApplied: = {}
 
 func _ready():
 	col = $StaticBody3D
@@ -91,6 +92,13 @@ func lifted_up(pos: Vector2):
 	usePrevPos = false
 	pass
 
+func add_jam_to_map(topping:GM.Toppings, amt:int):
+	if not jamAmountsApplied.has(topping):
+		jamAmountsApplied[topping] = amt
+	else:
+		jamAmountsApplied[topping] += amt
+	pass
+
 func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
 	if GM.input.leftClickCurrentlyPressed:
 		if not GM.cursor.has_jam_left_on_it():
@@ -105,5 +113,13 @@ func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: V
 		prevImagePos = finalpos
 		usePrevPos = true
 		
+		add_jam_to_map(GM.cursor.get_current_jam(), pxChanged)
 		GM.cursor.apply_jam_pixels(pxChanged)
+		
+		print("frame:")
+		var keys = jamAmountsApplied.keys()
+		for i in range(0, keys.size()):
+			print("\t",keys[i], ": ", jamAmountsApplied[keys[i]])
+			pass
+		
 	pass

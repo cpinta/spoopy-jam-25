@@ -22,7 +22,7 @@ var curColor: Color = Color.GREEN
 const JAM_MIN_ALPHA: float = .1
 const MAX_JAM_AMOUNT: int = 100
 const JAM_DECREASE_PER_PX: float = 0.1
-var amountJamOnKnife: float
+var amountJamOnKnife: float = 0
 
 var jamAmountsApplied: = {}
 
@@ -34,36 +34,23 @@ func _ready():
 	amountJamOnKnife = MAX_JAM_AMOUNT
 	pass
 
-func add_jam_to_map(topping:GM.Toppings, amt:int):
-	if not jamAmountsApplied.has(topping):
-		jamAmountsApplied[topping] = amt
-	else:
-		jamAmountsApplied[topping] += amt
-	pass
-
 func _process(delta):
 	pass
+
+func get_current_jam() -> GM.Toppings:
+	return curTopping
 
 func apply_jam_pixels(pxCount: int):
 	amountJamOnKnife -= pxCount * JAM_DECREASE_PER_PX
 	if amountJamOnKnife < 0:
-		var newAmt: int = pxCount + (amountJamOnKnife / JAM_DECREASE_PER_PX)
-		add_jam_to_map(curTopping, newAmt)
 		
 		amountJamOnKnife = 0
 		jamOverlay.modulate = Color.TRANSPARENT
 		amountJamOnKnife = 0
 	else:
-		add_jam_to_map(curTopping, pxCount)
 		var alpha: float = JAM_MIN_ALPHA + (amountJamOnKnife/MAX_JAM_AMOUNT)
 		jamOverlay.modulate = Color(curColor, alpha)
 	pass
-	
-	print("frame:")
-	var keys = jamAmountsApplied.keys()
-	for i in range(0, keys.size()):
-		print("\t",keys[i], ": ", jamAmountsApplied[keys[i]])
-		pass
 
 func has_jam_left_on_it():
 	if amountJamOnKnife > 0:
