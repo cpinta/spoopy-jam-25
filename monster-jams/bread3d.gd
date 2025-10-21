@@ -19,7 +19,7 @@ func _ready():
 	col = $StaticBody3D
 	col.input_event.connect(clicked)
 	
-	mesh = $bread
+	mesh = $jam
 	var verts: PackedVector3Array = mesh.mesh.get_faces()
 	for i in range(0, verts.size()):
 		var fullpos: Vector3 = mesh.global_position
@@ -49,9 +49,10 @@ func _ready():
 	pass
 
 func write_pixel(pos: Vector2i, color:Color, update:bool = true):
-	var testcolor:Color = currentImage.get_pixelv(pos)
+	var corrected_pos: Vector2i = Vector2i(max(pos.x, 0), max(pos.y, 0))
+	var testcolor:Color = currentImage.get_pixelv(corrected_pos)
 	if testcolor != color:
-		currentImage.set_pixelv(pos, color)
+		currentImage.set_pixelv(corrected_pos, color)
 		if update:
 			imgTex.update(currentImage)
 	pass

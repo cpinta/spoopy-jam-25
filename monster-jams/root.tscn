@@ -229,4 +229,5 @@ mouse_filter = 2
 script = ExtResource("9_huihk")
 
 [editable path="franken"]
+[editable path="jam table/Bread"]
 [editable path="UI"]

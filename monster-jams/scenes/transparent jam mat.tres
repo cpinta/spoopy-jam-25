@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bm2w8cvkfa45l"]
+
+[ext_resource type="Texture2D" uid="uid://b4147uhpv5drj" path="res://sprites/empty256x256.png" id="1_ku78d"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_ku78d")
