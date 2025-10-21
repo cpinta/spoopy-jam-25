@@ -15,6 +15,7 @@ var minMaxX: Vector2 = Vector2(1000, -1000)
 var prevImagePos: Vector2i = Vector2i.ONE
 var usePrevPos: bool = false
 
+
 func _ready():
 	col = $StaticBody3D
 	col.input_event.connect(clicked)

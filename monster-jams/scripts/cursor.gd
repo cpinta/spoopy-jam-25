@@ -24,6 +24,8 @@ const MAX_JAM_AMOUNT: int = 100
 const JAM_DECREASE_PER_PX: float = 0.1
 var amountJamOnKnife: float
 
+var jamAmountsApplied: = {}
+
 func _ready():
 	sprite = $sprite
 	jamOverlay = $sprite/jam
@@ -32,19 +34,36 @@ func _ready():
 	amountJamOnKnife = MAX_JAM_AMOUNT
 	pass
 
+func add_jam_to_map(topping:GM.Toppings, amt:int):
+	if not jamAmountsApplied.has(topping):
+		jamAmountsApplied[topping] = amt
+	else:
+		jamAmountsApplied[topping] += amt
+	pass
+
 func _process(delta):
 	pass
 
 func apply_jam_pixels(pxCount: int):
 	amountJamOnKnife -= pxCount * JAM_DECREASE_PER_PX
 	if amountJamOnKnife < 0:
+		var newAmt: int = pxCount + (amountJamOnKnife / JAM_DECREASE_PER_PX)
+		add_jam_to_map(curTopping, newAmt)
+		
 		amountJamOnKnife = 0
 		jamOverlay.modulate = Color.TRANSPARENT
 		amountJamOnKnife = 0
 	else:
+		add_jam_to_map(curTopping, pxCount)
 		var alpha: float = JAM_MIN_ALPHA + (amountJamOnKnife/MAX_JAM_AMOUNT)
 		jamOverlay.modulate = Color(curColor, alpha)
 	pass
+	
+	print("frame:")
+	var keys = jamAmountsApplied.keys()
+	for i in range(0, keys.size()):
+		print("\t",keys[i], ": ", jamAmountsApplied[keys[i]])
+		pass
 
 func has_jam_left_on_it():
 	if amountJamOnKnife > 0:
@@ -56,6 +75,7 @@ func topping_selected(topping: GM.Toppings):
 		set_cursor(CursorMode.KNIFE)
 		jamOverlay.visible = true
 		curColor = GM.dictToppings[topping].color
+		curTopping = topping
 		jamOverlay.modulate = curColor
 		
 		amountJamOnKnife = MAX_JAM_AMOUNT
