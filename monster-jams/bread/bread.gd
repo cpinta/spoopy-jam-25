@@ -4,7 +4,7 @@ class_name Bread
 var breadType: GM.BreadType
 var breadName: String
 var desc: String
-var scene: Resource
+var scene: PackedScene
 
 func _init():
 	pass

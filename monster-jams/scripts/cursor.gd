@@ -19,8 +19,8 @@ var jamOverlay: Sprite2D
 var curColor: Color = Color.GREEN
 
 const JAM_MIN_ALPHA: float = .1
-const MAX_JAM_AMOUNT: int = 100
-const JAM_DECREASE_PER_PX: float = 0.1
+const MAX_JAM_AMOUNT: int = 20000
+const JAM_DECREASE_PER_PX: float = 1
 var amountJamOnKnife: float = 0
 
 var jamAmountsApplied: = {}
@@ -41,6 +41,7 @@ func get_current_jam() -> GM.Toppings:
 
 func apply_jam_pixels(pxCount: int):
 	if curTopping == GM.Toppings.None:
+		jamOverlay.visible = false
 		return
 	amountJamOnKnife -= pxCount * JAM_DECREASE_PER_PX
 	if amountJamOnKnife < 0:
@@ -78,22 +79,28 @@ func bread_selected(bread: GM.BreadType):
 	set_cursor(GM.CursorMode.NONE)
 	pass
 
+
 func set_cursor(mode:GM.CursorMode):
 	self.mode = mode
 	match(mode):
 		GM.CursorMode.NONE:
+			jamOverlay.visible = false
 			sprite.play(strNONE)
 			pass
 		GM.CursorMode.KNIFE:
+			jamOverlay.visible = true
 			sprite.play(strKNIFE)
 			pass
 		GM.CursorMode.BREAD:
+			jamOverlay.visible = false
 			sprite.play(strNONE)
 			pass
 		GM.CursorMode.BAGEL:
+			jamOverlay.visible = false
 			sprite.play(strNONE)
 			pass
 		GM.CursorMode.HAM:
+			jamOverlay.visible = false
 			sprite.play(strNONE)
 			pass
 	pass
@@ -102,4 +109,6 @@ func remove_cursor():
 	if curTopping == GM.Toppings.None:
 		set_cursor(GM.CursorMode.NONE)
 		pass
+	else:
+		set_cursor(GM.CursorMode.KNIFE)
 	pass

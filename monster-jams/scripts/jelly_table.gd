@@ -7,6 +7,9 @@ var mesh: MeshInstance3D
 var toppings: Array[SelectableTopping] = []
 
 var curBreadLocation: Vector3
+var curBread: Bread3D
+
+var breadstacks = {}
 
 signal ToppingSelected(int)
 signal BreadSelected(int)
@@ -20,12 +23,21 @@ func _ready():
 	
 	var breadstack: SelectableBread = $BreadStack
 	breadstack.WasSelected.connect(_bread_selected)
+	breadstacks[GM.BreadType.Wheat] = breadstack
 	
 	curBreadLocation = $CurrentBreadLocation.global_position
 	pass
 
+func spawn_bread():
+	pass
+
 func _bread_selected(bread: int):
-	#BreadSelected.emit(bread)
+	var stack: SelectableBread = breadstacks[bread]
+	var spawnedBread: Bread3D = GM.dictBread[stack.bread].scene.instantiate() as Bread3D
+	spawnedBread.reparent(get_tree().root)
+	spawnedBread.global_position = stack.global_position
+	spawnedBread.set_destination(curBreadLocation)
+	curBread = spawnedBread
 	
 	pass
 	

@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 class_name SelectableItem
 
 var BeingHoveredCursorMode:GM.CursorMode = GM.CursorMode.NONE

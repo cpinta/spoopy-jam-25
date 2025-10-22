@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 class_name Bread3D
 
 enum BreadState {Stack = 0, OnTable=1, OnSandwich=2}
@@ -18,6 +18,11 @@ var minMaxX: Vector2 = Vector2(1000, -1000)
 
 var prevImagePos: Vector2i = Vector2i.ONE
 var usePrevPos: bool = false
+
+var movingToDest: bool = false
+var dest:Vector3
+const DEST_LERP: float = 10
+const DEST_MIN_DIST: float = 0.1
 
 var jamAmountsApplied: = {}
 
@@ -54,8 +59,24 @@ func _ready():
 	GM.input.inputLeftClickReleased.connect(lifted_up)
 	pass
 
+func _process(delta):
+	if movingToDest:
+		if dest.distance_to(self.global_position) < DEST_MIN_DIST:
+			global_position = dest
+			movingToDest = false
+			pass
+		else:
+			global_position = global_position.lerp(dest, DEST_LERP * delta)
+	pass
+
+func set_destination(pos:Vector3):
+	movingToDest = true
+	dest = pos
+	pass
+
 func write_pixel(pos: Vector2i, color:Color, update:bool = true):
-	var corrected_pos: Vector2i = Vector2i(max(pos.x, 0), max(pos.y, 0))
+	var corrected_pos: Vector2i = Vector2i(min(max(pos.x, 0), 255), min(max(pos.y, 0),255))
+	
 	var testcolor:Color = currentImage.get_pixelv(corrected_pos)
 	if testcolor != color:
 		currentImage.set_pixelv(corrected_pos, color)
@@ -72,11 +93,35 @@ func write_line(start_pos:Vector2i, end_pos:Vector2i, color:Color):
 	
 	var sum: int = 0
 	
-	sum += write_pixel_plus(curPoint, color)
+	sum += write_circle(curPoint, 10, color)
 	for i in range(0, stepCount):
 		curPoint += stepSlope
-		sum += write_pixel_plus(curPoint, color)
+		sum += write_circle(curPoint, 10, color)
 		pass
+	return sum
+
+
+func write_circle(center: Vector2i, radius:int, color: Color):
+	var x:int = 0
+	var y:int = radius
+	var d:int = 3 - (2 * radius)
+	var sum: int = 0
+	while x <= y:
+		sum += write_pixel(Vector2i(center.x + x, center.y + y), color);
+		sum += write_pixel(Vector2i(center.x - x, center.y + y), color);
+		sum += write_pixel(Vector2i(center.x + x, center.y - y), color);
+		sum += write_pixel(Vector2i(center.x - x, center.y - y), color);
+		sum += write_pixel(Vector2i(center.x + y, center.y + x), color);
+		sum += write_pixel(Vector2i(center.x - y, center.y + x), color);
+		sum += write_pixel(Vector2i(center.x + y, center.y - x), color);
+		sum += write_pixel(Vector2i(center.x - y, center.y - x), color);
+
+		if (d < 0):
+			d = d + (4 * x) + 6
+		else:
+			d = d + (4 * (x - y)) + 10
+			y -= 1
+		x += 1
 	return sum
 
 func write_pixel_plus(pos: Vector2i, color:Color):
@@ -87,10 +132,6 @@ func write_pixel_plus(pos: Vector2i, color:Color):
 	sum += write_pixel(pos + Vector2i(0,1), color)
 	sum += write_pixel(pos + Vector2i(0,-1), color)
 	return sum
-
-func _process(delta):
-	pass
-
 
 func lifted_up(pos: Vector2):
 	usePrevPos = false

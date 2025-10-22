@@ -5,4 +5,5 @@ func _init():
 	breadType = GM.BreadType.Wheat
 	breadName = "Wheat"
 	desc = "yep. Thats wheat bread"
+	scene = load("res://scenes/bread.tscn")
 	pass
