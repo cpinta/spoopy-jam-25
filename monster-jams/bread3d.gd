@@ -1,6 +1,10 @@
 extends Node
 class_name Bread3D
 
+enum BreadState {Stack = 0, OnTable=1, OnSandwich=2}
+
+var state: BreadState
+
 var col: CollisionObject3D
 var mesh: MeshInstance3D
 
@@ -100,26 +104,30 @@ func add_jam_to_map(topping:GM.Toppings, amt:int):
 	pass
 
 func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
-	if GM.input.leftClickCurrentlyPressed:
-		if not GM.cursor.has_jam_left_on_it():
-			return
-
-		var finalpos:Vector2i = Vector2i(((event_position.x - minMaxX.x) / (minMaxX.y - minMaxX.x)) * imgTex.get_width(), ((event_position.z - minMaxZ.x) / (minMaxZ.y - minMaxZ.x)) * imgTex.get_height())
-		var pxChanged: int = 0
-		if usePrevPos:
-			pxChanged = write_line(prevImagePos, finalpos, GM.cursor.curColor)
-		else:
-			pxChanged = write_pixel(finalpos, GM.cursor.curColor)
-		prevImagePos = finalpos
-		usePrevPos = true
-		
-		add_jam_to_map(GM.cursor.get_current_jam(), pxChanged)
-		GM.cursor.apply_jam_pixels(pxChanged)
-		
-		print("frame:")
-		var keys = jamAmountsApplied.keys()
-		for i in range(0, keys.size()):
-			print("\t",keys[i], ": ", jamAmountsApplied[keys[i]])
+	match GM.cursor.mode:
+		GM.CursorMode.NONE:
 			pass
+		GM.CursorMode.KNIFE:
+			if GM.input.leftClickCurrentlyPressed:
+				if not GM.cursor.has_jam_left_on_it():
+					return
+				
+				var finalpos:Vector2i = Vector2i(((event_position.x - minMaxX.x) / (minMaxX.y - minMaxX.x)) * imgTex.get_width(), ((event_position.z - minMaxZ.x) / (minMaxZ.y - minMaxZ.x)) * imgTex.get_height())
+				var pxChanged: int = 0
+				if usePrevPos:
+					pxChanged = write_line(prevImagePos, finalpos, GM.cursor.curColor)
+				else:
+					pxChanged = write_pixel(finalpos, GM.cursor.curColor)
+				prevImagePos = finalpos
+				usePrevPos = true
+				
+				add_jam_to_map(GM.cursor.get_current_jam(), pxChanged)
+				GM.cursor.apply_jam_pixels(pxChanged)
+				
+				print("frame:")
+				var keys = jamAmountsApplied.keys()
+				for i in range(0, keys.size()):
+					print("\t",keys[i], ": ", jamAmountsApplied[keys[i]])
+					pass
 		
 	pass

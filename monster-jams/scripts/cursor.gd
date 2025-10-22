@@ -74,6 +74,10 @@ func topping_selected(topping: GM.Toppings):
 				pass
 	pass
 
+func bread_selected(bread: GM.BreadType):
+	set_cursor(GM.CursorMode.NONE)
+	pass
+
 func set_cursor(mode:GM.CursorMode):
 	self.mode = mode
 	match(mode):
@@ -84,11 +88,13 @@ func set_cursor(mode:GM.CursorMode):
 			sprite.play(strKNIFE)
 			pass
 		GM.CursorMode.BREAD:
+			sprite.play(strNONE)
 			pass
 		GM.CursorMode.BAGEL:
+			sprite.play(strNONE)
 			pass
 		GM.CursorMode.HAM:
-			sprite.play(strHAM)
+			sprite.play(strNONE)
 			pass
 	pass
 

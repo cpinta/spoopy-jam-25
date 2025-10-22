@@ -11,7 +11,7 @@ signal ExitBeingHovered()
 var WasSelectedSentItem
 
 func _ready() -> void:
-	target.input_event.connect(_clicked)
+	target.input_event.connect(_input_event)
 	target.mouse_entered.connect(_enter)
 	target.mouse_exited.connect(_exit)
 	
@@ -19,14 +19,17 @@ func _ready() -> void:
 	ExitBeingHovered.connect(GM.cursor.remove_cursor)
 	pass
 
-func _clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
+func _input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.is_action("left_click"):
-				WasSelected.emit(WasSelectedSentItem)
+				_left_click()
 			elif event.is_action("right_click"):
 				pass
 
+func _left_click():
+	WasSelected.emit(WasSelectedSentItem)
+	pass
 
 func _enter():
 	BeingHovered.emit(BeingHoveredCursorMode)

@@ -12,13 +12,17 @@ var camState: GM.CamView = GM.CamView.Counter
 
 enum Monster { Franken }
 enum CamView {Counter, JellyTable}
-enum BreadType {Wheat=0, Bagel=1}
 enum Toppings {None=-1,StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4}
-var dictToppings = {Toppings.StrawberryJam: StrawberryJam.new(),
+var dictToppings = {
+	Toppings.StrawberryJam: StrawberryJam.new(),
 	Toppings.AppleJam: AppleJam.new(), 
 	Toppings.BlueberryJam: BlueberryJam.new(), 
 	Toppings.GrapeJam: GrapeJam.new(), 
 	Toppings.Ham: Ham.new()}
+enum BreadType {Wheat=0, Bagel=1}
+var dictBread = {
+	BreadType.Wheat: Wheat.new(),
+	BreadType.Bagel: Bagel.new()}
 enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM}
 
 var COUNTER_FRONT_LOCATION: Vector3 = Vector3(0,10, 0.8)
@@ -34,6 +38,7 @@ func _ready():
 	jamTable = get_global_node("jamTable")
 	
 	jamTable.ToppingSelected.connect(cursor.topping_selected)
+	jamTable.BreadSelected.connect(cursor.bread_selected)
 	
 	#var s: StrawberryJam = StrawberryJam()
 	

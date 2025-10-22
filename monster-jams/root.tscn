@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=27 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="PackedScene" uid="uid://bfm7auhksprnd" path="res://scenes/franken.tscn" id="2_28aoi"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://ldrwlrk0as00" path="res://scenes/bread.tscn" id="9_eji0w"]
 [ext_resource type="Script" uid="uid://2bpnwlnnu5uy" path="res://scripts/input_handler.gd" id="9_huihk"]
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
+[ext_resource type="Script" uid="uid://bw7pm5dnyeyff" path="res://scripts/selectable_bread.gd" id="10_qt76e"]
+[ext_resource type="PackedScene" uid="uid://4pp0l51nrqd4" path="res://bread/bread.gltf" id="10_qwhpj"]
 
 [sub_resource type="Environment" id="Environment_28aoi"]
 background_mode = 1
@@ -52,6 +54,9 @@ points = PackedVector3Array(0, 0.01, 0.084478, 0.063276, 0.01, -0.027273, 0.0770
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qwhpj"]
 resource_local_to_scene = true
 points = PackedVector3Array(0, 0.01, -0.088087, 0.070873, 0.01, -0.073596, 0.077021, 0.01, -0.060664, 0.077063, 0.01, -0.045455, 0.063276, 0.01, -0.027273, 0.060808, 0.01, -0.0795, 0.049999, 0.01, -0.083328, 0.033333, 0.01, -0.086499, 0.016667, 0.01, -0.087921, -0.070873, 0.01, -0.073596, -0.077021, 0.01, -0.060664, -0.077063, 0.01, -0.045455, -0.063276, 0.01, -0.027273, -0.060808, 0.01, -0.0795, -0.049999, 0.01, -0.083328, -0.033333, 0.01, -0.08649, -0.016667, 0.01, -0.087921)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
+size = Vector3(0.1, 0.02, 0.1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -169,6 +174,9 @@ toppingEnum = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23032492, 0, 0)
 toppingEnum = 3
 
+[node name="CurrentBreadLocation" type="Node3D" parent="jam table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106520295, -0.22510242)
+
 [node name="Bread" parent="jam table" instance=ExtResource("9_eji0w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.053260148, -0.11255121)
 
@@ -177,6 +185,20 @@ shape = SubResource("ConvexPolygonShape3D_eji0w")
 
 [node name="top" parent="jam table/Bread/StaticBody3D" index="1"]
 shape = SubResource("ConvexPolygonShape3D_qwhpj")
+
+[node name="BreadStack" type="Node3D" parent="jam table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31974584, 0, -0.3237902)
+script = ExtResource("10_qt76e")
+
+[node name="bread" parent="jam table/BreadStack" instance=ExtResource("10_qwhpj")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="jam table/BreadStack"]
+script = ExtResource("7_qw60f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="jam table/BreadStack/StaticBody3D"]
+shape = SubResource("BoxShape3D_qt76e")
+debug_color = Color(0.9518948, 0, 0.5589168, 1)
 
 [node name="UI" parent="." groups=["ui"] instance=ExtResource("6_l8v81")]
 script = ExtResource("7_vyht1")
