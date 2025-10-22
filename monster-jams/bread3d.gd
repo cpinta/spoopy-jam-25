@@ -22,7 +22,7 @@ var usePrevPos: bool = false
 var movingToDest: bool = false
 var dest:Vector3
 const DEST_LERP: float = 10
-const DEST_MIN_DIST: float = 0.1
+const DEST_MIN_DIST: float = 0.0025
 
 var jamAmountsApplied: = {}
 

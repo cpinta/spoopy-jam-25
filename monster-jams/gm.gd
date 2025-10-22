@@ -29,7 +29,10 @@ var COUNTER_FRONT_LOCATION: Vector3 = Vector3(0,10, 0.8)
 
 var cursor: Cursor
 
+var root: Node3D
+
 func _ready():
+	root = get_global_node("root")
 	COUNTER_FRONT_LOCATION = get_global_node("counterfront").global_position
 	ui = get_global_node("ui")
 	cam = get_global_node("camera")
@@ -70,6 +73,11 @@ func set_cam_state(state:GM.CamView):
 		GM.CamView.JellyTable:
 			pass
 	pass
+
+func spawn(scene: PackedScene):
+	var node = scene.instantiate()
+	root.add_child.call_deferred(node)
+	return node
 
 func is_knife_topping(topping:Toppings):
 	if Toppings.keys()[topping].contains("Jam"):

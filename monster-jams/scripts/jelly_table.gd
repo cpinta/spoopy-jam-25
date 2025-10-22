@@ -33,12 +33,11 @@ func spawn_bread():
 
 func _bread_selected(bread: int):
 	var stack: SelectableBread = breadstacks[bread]
-	var spawnedBread: Bread3D = GM.dictBread[stack.bread].scene.instantiate() as Bread3D
-	spawnedBread.reparent(get_tree().root)
+	
+	var spawnedBread: Bread3D = GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
 	spawnedBread.global_position = stack.global_position
 	spawnedBread.set_destination(curBreadLocation)
 	curBread = spawnedBread
-	
 	pass
 	
 func _topping_selected(topping: int):
