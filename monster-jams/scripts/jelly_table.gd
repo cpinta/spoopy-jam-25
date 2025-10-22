@@ -35,6 +35,7 @@ func _bread_selected(bread: int):
 	var stack: SelectableBread = breadstacks[bread]
 	
 	var spawnedBread: Bread3D = GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
+	await get_tree().physics_frame
 	spawnedBread.global_position = stack.global_position
 	spawnedBread.set_destination(curBreadLocation)
 	curBread = spawnedBread
