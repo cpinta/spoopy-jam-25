@@ -1,7 +1,7 @@
 extends Node3D
 class_name Bread3D
 
-enum BreadState {Stack = 0, OnTable=1, OnSandwich=2}
+enum BreadState {Stack = 0, MovingToSandwich=1, OnSandwich=2}
 
 var state: BreadState
 
@@ -13,6 +13,9 @@ var texture: Texture2D
 var mat: StandardMaterial3D
 var imgTex: ImageTexture
 
+var breadOnTop: Bread3D = null
+const NEXT_BREAD_DIST: float = 0.02
+
 var minMaxZ: Vector2 = Vector2(1000, -1000)
 var minMaxX: Vector2 = Vector2(1000, -1000)
 
@@ -22,12 +25,13 @@ var usePrevPos: bool = false
 var movingToDest: bool = false
 var dest:Vector3
 const DEST_LERP: float = 10
-const DEST_MIN_DIST: float = 0.0025
+const DEST_MIN_DIST: float = 0.001
 
 var jamAmountsApplied: = {}
 
 func _ready():
 	col = $StaticBody3D
+	#col.visible = false
 	col.input_event.connect(clicked)
 	
 	mesh = $jam
@@ -61,18 +65,44 @@ func _ready():
 
 func _process(delta):
 	if movingToDest:
-		if dest.distance_to(self.global_position) < DEST_MIN_DIST:
-			global_position = dest
+		if dest.distance_to(self.position) < DEST_MIN_DIST:
+			position = dest
 			movingToDest = false
+			match(state):
+				BreadState.MovingToSandwich:
+					set_state(BreadState.OnSandwich)
+					pass
 			pass
 		else:
-			global_position = global_position.lerp(dest, DEST_LERP * delta)
+			position = position.lerp(dest, DEST_LERP * delta)
+	pass
+
+func set_state(newState: BreadState):
+	state = newState
+	match state:
+		BreadState.Stack:
+			pass
+		BreadState.MovingToSandwich:
+			pass
+		BreadState.OnSandwich:
+			col.visible = true
+			pass
 	pass
 
 func set_destination(pos:Vector3):
 	movingToDest = true
 	dest = pos
 	pass
+
+func get_top_bread():
+	var curBread = self
+	while curBread.breadOnTop:
+		curBread = curBread.breadOnTop
+		pass
+	return curBread
+
+func get_bread_global_pos_above():
+	return Vector3.UP * NEXT_BREAD_DIST + global_position
 
 func write_pixel(pos: Vector2i, color:Color, update:bool = true):
 	var corrected_pos: Vector2i = Vector2i(min(max(pos.x, 0), 255), min(max(pos.y, 0),255))
@@ -152,6 +182,7 @@ func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: V
 			if GM.input.leftClickCurrentlyPressed:
 				if not GM.cursor.has_jam_left_on_it():
 					return
+				event_position -= global_position
 				
 				var finalpos:Vector2i = Vector2i(((event_position.x - minMaxX.x) / (minMaxX.y - minMaxX.x)) * imgTex.get_width(), ((event_position.z - minMaxZ.x) / (minMaxZ.y - minMaxZ.x)) * imgTex.get_height())
 				var pxChanged: int = 0

@@ -6,8 +6,8 @@ var mesh: MeshInstance3D
 
 var toppings: Array[SelectableTopping] = []
 
-var curBreadLocation: Vector3
-var curBread: Bread3D
+var bottomBreadLocation: Vector3
+var bottomBread: Bread3D
 
 var breadstacks = {}
 
@@ -25,7 +25,7 @@ func _ready():
 	breadstack.WasSelected.connect(_bread_selected)
 	breadstacks[GM.BreadType.Wheat] = breadstack
 	
-	curBreadLocation = $CurrentBreadLocation.global_position
+	bottomBreadLocation = $CurrentBreadLocation.global_position
 	pass
 
 func spawn_bread():
@@ -36,9 +36,23 @@ func _bread_selected(bread: int):
 	
 	var spawnedBread: Bread3D = GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
 	await get_tree().physics_frame
-	spawnedBread.global_position = stack.global_position
-	spawnedBread.set_destination(curBreadLocation)
-	curBread = spawnedBread
+	
+	spawnedBread.set_state(Bread3D.BreadState.MovingToSandwich)
+	if bottomBread:
+		var topBread = bottomBread.get_top_bread()
+		spawnedBread.reparent(topBread)
+		#await get_tree().physics_frame
+		spawnedBread.global_position = stack.global_position
+		topBread.breadOnTop = spawnedBread
+		var topY = topBread.get_bread_global_pos_above().y
+		var botY = bottomBread.global_position.y
+		var diff = topY - botY
+		
+		spawnedBread.set_destination(bottomBread.NEXT_BREAD_DIST * Vector3.UP)
+	else:
+		bottomBread = spawnedBread
+		spawnedBread.global_position = stack.global_position
+		bottomBread.set_destination(bottomBreadLocation)
 	pass
 	
 func _topping_selected(topping: int):

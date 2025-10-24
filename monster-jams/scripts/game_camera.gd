@@ -3,7 +3,7 @@ extends Camera3D
 
 var BASE_ANGLE: Vector3
 
-var PAN_DOWN_X: float = -75
+var PAN_DOWN_X: float = -45
 const MIN_PAN_ANGLE_DIST: float = 0.1
 const PAN_LERP:float = 20
 
