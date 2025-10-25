@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=27 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="PackedScene" uid="uid://bfm7auhksprnd" path="res://scenes/franken.tscn" id="2_28aoi"]
@@ -46,6 +46,14 @@ albedo_texture = ExtResource("6_qw60f")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vyht1"]
 size = Vector3(0.23989563, 0.01826172, 0.24083862)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qt76e"]
+resource_local_to_scene = true
+points = PackedVector3Array(0, 0.01, 0.084478, 0.063276, 0.01, -0.027273, 0.077063, 0.01, -0.009091, 0.082449, 0.01, 0.009091, 0.083197, 0.01, 0.027273, 0.083333, 0.01, 0.045455, 0.083333, 0.01, 0.084478, 0.066667, 0.01, 0.084478, 0.05, 0.01, 0.084478, 0.033333, 0.01, 0.084478, 0.016667, 0.01, 0.084478, -0.063276, 0.01, -0.027273, -0.077063, 0.01, -0.009091, -0.082449, 0.01, 0.009091, -0.083197, 0.01, 0.027273, -0.083333, 0.01, 0.045455, -0.083333, 0.01, 0.084478, -0.066667, 0.01, 0.084478, -0.05, 0.01, 0.084478, -0.033333, 0.01, 0.084478, -0.016667, 0.01, 0.084478)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_sq7yr"]
+resource_local_to_scene = true
+points = PackedVector3Array(0, 0.01, -0.088087, 0.070873, 0.01, -0.073596, 0.077021, 0.01, -0.060664, 0.077063, 0.01, -0.045455, 0.063276, 0.01, -0.027273, 0.060808, 0.01, -0.0795, 0.049999, 0.01, -0.083328, 0.033333, 0.01, -0.086499, 0.016667, 0.01, -0.087921, -0.070873, 0.01, -0.073596, -0.077021, 0.01, -0.060664, -0.077063, 0.01, -0.045455, -0.063276, 0.01, -0.027273, -0.060808, 0.01, -0.0795, -0.049999, 0.01, -0.083328, -0.033333, 0.01, -0.08649, -0.016667, 0.01, -0.087921)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
 size = Vector3(0.1, 0.02, 0.1)
@@ -158,21 +166,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31238106, 0, -0.29999995)
 
 [node name="StrawberryJam" parent="jam table/Jams" instance=ExtResource("7_gd4vy")]
 
-[node name="jam" parent="jam table/Jams/StrawberryJam" index="0"]
-visible = false
-
-[node name="background" parent="jam table/Jams/StrawberryJam" index="1"]
-visible = false
-
 [node name="BlueberryJam" parent="jam table/Jams" instance=ExtResource("7_gd4vy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11516246, 0, 0)
 toppingEnum = 2
-
-[node name="jam" parent="jam table/Jams/BlueberryJam" index="0"]
-visible = false
-
-[node name="background" parent="jam table/Jams/BlueberryJam" index="1"]
-visible = false
 
 [node name="GrapeJam" parent="jam table/Jams" instance=ExtResource("7_gd4vy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23032492, 0, 0)
@@ -182,6 +178,12 @@ toppingEnum = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.053260148, -0.14372265)
 
 [node name="Bread" parent="jam table/CurrentBreadLocation" instance=ExtResource("9_eji0w")]
+
+[node name="bottom" parent="jam table/CurrentBreadLocation/Bread/StaticBody3D" index="0"]
+shape = SubResource("ConvexPolygonShape3D_qt76e")
+
+[node name="top" parent="jam table/CurrentBreadLocation/Bread/StaticBody3D" index="1"]
+shape = SubResource("ConvexPolygonShape3D_sq7yr")
 
 [node name="BreadStack" type="Node3D" parent="jam table"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31974584, 0, -0.3237902)
@@ -264,4 +266,5 @@ script = ExtResource("9_huihk")
 [editable path="franken"]
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]
+[editable path="jam table/CurrentBreadLocation/Bread"]
 [editable path="UI"]

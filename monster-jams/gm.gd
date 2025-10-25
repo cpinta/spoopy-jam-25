@@ -12,7 +12,7 @@ var camState: GM.CamView = GM.CamView.Counter
 
 enum Monster { Franken }
 enum CamView {Counter, JellyTable}
-enum Toppings {None=-1,StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4}
+enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {
 	Toppings.StrawberryJam: StrawberryJam.new(),
 	Toppings.AppleJam: AppleJam.new(), 
@@ -80,6 +80,7 @@ func spawn(scene: PackedScene):
 	return node
 
 func is_knife_topping(topping:Toppings):
+	var str = Toppings.keys()[topping]
 	if Toppings.keys()[topping].contains("Jam"):
 		return true
 	return false
