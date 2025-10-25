@@ -23,7 +23,7 @@ enum BreadType {Wheat=0, Bagel=1}
 var dictBread = {
 	BreadType.Wheat: Wheat.new(),
 	BreadType.Bagel: Bagel.new()}
-enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM}
+enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK}
 
 var COUNTER_FRONT_LOCATION: Vector3 = Vector3(0,10, 0.8)
 
@@ -43,11 +43,11 @@ func _ready():
 	jamTable.ToppingSelected.connect(cursor.topping_selected)
 	jamTable.BreadSelected.connect(cursor.bread_selected)
 	
-	#var s: StrawberryJam = StrawberryJam()
-	
 	ui.sTablePressed.connect(_table_clicked)
 	ui.sCounterPressed.connect(_counter_clicked)
 	
+	ui.sTablePressed.connect(jamTable.cam_looking_at_jam_table)
+	ui.sCounterPressed.connect(jamTable.cam_looking_at_counter)
 	pass
 
 func get_global_node(str:String):

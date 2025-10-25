@@ -4,7 +4,15 @@ var toppings: Array[GM.Toppings]
 var toppingMap = {}
 var percents: Array[float]
 
+var breadType: GM.BreadType
+
 const MARGIN_OF_ERROR: float = .3
+
+func _init(topp:Array[GM.Toppings], bread: GM.BreadType):
+	for i in range(0, topp.size()):
+		add_topping_percent(topp[i], 1/topp.size())
+	breadType = bread
+	pass
 
 func add_topping_percent(topping: GM.Toppings, percent: float):
 	toppings.append(topping)
@@ -14,6 +22,8 @@ func add_topping_percent(topping: GM.Toppings, percent: float):
 
 func is_valid_stats(stats:SliceStats):
 	if toppings.size() != stats.toppings.size():
+		return false
+	if stats.breadType != breadType:
 		return false
 	
 	for i in range(0, stats.toppings.size()):

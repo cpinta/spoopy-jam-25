@@ -30,20 +30,43 @@ const MIN_WALK_DEST_DIST: float = 0.01
 
 var order: Order
 
+var state: MonsterPositionState
+
+var faceNode: Node3D
+var speechBubble: SpeechBubble
+
+var linePos: LinePosition
+
 func _ready():
 	spriteParent = $spriteParent
 	sprite = $spriteParent/sprite
+	speechBubble = $face/bubbleParent
 	#position = Vector3.ZERO
 	set_walk_dest(GM.COUNTER_FRONT_LOCATION - Vector3(0,0,0.1))
-	
+
 	pass
 
 func set_order(order: Order):
 	self.order = order
+	speechBubble.make_from_order(order)
+	pass
+
+func order_was_taken(linePos: LinePosition):
+	if self.linePos:
+		self.linePos.positionChanged.disconnect(line_pos_changed)
+		pass
+	self.linePos = linePos
+	linePos.positionChanged.connect(line_pos_changed)
+	state = MonsterPositionState.WaitingForFood
+	speechBubble.visible = false
+	pass
+
+func line_pos_changed(pos:Vector3):
+	has_walk_dest = true
+	walkDest = pos
 	pass
 	
 func _process(delta):
-	
 	if has_walk_dest:
 		if global_position.distance_to(walkDest) < MIN_WALK_DEST_DIST:
 			walk_dest_arrived()

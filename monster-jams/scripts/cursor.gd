@@ -11,6 +11,7 @@ const strKNIFE: String = "knife"
 const strBREAD: String = "bread"
 const strBAGEL: String = "bagel"
 const strHAM: String = "ham"
+const strTALK: String = "talk"
 
 var currentImage: Image
 var targetTexture: ImageTexture
@@ -88,12 +89,15 @@ func set_cursor(mode:GM.CursorMode):
 			sprite.play(strNONE)
 			pass
 		GM.CursorMode.KNIFE:
-			jamOverlay.visible = true
+			if curTopping == GM.Toppings.None:
+				jamOverlay.visible = false
+			else:
+				jamOverlay.visible = true
 			sprite.play(strKNIFE)
 			pass
 		GM.CursorMode.BREAD:
 			jamOverlay.visible = false
-			sprite.play(strNONE)
+			sprite.play(strBREAD)
 			pass
 		GM.CursorMode.BAGEL:
 			jamOverlay.visible = false
@@ -102,6 +106,10 @@ func set_cursor(mode:GM.CursorMode):
 		GM.CursorMode.HAM:
 			jamOverlay.visible = false
 			sprite.play(strNONE)
+			pass
+		GM.CursorMode.TALK:
+			jamOverlay.visible = false
+			sprite.play(strTALK)
 			pass
 	pass
 

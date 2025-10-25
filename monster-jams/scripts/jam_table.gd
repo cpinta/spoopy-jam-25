@@ -54,6 +54,17 @@ func _bread_selected(bread: int):
 		spawnedBread.global_position = stack.global_position
 		bottomBread.set_destination(bottomBreadLocation)
 	pass
+
+func cam_looking_at_counter():
+	cam_looking(true)
+func cam_looking_at_jam_table():
+	cam_looking(false)
+
+func cam_looking(lookingAway:bool):
+	for i in range(0, toppings.size()):
+		toppings[i].set_if_is_selectable(not lookingAway)
+		pass
+	pass
 	
 func _topping_selected(topping: int):
 	ToppingSelected.emit(topping)

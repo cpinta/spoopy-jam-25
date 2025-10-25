@@ -37,12 +37,12 @@ func _process(_delta):
 				left_click_released(get_global_mouse_position())
 			pass
 			if GM.cursor:
+				GM.cursor.global_position = get_global_mouse_position()
 				match(GM.camState):
 					GM.CamView.Counter:
-						GM.cursor.visible = false
+						#GM.cursor.visible = false
 						pass
 					GM.CamView.JellyTable:
-						GM.cursor.global_position = get_global_mouse_position()
 						GM.cursor.visible = true
 						pass
 		GameInput.TOUCH:
