@@ -10,7 +10,8 @@ signal BeingHovered(int)
 signal ExitBeingHovered()
 var WasSelectedSentItem
 
-var isSelectable: bool = true
+var _isSelectable: bool = true
+var _isSelectableHoveredBuffer: bool = false
 
 func _ready() -> void:
 	target.input_event.connect(_input_event)
@@ -30,22 +31,33 @@ func _input_event(camera: Node, event: InputEvent, event_position: Vector3, norm
 				pass
 
 func set_if_is_selectable(newIsSelectable: bool):
-	self.isSelectable = newIsSelectable
+	self._isSelectable = newIsSelectable
+	if newIsSelectable:
+		if _isSelectableHoveredBuffer:
+			BeingHovered.emit(BeingHoveredCursorMode)
+	else:
+		if _isSelectableHoveredBuffer:
+			ExitBeingHovered.emit()
+			pass
+		pass
+	pass
 
 func _left_click():
-	if not isSelectable:
+	if not _isSelectable:
 		return
 	WasSelected.emit(WasSelectedSentItem)
 	pass
 
 func _enter():
-	if not isSelectable:
+	_isSelectableHoveredBuffer = true
+	if not _isSelectable:
 		return
 	BeingHovered.emit(BeingHoveredCursorMode)
 	pass
 
 func _exit():
-	if not isSelectable:
+	_isSelectableHoveredBuffer = false
+	if not _isSelectable:
 		return
 	ExitBeingHovered.emit()
 	pass

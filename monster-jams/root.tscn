@@ -1,14 +1,12 @@
-[gd_scene load_steps=26 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=24 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
-[ext_resource type="PackedScene" uid="uid://bfm7auhksprnd" path="res://scenes/franken.tscn" id="2_28aoi"]
 [ext_resource type="Texture2D" uid="uid://d1e75onernii5" path="res://sprites/counter.png" id="3_jnlp7"]
-[ext_resource type="Script" uid="uid://irgbo4ytl3i" path="res://scripts/monster_spawner.gd" id="3_l8v81"]
-[ext_resource type="Texture2D" uid="uid://d3muyuuo1c11l" path="res://sprites/speech bubble.png" id="4_qt76e"]
-[ext_resource type="Script" uid="uid://di3gye6kn5s0j" path="res://speech_bubble.gd" id="4_r3r3k"]
+[ext_resource type="Script" uid="uid://irgbo4ytl3i" path="res://scripts/monster_manager.gd" id="3_l8v81"]
 [ext_resource type="Script" uid="uid://dki77rwd3jh7w" path="res://scripts/jam_table.gd" id="6_bf3um"]
 [ext_resource type="PackedScene" uid="uid://cntnegmjxudhe" path="res://ui.tscn" id="6_l8v81"]
 [ext_resource type="Texture2D" uid="uid://b4147uhpv5drj" path="res://sprites/empty256x256.png" id="6_qw60f"]
+[ext_resource type="Script" uid="uid://ca616r1s6gdcf" path="res://line_queue.gd" id="6_r3r3k"]
 [ext_resource type="PackedScene" uid="uid://ddaegylgotei7" path="res://scenes/jam.tscn" id="7_gd4vy"]
 [ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="7_qw60f"]
 [ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://ui.gd" id="7_vyht1"]
@@ -54,7 +52,7 @@ size = Vector3(0.1, 0.02, 0.1)
 [node name="root" type="Node3D" groups=["root"]]
 
 [node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0.55, 1.3627307)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.55, 1.3627307)
 environment = SubResource("Environment_28aoi")
 fov = 80.0
 script = ExtResource("1_vvh5c")
@@ -73,41 +71,14 @@ sky_mode = 1
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
 spot_angle = 80.83
 
-[node name="MonsterSpawner" type="Node3D" parent="."]
+[node name="MonsterManager" type="Node3D" parent="." groups=["monsterManager"]]
 script = ExtResource("3_l8v81")
 
-[node name="right side" type="Node3D" parent="MonsterSpawner"]
+[node name="right side" type="Node3D" parent="MonsterManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
-[node name="left side" type="Node3D" parent="MonsterSpawner"]
+[node name="left side" type="Node3D" parent="MonsterManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2.25)
-
-[node name="franken" parent="." instance=ExtResource("2_28aoi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
-
-[node name="sprite" parent="franken/spriteParent" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48984873, 0)
-shaded = true
-alpha_cut = 2
-
-[node name="face2" type="Node3D" parent="franken"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.67406315, 0)
-
-[node name="bubbleParent" type="Node3D" parent="franken/face2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.308, -0.3382271, 0.0009999275)
-script = ExtResource("4_r3r3k")
-
-[node name="Speech bubble" type="Sprite3D" parent="franken/face2/bubbleParent"]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
-offset = Vector2(-400, 400)
-pixel_size = 0.001
-render_priority = 1
-texture = ExtResource("4_qt76e")
-
-[node name="center" type="Node3D" parent="franken/face2/bubbleParent/Speech bubble"]
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, -0.41, 0.389, 0)
-
-[node name="sandwichParent" type="Node3D" parent="franken/face2/bubbleParent/Speech bubble/center"]
 
 [node name="world" type="Node3D" parent="."]
 
@@ -138,6 +109,8 @@ skeleton = NodePath("../..")
 
 [node name="counterfront" type="Node3D" parent="." groups=["counterfront"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0.725)
+script = ExtResource("6_r3r3k")
+direction = Vector3(0, 0, -1)
 
 [node name="front door" type="Node3D" parent="." groups=["counterfront"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.25)
@@ -145,8 +118,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.25)
 [node name="right side" type="Node3D" parent="." groups=["counterfront"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
-[node name="waitingline" type="Node3D" parent="." groups=["counterfront"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9880238, 0, -1.9206853)
+[node name="waitingline" type="Node3D" parent="." groups=["waiting"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7268882, 0, -1.6694626)
+script = ExtResource("6_r3r3k")
+direction = Vector3(1, 0, 0)
 
 [node name="counter" type="Node3D" parent="." groups=["counter"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.030716658, 0.80254006)
@@ -266,7 +241,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("9_huihk")
 
-[editable path="franken"]
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]
 [editable path="jam table/BreadStack/bread"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfm7auhksprnd"]
+[gd_scene load_steps=8 format=3 uid="uid://bfm7auhksprnd"]
 
 [ext_resource type="Script" uid="uid://bb2334772mc0r" path="res://scripts/franken.gd" id="1_otarv"]
 [ext_resource type="Texture2D" uid="uid://xwqhscb8qhnx" path="res://sprites/frankenstein monster.png" id="2_a7fer"]
 [ext_resource type="Script" uid="uid://di3gye6kn5s0j" path="res://speech_bubble.gd" id="3_0knok"]
 [ext_resource type="Texture2D" uid="uid://d3muyuuo1c11l" path="res://sprites/speech bubble.png" id="4_bvxlv"]
+[ext_resource type="Script" uid="uid://uxdo134sifaa" path="res://selectable_monster.gd" id="5_bvxlv"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0knok"]
 animations = [{
@@ -49,6 +50,7 @@ transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, -0.41, 0.389, 0)
 [node name="sandwichParent" type="Node3D" parent="face/bubbleParent/Speech bubble/center"]
 
 [node name="hitbox" type="Node3D" parent="."]
+script = ExtResource("5_bvxlv")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="hitbox"]
 

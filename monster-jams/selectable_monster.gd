@@ -8,3 +8,11 @@ func _ready():
 	
 	super._ready()
 	pass
+
+func at_counter():
+	BeingHoveredCursorMode = GM.CursorMode.TALK
+	pass
+
+func in_line():
+	BeingHoveredCursorMode = GM.CursorMode.BREAD
+	pass

@@ -20,8 +20,8 @@ var moveState: MonsterMoveState = MonsterMoveState.Standing
 
 var WALK_SPEED: int = 1
 var STEP_EVERY: float = 0.4
-var stepTimer: float = 0
 var STEP_TILT: float = 7
+var stepTimer: float = 0
 var stepCount: int = 0
 
 var has_walk_dest: bool = false
@@ -30,20 +30,26 @@ const MIN_WALK_DEST_DIST: float = 0.01
 
 var order: Order
 
-var state: MonsterPositionState
+var posState: MonsterPositionState
 
 var faceNode: Node3D
 var speechBubble: SpeechBubble
 
 var linePos: LinePosition
 
+var selectable: SelectableMonster
+
+signal orderWasTaken(monster:Monster, order: Order)
+
 func _ready():
 	spriteParent = $spriteParent
 	sprite = $spriteParent/sprite
 	speechBubble = $face/bubbleParent
+	speechBubble.visible = false
+	selectable = $hitbox
+	selectable.set_if_is_selectable(false)
+	selectable.WasSelected.connect(take_order)
 	#position = Vector3.ZERO
-	set_walk_dest(GM.COUNTER_FRONT_LOCATION - Vector3(0,0,0.1))
-
 	pass
 
 func set_order(order: Order):
@@ -51,19 +57,40 @@ func set_order(order: Order):
 	speechBubble.make_from_order(order)
 	pass
 
-func order_was_taken(linePos: LinePosition):
+func set_line_position(linePos:LinePosition):
 	if self.linePos:
 		self.linePos.positionChanged.disconnect(line_pos_changed)
-		pass
 	self.linePos = linePos
 	linePos.positionChanged.connect(line_pos_changed)
-	state = MonsterPositionState.WaitingForFood
+	line_pos_changed(linePos.currentPosition)
+	pass
+
+func intialize(order: Order, linePos: LinePosition):
+	set_order(order)
+	set_line_position(linePos)
+	pass
+
+func take_order(obj):
+	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
+	selectable.set_if_is_selectable(false)
 	pass
 
 func line_pos_changed(pos:Vector3):
-	has_walk_dest = true
-	walkDest = pos
+	set_walk_dest(pos)
+	pass
+	
+func set_pos_state(newState: MonsterPositionState):
+	posState = newState
+	match(posState):
+		MonsterPositionState.Outside:
+			pass
+		MonsterPositionState.AtCounter:
+			pass
+		MonsterPositionState.WaitingForFood:
+			pass
+		MonsterPositionState.LeavingRestaurant:
+			pass
 	pass
 	
 func _process(delta):
@@ -110,4 +137,15 @@ func walk_dest_arrived():
 	has_walk_dest = false
 	spriteParent.rotation.z = 0
 	moveState = MonsterMoveState.Standing
+	if linePos:
+		if linePos.type == LinePosition.LineType.Counter:
+			if linePos.index == 0:
+				selectable.set_if_is_selectable(true)
+				show_speech_bubble_order()
+			else:
+				selectable.set_if_is_selectable(false)
+	pass
+
+func show_speech_bubble_order():
+	speechBubble.visible = true
 	pass
