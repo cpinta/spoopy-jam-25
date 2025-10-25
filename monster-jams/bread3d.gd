@@ -9,7 +9,6 @@ var col: CollisionObject3D
 var mesh: MeshInstance3D
 
 var currentImage: Image
-var texture: Texture2D
 var mat: StandardMaterial3D
 var imgTex: ImageTexture
 
@@ -51,13 +50,16 @@ func _ready():
 			minMaxX.y = verts[i].x
 		pass
 	
-	var mat: StandardMaterial3D = mesh.material_override
-	currentImage = mat.albedo_texture.get_image()
+	#var mat: StandardMaterial3D = mesh.material_override
+	var baseMat: BaseMaterial3D = load("res://scenes/transparent jam mat.tres")
+	mesh.material_override = baseMat.duplicate()
+	#baseMat.albedo_texture.get_image()
+	currentImage = baseMat.albedo_texture.get_image()
 	currentImage.decompress()
-	texture = mat.albedo_texture
+	var newImage = currentImage.duplicate()
 	imgTex = ImageTexture.new()
-	imgTex = ImageTexture.create_from_image(currentImage)
-	mat.albedo_texture = imgTex
+	imgTex = ImageTexture.create_from_image(newImage)
+	mesh.material_override.albedo_texture = imgTex
 	
 	
 	GM.input.inputLeftClickReleased.connect(lifted_up)
@@ -181,6 +183,8 @@ func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: V
 		GM.CursorMode.KNIFE:
 			if GM.input.leftClickCurrentlyPressed:
 				if not GM.cursor.has_jam_left_on_it():
+					return
+				if not state == BreadState.OnSandwich:
 					return
 				event_position -= global_position
 				

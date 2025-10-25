@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=24 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="PackedScene" uid="uid://bfm7auhksprnd" path="res://scenes/franken.tscn" id="2_28aoi"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://ddaegylgotei7" path="res://scenes/jam.tscn" id="7_gd4vy"]
 [ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="7_qw60f"]
 [ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://ui.gd" id="7_vyht1"]
-[ext_resource type="PackedScene" uid="uid://ldrwlrk0as00" path="res://scenes/bread.tscn" id="9_eji0w"]
 [ext_resource type="Script" uid="uid://2bpnwlnnu5uy" path="res://scripts/input_handler.gd" id="9_huihk"]
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
 [ext_resource type="Script" uid="uid://bw7pm5dnyeyff" path="res://scripts/selectable_bread.gd" id="10_qt76e"]
@@ -46,14 +45,6 @@ albedo_texture = ExtResource("6_qw60f")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vyht1"]
 size = Vector3(0.23989563, 0.01826172, 0.24083862)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qt76e"]
-resource_local_to_scene = true
-points = PackedVector3Array(0, 0.01, 0.084478, 0.063276, 0.01, -0.027273, 0.077063, 0.01, -0.009091, 0.082449, 0.01, 0.009091, 0.083197, 0.01, 0.027273, 0.083333, 0.01, 0.045455, 0.083333, 0.01, 0.084478, 0.066667, 0.01, 0.084478, 0.05, 0.01, 0.084478, 0.033333, 0.01, 0.084478, 0.016667, 0.01, 0.084478, -0.063276, 0.01, -0.027273, -0.077063, 0.01, -0.009091, -0.082449, 0.01, 0.009091, -0.083197, 0.01, 0.027273, -0.083333, 0.01, 0.045455, -0.083333, 0.01, 0.084478, -0.066667, 0.01, 0.084478, -0.05, 0.01, 0.084478, -0.033333, 0.01, 0.084478, -0.016667, 0.01, 0.084478)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_sq7yr"]
-resource_local_to_scene = true
-points = PackedVector3Array(0, 0.01, -0.088087, 0.070873, 0.01, -0.073596, 0.077021, 0.01, -0.060664, 0.077063, 0.01, -0.045455, 0.063276, 0.01, -0.027273, 0.060808, 0.01, -0.0795, 0.049999, 0.01, -0.083328, 0.033333, 0.01, -0.086499, 0.016667, 0.01, -0.087921, -0.070873, 0.01, -0.073596, -0.077021, 0.01, -0.060664, -0.077063, 0.01, -0.045455, -0.063276, 0.01, -0.027273, -0.060808, 0.01, -0.0795, -0.049999, 0.01, -0.083328, -0.033333, 0.01, -0.08649, -0.016667, 0.01, -0.087921)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
 size = Vector3(0.1, 0.02, 0.1)
@@ -177,14 +168,6 @@ toppingEnum = 3
 [node name="CurrentBreadLocation" type="Node3D" parent="jam table"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.053260148, -0.14372265)
 
-[node name="Bread" parent="jam table/CurrentBreadLocation" instance=ExtResource("9_eji0w")]
-
-[node name="bottom" parent="jam table/CurrentBreadLocation/Bread/StaticBody3D" index="0"]
-shape = SubResource("ConvexPolygonShape3D_qt76e")
-
-[node name="top" parent="jam table/CurrentBreadLocation/Bread/StaticBody3D" index="1"]
-shape = SubResource("ConvexPolygonShape3D_sq7yr")
-
 [node name="BreadStack" type="Node3D" parent="jam table"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.31974584, 0, -0.3237902)
 script = ExtResource("10_qt76e")
@@ -266,5 +249,4 @@ script = ExtResource("9_huihk")
 [editable path="franken"]
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]
-[editable path="jam table/CurrentBreadLocation/Bread"]
 [editable path="UI"]
