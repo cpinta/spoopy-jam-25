@@ -1,4 +1,4 @@
-class_name BreadStats
+class_name SliceStats
 
 var toppings: Array[GM.Toppings]
 var toppingMap = {}
@@ -12,7 +12,7 @@ func add_topping_percent(topping: GM.Toppings, percent: float):
 	percents.append(percent)
 	pass
 
-func is_valid_stats(stats:BreadStats):
+func is_valid_stats(stats:SliceStats):
 	if toppings.size() != stats.toppings.size():
 		return false
 	

@@ -6,10 +6,15 @@ enum MonsterMoveState{
 	Walking = 1
 }
 
+enum MonsterPositionState{
+	Outside = 0,
+	AtCounter = 1,
+	WaitingForFood = 2,
+	LeavingRestaurant = 3
+}
+
 var sprite: AnimatedSprite3D
 var spriteParent: Node3D
-
-
 
 var moveState: MonsterMoveState = MonsterMoveState.Standing
 
@@ -23,11 +28,18 @@ var has_walk_dest: bool = false
 var walkDest: Vector3
 const MIN_WALK_DEST_DIST: float = 0.01
 
+var order: Order
+
 func _ready():
 	spriteParent = $spriteParent
 	sprite = $spriteParent/sprite
 	#position = Vector3.ZERO
 	set_walk_dest(GM.COUNTER_FRONT_LOCATION - Vector3(0,0,0.1))
+	
+	pass
+
+func set_order(order: Order):
+	self.order = order
 	pass
 	
 func _process(delta):

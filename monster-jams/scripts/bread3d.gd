@@ -178,7 +178,7 @@ func add_jam_to_map(topping:GM.Toppings, amt:int):
 
 func get_bread_stats():
 	var keys = jamAmountsApplied.keys()
-	var breadStats: BreadStats
+	var breadStats: SliceStats
 	for i in range(0, keys.size()):
 		breadStats.add_topping_percent(keys[i], jamAmountsApplied[keys[i]])
 		pass
