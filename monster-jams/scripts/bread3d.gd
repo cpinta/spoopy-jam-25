@@ -176,6 +176,14 @@ func add_jam_to_map(topping:GM.Toppings, amt:int):
 		jamAmountsApplied[topping] += amt
 	pass
 
+func get_bread_stats():
+	var keys = jamAmountsApplied.keys()
+	var breadStats: BreadStats
+	for i in range(0, keys.size()):
+		breadStats.add_topping_percent(keys[i], jamAmountsApplied[keys[i]])
+		pass
+	return breadStats
+
 func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int):
 	match GM.cursor.mode:
 		GM.CursorMode.NONE:

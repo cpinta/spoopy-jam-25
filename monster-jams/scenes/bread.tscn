@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=4 uid="uid://ldrwlrk0as00"]
 
-[ext_resource type="Script" uid="uid://278anbqs2k5j" path="res://bread3d.gd" id="1_ihbfu"]
+[ext_resource type="Script" uid="uid://278anbqs2k5j" path="res://scripts/bread3d.gd" id="1_ihbfu"]
 [ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="3_bp5ul"]
 [ext_resource type="Shape3D" uid="uid://c42clvopn3nml" path="res://scenes/bread convex polygon top.tres" id="3_i0r6r"]
 [ext_resource type="Shape3D" uid="uid://dlr7f7lxletx5" path="res://scenes/bread convex polygon bottom.tres" id="3_u136v"]
