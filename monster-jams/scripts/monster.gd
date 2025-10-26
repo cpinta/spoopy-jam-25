@@ -39,6 +39,10 @@ var linePos: LinePosition
 
 var selectable: SelectableMonster
 
+var currentlySpeaking: bool = false
+const TALK_ABOUT_ORDER: float = 3
+var speakingTimer: float = 0;
+
 signal orderWasTaken(monster:Monster, order: Order)
 
 func _ready():
@@ -46,9 +50,10 @@ func _ready():
 	sprite = $spriteParent/sprite
 	speechBubble = $face/bubbleParent
 	speechBubble.visible = false
+	speechBubble.order_was_revealed.connect(order_was_taken)
 	selectable = $hitbox
 	selectable.set_if_is_selectable(false)
-	selectable.WasSelected.connect(take_order)
+	selectable.WasSelected.connect(start_take_order)
 	#position = Vector3.ZERO
 	pass
 
@@ -70,10 +75,24 @@ func intialize(order: Order, linePos: LinePosition):
 	set_line_position(linePos)
 	pass
 
-func take_order(obj):
+
+
+func order_was_taken():
 	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
 	selectable.set_if_is_selectable(false)
+	#show_speech_bubble_order()
+	pass
+	
+func start_take_order(notUsedArgument):
+	speechBubble.reveal_order()
+	set_currently_speaking(true)
+	pass
+
+func set_currently_speaking(value: bool):
+	currentlySpeaking = value
+	if currentlySpeaking:
+		speakingTimer = TALK_ABOUT_ORDER
 	pass
 
 func line_pos_changed(pos:Vector3):
@@ -141,7 +160,7 @@ func walk_dest_arrived():
 		if linePos.type == LinePosition.LineType.Counter:
 			if linePos.index == 0:
 				selectable.set_if_is_selectable(true)
-				show_speech_bubble_order()
+				#show_speech_bubble_order()
 			else:
 				selectable.set_if_is_selectable(false)
 	pass

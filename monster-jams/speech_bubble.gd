@@ -11,7 +11,11 @@ const SPACE_UNDER_TOPPING: float = 0.02
 const SPACE_UNDER_SLICE: float = 0.06
 const ICON_PIXEL_SIZE: float = 0.0005
 
+const TIME_BT_PIECE: float = 0.5
+
 var totalAddedHeight: float = 0
+
+signal order_was_revealed
 
 func _ready() -> void:
 	center = $"Speech bubble/center"
@@ -22,6 +26,16 @@ func _ready() -> void:
 	#order = Order.new(stats)
 	#
 	#make_from_order(order)
+	pass
+
+func reveal_order():
+	self.visible = true
+	for i in range(0, sprite3Ds.size()):
+		await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
+		sprite3Ds[i].visible = true
+		pass
+	await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
+	order_was_revealed.emit()
 	pass
 
 func make_from_order(order: Order):
@@ -49,6 +63,7 @@ func add_sprite3d_to_sandwich(type, isBread: bool):
 	else:
 		sprite3D.position.y = sprite3Ds[sprite3Ds.size()-1].position.y + add
 		totalAddedHeight += add
+	sprite3D.visible = false
 	sprite3Ds.append(sprite3D)
 	pass
 
