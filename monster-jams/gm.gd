@@ -10,7 +10,7 @@ var jamTable: JellyTable
 
 var camState: GM.CamView = GM.CamView.Counter
 
-enum Monster { Franken }
+enum Monster { Franken, Skeleton }
 enum CamView {Counter, JellyTable}
 enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {

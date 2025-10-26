@@ -2,12 +2,18 @@ class_name MonsterManager
 extends Node3D
 
 @onready var MONSTER_LIST = {\
-	GM.Monster.Franken: load("res://scenes/franken.tscn")
+	GM.Monster.Franken: load("res://scenes/franken.tscn"),
+	GM.Monster.Skeleton: load("res://scenes/skeleton.tscn")
+	
 }
 
 var spawnLocations: Array[Vector3]
 var counterQueue: LineQueue
 var waitingQueue: LineQueue
+
+const SPAWN_EVERY: float = 1
+var spawnTimer: float = 0
+var spawnCount: int = 0
 
 func _ready():
 	spawnLocations.append($"right side".global_position)
@@ -17,6 +23,12 @@ func _ready():
 	pass
 
 func _process(delta):
+	if spawnTimer > 0:
+		spawnTimer -= delta
+	else:
+		if spawnCount < 2:
+			spawn_monster_rand_loc(GM.Monster.Skeleton)
+			spawnTimer = SPAWN_EVERY
 	pass
 
 func initialize(counter:LineQueue, waiting:LineQueue):
@@ -26,10 +38,11 @@ func initialize(counter:LineQueue, waiting:LineQueue):
 
 func spawn_monster_rand_loc(selection:GM.Monster):
 	var monster: Monster = await spawn_monster(selection, spawnLocations[randi_range(0, spawnLocations.size()-1)])
+	spawnCount += 1
 	return monster
 
 func orderWasTaken(monster: Monster, order: Order):
-	monster.set_pos_state(Monster.MonsterPositionState.WaitingForFood)
+	monster.linePos.leave_queue()
 	monster.set_line_position(waitingQueue.add_monster_to_queue(monster))
 	pass
 

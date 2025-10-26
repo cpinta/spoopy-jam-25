@@ -8,6 +8,9 @@ var type: LineType
 var monster: Monster
 var index: int = 0
 
+signal positionChanged(index:int,pos: Vector3)
+signal left_queue(linePos: LinePosition)
+
 func _init(monster: Monster, type: LineType, index: int, pos: Vector3):
 	self.type = type
 	self.index = index
@@ -15,8 +18,11 @@ func _init(monster: Monster, type: LineType, index: int, pos: Vector3):
 	self.monster = monster
 	pass
 
-signal positionChanged(index:int,pos: Vector3)
+func leave_queue():
+	left_queue.emit(index)
+	pass
 
 func set_line_position(newIndex: int, pos: Vector3):
 	currentPosition = pos
+	index = newIndex
 	positionChanged.emit(pos)

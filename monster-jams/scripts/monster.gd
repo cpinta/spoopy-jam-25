@@ -43,6 +43,9 @@ var currentlySpeaking: bool = false
 const TALK_ABOUT_ORDER: float = 3
 var speakingTimer: float = 0;
 
+var orderTime: float = 5
+var orderTimer: float = 0
+
 signal orderWasTaken(monster:Monster, order: Order)
 
 func _ready():
@@ -64,6 +67,8 @@ func set_order(order: Order):
 
 func set_line_position(linePos:LinePosition):
 	if self.linePos:
+		#self.linePos.remove_monster_from_front()
+		self.linePos.leave_queue()
 		self.linePos.positionChanged.disconnect(line_pos_changed)
 	self.linePos = linePos
 	linePos.positionChanged.connect(line_pos_changed)
@@ -78,10 +83,16 @@ func intialize(order: Order, linePos: LinePosition):
 
 
 func order_was_taken():
+	set_pos_state(Monster.MonsterPositionState.WaitingForFood)
 	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
 	selectable.set_if_is_selectable(false)
+	set_order_timer(orderTime)
 	#show_speech_bubble_order()
+	pass
+	
+func set_order_timer(time: float):
+	orderTimer = time
 	pass
 	
 func start_take_order(notUsedArgument):
@@ -160,7 +171,6 @@ func walk_dest_arrived():
 		if linePos.type == LinePosition.LineType.Counter:
 			if linePos.index == 0:
 				selectable.set_if_is_selectable(true)
-				#show_speech_bubble_order()
 			else:
 				selectable.set_if_is_selectable(false)
 	pass

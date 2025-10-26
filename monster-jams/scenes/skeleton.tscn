@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkkweykmijykh"]
+[gd_scene load_steps=8 format=3 uid="uid://dkkweykmijykh"]
 
-[ext_resource type="Script" uid="uid://bb2334772mc0r" path="res://scripts/franken.gd" id="1_txkty"]
+[ext_resource type="Script" uid="uid://clqklm2h0nuna" path="res://scripts/skeleton.gd" id="1_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://daqguqisip1bo" path="res://sprites/skeleton.png" id="2_txkty"]
+[ext_resource type="Script" uid="uid://di3gye6kn5s0j" path="res://speech_bubble.gd" id="3_5pgwy"]
+[ext_resource type="Texture2D" uid="uid://d3muyuuo1c11l" path="res://sprites/speech bubble.png" id="4_ssl1b"]
+[ext_resource type="Script" uid="uid://uxdo134sifaa" path="res://selectable_monster.gd" id="5_w4hcs"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ivqcw"]
 animations = [{
@@ -14,8 +17,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="franken" type="Node3D"]
-script = ExtResource("1_txkty")
+[sub_resource type="BoxShape3D" id="BoxShape3D_haw2w"]
+size = Vector3(0.38375306, 0.84106874, 0.1)
+
+[node name="skeleton" type="Node3D"]
+script = ExtResource("1_5pgwy")
 
 [node name="spriteParent" type="Node3D" parent="."]
 
@@ -23,3 +29,31 @@ script = ExtResource("1_txkty")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 pixel_size = 0.0014
 sprite_frames = SubResource("SpriteFrames_ivqcw")
+
+[node name="face" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.67406315, 0)
+
+[node name="bubbleParent" type="Node3D" parent="face"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.308, -0.3382271, 0.0009999275)
+script = ExtResource("3_5pgwy")
+
+[node name="Speech bubble" type="Sprite3D" parent="face/bubbleParent"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+offset = Vector2(-400, 400)
+pixel_size = 0.001
+render_priority = 1
+texture = ExtResource("4_ssl1b")
+
+[node name="center" type="Node3D" parent="face/bubbleParent/Speech bubble"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, -0.41, 0.389, 0)
+
+[node name="sandwichParent" type="Node3D" parent="face/bubbleParent/Speech bubble/center"]
+
+[node name="hitbox" type="Node3D" parent="."]
+script = ExtResource("5_w4hcs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="hitbox"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0011105537, 0.45257294, 0)
+shape = SubResource("BoxShape3D_haw2w")
