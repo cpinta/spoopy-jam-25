@@ -65,6 +65,15 @@ func cam_looking_at_counter():
 func cam_looking_at_jam_table():
 	cam_looking(false)
 
+func set_shown_jams_til_index(index: int):
+	for i in range(0, toppings.size()):
+		if i <= index:
+			toppings[i].visible = true
+		else:
+			toppings[i].visible = false
+		pass
+	pass
+
 func cam_looking(lookingAway:bool):
 	for i in range(0, toppings.size()):
 		toppings[i].set_if_is_selectable(not lookingAway)

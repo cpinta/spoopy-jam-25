@@ -17,7 +17,7 @@ var camState: GM.CamView = GM.CamView.Counter
 
 enum Monster { Franken, Skeleton }
 enum CamView {Counter, JellyTable}
-enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
+enum Toppings {StrawberryJam=0, BlueberryJam=1, GrapeJam=2, AppleJam=3, Ham=4,None=-1}
 var dictToppings = {
 	Toppings.StrawberryJam: StrawberryJam.new(),
 	Toppings.BlueberryJam: BlueberryJam.new(), 
@@ -96,6 +96,9 @@ func play_audio(stream: AudioStream):
 func start_game_instance():
 	gameInstance = GameInstance.new()
 	gameInstance.start()
+	
+	await get_tree().physics_frame
+	jamTable.set_shown_jams_til_index(gameInstance.jamsAvailibleTilIndex)
 	pass
 
 func get_global_node(str:String):
