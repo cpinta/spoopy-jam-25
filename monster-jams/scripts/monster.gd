@@ -34,6 +34,7 @@ var posState: MonsterPositionState
 
 var faceNode: Node3D
 var speechBubble: SpeechBubble
+var thoughtBubble: ThoughtBubble
 
 var linePos: LinePosition
 
@@ -59,6 +60,9 @@ func _ready():
 	speechBubble = $face/bubbleParent
 	speechBubble.visible = false
 	speechBubble.order_was_revealed.connect(order_was_taken)
+	thoughtBubble = $face/thoughtParent
+	thoughtBubble.visible = false
+	
 	selectable = $hitbox
 	selectable.set_if_is_selectable(false)
 	selectable.WasSelected.connect(was_selected)
@@ -67,6 +71,7 @@ func _ready():
 func set_order(order: Order):
 	self.order = order
 	speechBubble.make_from_order(order)
+	thoughtBubble.make_from_order(order)
 	orderTime = orderTimer
 	hasOrder = true
 	pass
@@ -118,6 +123,9 @@ func clicked_while_waiting():
 	clickedWhileWaitingForOrder.emit(self)
 	pass
 
+func think_of_food():
+	thoughtBubble.show_bubble_for_a_time()
+
 func start_take_order():
 	speechBubble.reveal_order()
 	set_currently_speaking(true)
@@ -152,6 +160,9 @@ func _process(delta):
 			walk_dest_arrived()
 			pass
 		else:
+			if GM.debug:
+				WALK_SPEED = 20
+				pass
 			global_position = global_position.move_toward(walkDest, WALK_SPEED*delta)
 			pass
 	

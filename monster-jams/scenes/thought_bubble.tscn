@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://e1k0sys0jhu3"]
+
+[ext_resource type="Script" uid="uid://dw51aws025bds" path="res://scenes/thought_bubble.gd" id="1_vui0c"]
+[ext_resource type="Texture2D" uid="uid://bom43tejtk1pp" path="res://sprites/thought bubble.png" id="2_qocjb"]
+
+[node name="thoughtParent" type="Node3D"]
+script = ExtResource("1_vui0c")
+
+[node name="bubble" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40057582, 0)
+pixel_size = 0.001
+texture = ExtResource("2_qocjb")
+
+[node name="center" type="Node3D" parent="bubble"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015149593, -0.042428136, 0)
+
+[node name="sandwichParent" type="Node3D" parent="bubble/center"]

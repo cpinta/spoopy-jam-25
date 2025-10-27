@@ -6,7 +6,7 @@ var sandwiches: Array[Bread3D]
 var breadParent: Node3D
 
 signal gaveSandwichToMonster(monster:Monster)
-signal didntGiveSandwich()
+signal didntGiveSandwich(monster:Monster)
 
 func _ready():
 	target = $StaticBody3D
@@ -37,7 +37,7 @@ func check_if_has_monster_order(monster: Monster):
 		remove_sandwich(result)
 		gaveSandwichToMonster.emit(monster)
 	else:
-		didntGiveSandwich.emit()
+		didntGiveSandwich.emit(monster)
 	pass
 
 func remove_sandwich(index:int):

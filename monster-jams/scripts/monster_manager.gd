@@ -89,8 +89,6 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	monster.global_position = location
 	monster.wasGivenOrder.connect(monster_given_order)
 	
-	
-	
 	monster.clickedWhileWaitingForOrder.connect(monster_was_clicked_while_waiting_for_order)
 	
 	#var stats: Array[SliceStats] = [
@@ -107,6 +105,10 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 
 func monster_was_clicked_while_waiting_for_order(monster: Monster):
 	monsterWasClickedWhileWaitingForOrder.emit(monster)
+
+func monster_was_clicked_order_was_wrong(monster: Monster):
+	monster.think_of_food()
+	pass
 
 func generate_order() -> Order:
 	return Order.generate_new(GM.get_current_jams_available(), GM.get_current_max_toppings(), GM.get_current_max_sandwich_size())

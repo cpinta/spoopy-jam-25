@@ -11,21 +11,20 @@ const SPACE_UNDER_TOPPING: float = 0.02
 const SPACE_UNDER_SLICE: float = 0.06
 const ICON_PIXEL_SIZE: float = 0.0005
 
-const TIME_BT_PIECE: float = 0.5
+var TIME_BT_PIECE: float = 0.5
 
 var totalAddedHeight: float = 0
+
+var KEEP_SPRITES_VISIBLE_ON_CREATION: bool = false
 
 signal order_was_revealed
 
 func _ready() -> void:
-	center = $"Speech bubble/center"
-	sandwichParent = $"Speech bubble/center/sandwichParent"
+	center = $bubble/center
+	sandwichParent = $bubble/center/sandwichParent
 	
-	#var stats: Array[SliceStats] = [SliceStats.new([GM.Toppings.StrawberryJam, GM.Toppings.GrapeJam], GM.BreadType.Wheat), SliceStats.new([GM.Toppings.StrawberryJam], GM.BreadType.Wheat), SliceStats.new([], GM.BreadType.Wheat), ]
-	#
-	#order = Order.new(stats)
-	#
-	#make_from_order(order)
+	if GM.debug:
+		TIME_BT_PIECE = 0.01
 	pass
 
 func reveal_order():
@@ -63,7 +62,7 @@ func add_sprite3d_to_sandwich(type, isBread: bool):
 	else:
 		sprite3D.position.y = sprite3Ds[sprite3Ds.size()-1].position.y + add
 		totalAddedHeight += add
-	sprite3D.visible = false
+	sprite3D.visible = KEEP_SPRITES_VISIBLE_ON_CREATION
 	sprite3Ds.append(sprite3D)
 	pass
 

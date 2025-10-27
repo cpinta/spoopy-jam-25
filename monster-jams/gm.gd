@@ -1,6 +1,8 @@
 class_name GameManager
 extends Node
 
+var debug: bool = true
+
 var ui: UI
 var cam: GameCamera
 
@@ -52,7 +54,7 @@ func _ready():
 	audio = root.get_node("audio")
 	
 	plate.WasSelected.connect(jamTable.transfer_to_sandwich)
-	plate.didntGiveSandwich.connect(didnt_give_sandwich)
+	plate.didntGiveSandwich.connect(monsterManager.monster_was_clicked_order_was_wrong)
 	plate.gaveSandwichToMonster.connect(monsterManager.monster_given_order)
 	
 	monsterManager.entrance = entrance
@@ -81,10 +83,6 @@ func play_audio(stream: AudioStream):
 func start_game_instance():
 	gameInstance = GameInstance.new()
 	gameInstance.start()
-	pass
-
-func didnt_give_sandwich():
-	play_audio(asError)
 	pass
 
 func get_global_node(str:String):
