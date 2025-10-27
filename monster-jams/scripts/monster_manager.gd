@@ -47,7 +47,7 @@ func spawn_monster_rand_loc(selection:GM.Monster):
 	return monster
 
 func orderWasTaken(monster: Monster, order: Order):
-	monster.linePos.leave_queue()
+	#monster.linePos.leave_queue()
 	monster.set_line_position(waitingQueue.add_monster_to_queue_back(monster))
 	pass
 
