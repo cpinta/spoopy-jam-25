@@ -13,6 +13,8 @@ var WasSelectedSentItem
 var _isSelectable: bool = true
 var _isSelectableHoveredBuffer: bool = false
 
+var _isTargetable: bool = true
+
 func _ready() -> void:
 	target.input_event.connect(_input_event)
 	target.mouse_entered.connect(_enter)
@@ -42,7 +44,21 @@ func set_if_is_selectable(newIsSelectable: bool):
 		pass
 	pass
 
+func set_if_is_targetable(newTargetable: bool):
+	self._isTargetable = newTargetable
+	if _isTargetable:
+		if _isSelectableHoveredBuffer:
+			if _isSelectable:
+				BeingHovered.emit(BeingHoveredCursorMode)
+		pass
+	else:
+		ExitBeingHovered.emit()
+		pass
+	pass
+
 func _left_click():
+	if not _isTargetable:
+		return
 	if not _isSelectable:
 		return
 	WasSelected.emit(WasSelectedSentItem)
@@ -50,6 +66,8 @@ func _left_click():
 
 func _enter():
 	_isSelectableHoveredBuffer = true
+	if not _isTargetable:
+		return
 	if not _isSelectable:
 		return
 	BeingHovered.emit(BeingHoveredCursorMode)
@@ -57,6 +75,8 @@ func _enter():
 
 func _exit():
 	_isSelectableHoveredBuffer = false
+	if not _isTargetable:
+		return
 	if not _isSelectable:
 		return
 	ExitBeingHovered.emit()

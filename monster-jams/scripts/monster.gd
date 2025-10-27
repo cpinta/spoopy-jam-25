@@ -50,6 +50,8 @@ var orderTimer: float = 0
 var pathNode: PathNode
 
 signal orderWasTaken(monster:Monster, order: Order)
+signal clickedWhileWaitingForOrder(monster:Monster)
+signal wasGivenOrder(monster:Monster)
 
 func _ready():
 	spriteParent = $spriteParent
@@ -59,7 +61,7 @@ func _ready():
 	speechBubble.order_was_revealed.connect(order_was_taken)
 	selectable = $hitbox
 	selectable.set_if_is_selectable(false)
-	selectable.WasSelected.connect(start_take_order)
+	selectable.WasSelected.connect(was_selected)
 	pass
 
 func set_order(order: Order):
@@ -99,7 +101,24 @@ func set_order_timer(time: float):
 	orderTimer = time
 	pass
 	
-func start_take_order(notUsedArgument):
+func was_selected(obj):
+	if linePos:
+		match(linePos.lineType):
+			LineQueue.Type.Counter:
+				start_take_order()
+			LineQueue.Type.WaitingForFood:
+				clicked_while_waiting()
+	pass
+
+func was_given_order():
+	wasGivenOrder.emit(self)
+	pass
+
+func clicked_while_waiting():
+	clickedWhileWaitingForOrder.emit(self)
+	pass
+
+func start_take_order():
 	speechBubble.reveal_order()
 	set_currently_speaking(true)
 	pass
@@ -186,15 +205,26 @@ func walk_dest_arrived():
 		pathNode = null
 		return
 	if linePos:
-		if linePos.type == LinePosition.LineType.Counter:
-			if linePos.index == 0:
-				selectable.at_counter()
+		match(linePos.lineType):
+			LineQueue.Type.Counter:
+				if linePos.index == 0:
+					selectable.at_counter()
+					selectable.set_if_is_selectable(true)
+				else:
+					selectable.set_if_is_selectable(false)
+			_:
+				selectable.in_line()
 				selectable.set_if_is_selectable(true)
-			else:
-				selectable.set_if_is_selectable(false)
-		else:
-			selectable.in_line()
+				pass
 	pass
+
+func remove():
+	queue_free()
+	pass
+
+func set_targetability(value: bool):
+	if selectable:
+		selectable.set_if_is_targetable(value)
 
 func show_speech_bubble_order():
 	speechBubble.visible = true

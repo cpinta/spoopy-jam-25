@@ -79,7 +79,7 @@ shadow_mesh = SubResource("ArrayMesh_0cqkq")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_u136v"]
 material = ExtResource("5_bp5ul")
-size = Vector2(0.167, 0.173)
+size = Vector2(0.197, 0.198)
 
 [node name="Bread" type="Node3D"]
 script = ExtResource("1_ihbfu")
@@ -88,9 +88,11 @@ script = ExtResource("1_ihbfu")
 script = ExtResource("3_bp5ul")
 
 [node name="bottom" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 shape = ExtResource("3_u136v")
 
 [node name="top" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0.005)
 shape = ExtResource("3_i0r6r")
 
 [node name="bread" type="MeshInstance3D" parent="."]

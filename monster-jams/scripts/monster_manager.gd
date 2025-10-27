@@ -7,18 +7,26 @@ extends Node3D
 	
 }
 
+var monsters: Array[Monster]
 var spawnLocations: Array[Vector3]
 var counterQueue: LineQueue
 var waitingQueue: LineQueue
 var entrance: PathNode
 
+var leaveNode: PathNode
+
 const SPAWN_EVERY: float = 1
 var spawnTimer: float = 0
 var spawnCount: int = 0
 
+signal monsterWasClickedWhileWaitingForOrder(monster: Monster)
+
 func _ready():
 	spawnLocations.append($"right side".global_position)
 	spawnLocations.append($"left side".global_position)
+	
+	leaveNode = $"leave node"
+	leaveNode.monster_arrived.connect(monster_exited_scene)
 	
 	spawn_monster_rand_loc(GM.Monster.Franken)
 	pass
@@ -32,9 +40,17 @@ func _process(delta):
 			spawnTimer = SPAWN_EVERY
 	pass
 
+func set_monsters_targetability(value: bool):
+	for i in range(0, monsters.size()):
+		monsters[i].set_targetability(value)
+		pass
+	pass
+
 func initialize(counter:LineQueue, waiting:LineQueue):
 	counterQueue = counter
+	counterQueue.lineType = LineQueue.Type.Counter
 	waitingQueue = waiting
+	waitingQueue.lineType = LineQueue.Type.WaitingForFood
 	pass
 
 func monster_at_front(monster:Monster):
@@ -51,6 +67,16 @@ func orderWasTaken(monster: Monster, order: Order):
 	monster.set_line_position(waitingQueue.add_monster_to_queue_back(monster))
 	pass
 
+func monster_given_order(monster: Monster):
+	monster.pathNode = leaveNode
+	monster.set_walk_dest(leaveNode.global_position)
+	pass
+
+func monster_exited_scene(monster: Monster):
+	monsters.erase(monster)
+	monster.remove()
+	pass
+
 func spawn_monster(selection: GM.Monster, location: Vector3):
 	var scene: PackedScene = MONSTER_LIST[selection] 
 	var monster: Monster = scene.instantiate()
@@ -61,6 +87,11 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	monster.pathNode = entrance
 	monster.set_walk_dest(entrance.global_position)
 	monster.global_position = location
+	monster.wasGivenOrder.connect(monster_given_order)
+	
+	
+	
+	monster.clickedWhileWaitingForOrder.connect(monster_was_clicked_while_waiting_for_order)
 	
 	#var stats: Array[SliceStats] = [
 		#SliceStats.new(GM.BreadType.Wheat, [GM.Toppings.StrawberryJam, GM.Toppings.GrapeJam]), 
@@ -71,7 +102,11 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	
 	monster.set_order(order)
 	
+	monsters.append(monster)
 	return monster
+
+func monster_was_clicked_while_waiting_for_order(monster: Monster):
+	monsterWasClickedWhileWaitingForOrder.emit(monster)
 
 func generate_order() -> Order:
 	return Order.generate_new(GM.get_current_jams_available(), GM.get_current_max_toppings(), GM.get_current_max_sandwich_size())

@@ -1,9 +1,10 @@
 extends Node3D
 class_name Bread3D
 
-enum BreadState {Stack = 0, MovingToSandwich=1, OnSandwich=2}
+enum BreadState {Stack = 0, MovingToSandwich=1, OnSandwich=2, MovingToPlate=3, OnPlate = 4}
 
 var state: BreadState
+var breadType: GM.BreadType = GM.BreadType.Wheat
 
 var col: CollisionObject3D
 var mesh: MeshInstance3D
@@ -74,6 +75,9 @@ func _process(delta):
 				BreadState.MovingToSandwich:
 					set_state(BreadState.OnSandwich)
 					pass
+				BreadState.MovingToPlate:
+					set_state(BreadState.OnPlate)
+					pass
 			pass
 		else:
 			position = position.lerp(dest, DEST_LERP * delta)
@@ -83,11 +87,19 @@ func set_state(newState: BreadState):
 	state = newState
 	match state:
 		BreadState.Stack:
+			col.visible = false
 			pass
 		BreadState.MovingToSandwich:
+			col.visible = false
 			pass
 		BreadState.OnSandwich:
 			col.visible = true
+			pass
+		BreadState.MovingToPlate:
+			col.visible = false
+			pass
+		BreadState.OnPlate:
+			col.visible = false
 			pass
 	pass
 
@@ -178,7 +190,7 @@ func add_jam_to_map(topping:GM.Toppings, amt:int):
 
 func get_bread_stats():
 	var keys = jamAmountsApplied.keys()
-	var breadStats: SliceStats
+	var breadStats: SliceStats = SliceStats.new(breadType)
 	for i in range(0, keys.size()):
 		breadStats.add_topping_percent(keys[i], jamAmountsApplied[keys[i]])
 		pass
@@ -189,11 +201,12 @@ func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: V
 		GM.CursorMode.NONE:
 			pass
 		GM.CursorMode.KNIFE:
+			if not state == BreadState.OnSandwich:
+				return
 			if GM.input.leftClickCurrentlyPressed:
 				if not GM.cursor.has_jam_left_on_it():
 					return
-				if not state == BreadState.OnSandwich:
-					return
+					
 				event_position -= global_position
 				
 				var finalpos:Vector2i = Vector2i(((event_position.x - minMaxX.x) / (minMaxX.y - minMaxX.x)) * imgTex.get_width(), ((event_position.z - minMaxZ.x) / (minMaxZ.y - minMaxZ.x)) * imgTex.get_height())

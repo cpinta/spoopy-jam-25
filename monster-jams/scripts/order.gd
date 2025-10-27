@@ -32,6 +32,7 @@ func does_sandwich_match_stats(bread: Bread3D) -> bool:
 		var curBreadStats: SliceStats = curSlice.get_bread_stats()
 		if not curBreadStats.is_valid_stats(breadStatsArray[i]):
 			return false
+		curSlice = curSlice.breadOnTop
 		i+=1
 		pass
 	return true

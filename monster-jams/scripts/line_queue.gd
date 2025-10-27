@@ -1,8 +1,12 @@
 extends Node3D
 class_name LineQueue
 
+enum Type {Counter=0, WaitingForFood=1}
+
 @export var direction: Vector3
 @export var DIST_BT_POSITIONS: float = 0.6
+
+var lineType: Type
 
 # index 0 is the front of the line
 var linePositions: Array[LinePosition] = []
@@ -15,7 +19,7 @@ func add_monster_to_queue_back(monster: Monster):
 	var newPosition: Vector3 = global_position
 	if linePositions.size() > 0:
 		newPosition = linePositions[linePositions.size()-1].currentPosition + (direction * DIST_BT_POSITIONS)
-	var linePos: LinePosition = LinePosition.new(monster, LinePosition.LineType.Counter, linePositions.size(), newPosition)
+	var linePos: LinePosition = LinePosition.new(monster, lineType, linePositions.size(), newPosition)
 	linePos.left_queue.connect(remove_monster_from_queue)
 	linePositions.append(linePos)
 	
@@ -23,7 +27,7 @@ func add_monster_to_queue_back(monster: Monster):
 
 func add_monster_to_queue_front(monster: Monster):
 	var newPosition: Vector3 = global_position
-	var linePos: LinePosition = LinePosition.new(monster, LinePosition.LineType.Counter, linePositions.size(), newPosition)
+	var linePos: LinePosition = LinePosition.new(monster, lineType, linePositions.size(), newPosition)
 	linePos.left_queue.connect(remove_monster_from_queue)
 	linePositions.insert(0, linePos)
 	

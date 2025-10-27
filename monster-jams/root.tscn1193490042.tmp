@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cmgungng8x1ea" path="res://plate.gd" id="2_r3r3k"]
 [ext_resource type="Texture2D" uid="uid://d1e75onernii5" path="res://sprites/counter.png" id="3_jnlp7"]
 [ext_resource type="Script" uid="uid://irgbo4ytl3i" path="res://scripts/monster_manager.gd" id="3_l8v81"]
+[ext_resource type="PackedScene" uid="uid://ldrwlrk0as00" path="res://scenes/bread.tscn" id="3_sq7yr"]
 [ext_resource type="Script" uid="uid://dcfqa1pt3kaie" path="res://scripts/path_node.gd" id="4_qt76e"]
 [ext_resource type="Script" uid="uid://dki77rwd3jh7w" path="res://scripts/jam_table.gd" id="6_bf3um"]
 [ext_resource type="PackedScene" uid="uid://cntnegmjxudhe" path="res://ui.tscn" id="6_l8v81"]
@@ -49,9 +50,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_sq7yr"]
-size = Vector3(1.9326172, 0.41677856, 0.020401001)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eji0w"]
 albedo_texture = ExtResource("6_qw60f")
 
@@ -85,20 +83,23 @@ sky_mode = 1
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
 spot_angle = 80.83
 
-[node name="plate" type="Node3D" parent="." groups=["plate"]]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.12864152, 0.41679597, 1.3240753)
+[node name="plate" type="Node3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.15935275, 0.41679597, 1.3240753)
 script = ExtResource("2_r3r3k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="plate"]
 mesh = SubResource("CylinderMesh_qt76e")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="plate"]
+script = ExtResource("7_qw60f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="plate/StaticBody3D"]
 shape = SubResource("CylinderShape3D_qt76e")
 
 [node name="breadParent" type="Node3D" parent="plate"]
 transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0.012193561, 0)
+
+[node name="Bread" parent="plate/breadParent" instance=ExtResource("3_sq7yr")]
 
 [node name="MonsterManager" type="Node3D" parent="." groups=["monsterManager"]]
 script = ExtResource("3_l8v81")
@@ -108,10 +109,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
 [node name="left side" type="Node3D" parent="MonsterManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2.25)
-
-[node name="leave node" type="Node3D" parent="MonsterManager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6699193, 0, -0.07851136)
-script = ExtResource("4_qt76e")
 
 [node name="world" type="Node3D" parent="."]
 
@@ -165,13 +162,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20212203, -0.053066015)
 pixel_size = 0.0005
 sprite_frames = SubResource("SpriteFrames_vyht1")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="counter"]
-script = ExtResource("7_qw60f")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="counter/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0014648438, 0.12962341, -0.051231384)
-shape = SubResource("BoxShape3D_sq7yr")
-
 [node name="jam table" type="Node3D" parent="." groups=["jamTable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26104406, 1.3750305)
 script = ExtResource("6_bf3um")
@@ -183,6 +173,7 @@ mesh = SubResource("PlaneMesh_l8v81")
 skeleton = NodePath("../../counter")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="jam table"]
+script = ExtResource("7_qw60f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="jam table/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.044727206, 0)
@@ -212,6 +203,7 @@ script = ExtResource("10_qt76e")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="jam table/BreadStack"]
+script = ExtResource("7_qw60f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="jam table/BreadStack/StaticBody3D"]
 shape = SubResource("BoxShape3D_qt76e")
@@ -295,8 +287,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("9_huihk")
-
-[node name="audio" type="AudioStreamPlayer" parent="."]
 
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]

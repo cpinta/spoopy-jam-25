@@ -1,9 +1,7 @@
 class_name LinePosition
 
-enum LineType {Counter=0, WaitingForFood=1}
-
 var currentPosition: Vector3
-var type: LineType
+var lineType: LineQueue.Type
 
 var monster: Monster
 var index: int = 0
@@ -11,8 +9,8 @@ var index: int = 0
 signal positionChanged(index:int,pos: Vector3)
 signal left_queue(linePos: LinePosition)
 
-func _init(monster: Monster, type: LineType, index: int, pos: Vector3):
-	self.type = type
+func _init(monster: Monster, lineType: LineQueue.Type, index: int, pos: Vector3):
+	self.lineType = lineType
 	self.index = index
 	self.currentPosition = pos
 	self.monster = monster

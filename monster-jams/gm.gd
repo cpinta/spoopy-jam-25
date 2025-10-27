@@ -5,6 +5,9 @@ var ui: UI
 var cam: GameCamera
 
 var input: InputHandler
+var audio: AudioStreamPlayer
+
+var asError: AudioStream = load("res://sounds/error sound.mp3")
 
 var jamTable: JellyTable
 
@@ -27,12 +30,12 @@ enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK}
 
 var cursor: Cursor
 var monsterManager: MonsterManager
-
 var entrance: PathNode
-
 var gameInstance: GameInstance
-
 var root: Node3D
+var plate: Plate
+
+# shop located in conneticut
 
 func _ready():
 	root = get_global_node("root")
@@ -44,7 +47,17 @@ func _ready():
 	monsterManager = get_global_node("monsterManager")
 	monsterManager.initialize(get_global_node("counterfront"), get_global_node("waiting"))
 	entrance = get_global_node("entrance")
+	plate = get_global_node("plate")
+	
+	audio = root.get_node("audio")
+	
+	plate.WasSelected.connect(jamTable.transfer_to_sandwich)
+	plate.didntGiveSandwich.connect(didnt_give_sandwich)
+	plate.gaveSandwichToMonster.connect(monsterManager.monster_given_order)
+	
 	monsterManager.entrance = entrance
+	monsterManager.monsterWasClickedWhileWaitingForOrder.connect(plate.check_if_has_monster_order)
+	
 	entrance.monster_arrived.connect(monsterManager.monster_at_front)
 	
 	jamTable.ToppingSelected.connect(cursor.topping_selected)
@@ -52,9 +65,6 @@ func _ready():
 	
 	ui.sTablePressed.connect(_table_clicked)
 	ui.sCounterPressed.connect(_counter_clicked)
-	
-	ui.sTablePressed.connect(jamTable.cam_looking_at_jam_table)
-	ui.sCounterPressed.connect(jamTable.cam_looking_at_counter)
 	
 	start_game_instance()
 	pass
@@ -64,9 +74,17 @@ func _process(delta):
 		gameInstance._process(delta)
 	pass
 
+func play_audio(stream: AudioStream):
+	audio.stream = stream
+	audio.play()
+
 func start_game_instance():
 	gameInstance = GameInstance.new()
 	gameInstance.start()
+	pass
+
+func didnt_give_sandwich():
+	play_audio(asError)
 	pass
 
 func get_global_node(str:String):
@@ -89,9 +107,13 @@ func get_current_max_sandwich_size() -> int:
 
 func _table_clicked():
 	set_cam_state(CamView.JellyTable)
+	jamTable.cam_looking_at_jam_table()
+	monsterManager.set_monsters_targetability(false)
 	pass
 func _counter_clicked():
 	set_cam_state(CamView.Counter)
+	jamTable.cam_looking_at_counter()
+	monsterManager.set_monsters_targetability(true)
 	pass
 
 

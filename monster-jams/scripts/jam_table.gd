@@ -29,7 +29,11 @@ func _ready():
 	cam_looking_at_counter()
 	pass
 
-func spawn_bread():
+func transfer_to_sandwich(plate: Plate):
+	if plate:
+		if bottomBread:
+			plate.add_sandwich(bottomBread)
+			bottomBread = null
 	pass
 
 func _bread_selected(bread: int):
