@@ -8,18 +8,19 @@ func _init(breadStats: Array[SliceStats]):
 	pass
 
 static func generate_new(toppingChoices: Array[GM.Toppings], maxToppingsPerSlice: int = 1, maxSandwichSize: int = 2) -> Order:
-	var order: Order
+	var order: Order = Order.new([])
 	var sandwichSize: int = randi_range(1, maxSandwichSize)
 	
 	for i in range(0, maxSandwichSize):
 		var toppingAmount: int = randi_range(1, maxToppingsPerSlice)
-		var sliceStats: SliceStats
+		var sliceStats: SliceStats = SliceStats.new(GM.BreadType.Wheat)
 		for j in range(0, maxToppingsPerSlice):
 			var topping: GM.Toppings = toppingChoices[randi_range(0, toppingChoices.size()-1)]
 			sliceStats.add_topping_percent(topping, 1/toppingAmount)
 			pass
 		pass
 		order.breadStatsArray.append(sliceStats)
+	order.breadStatsArray.append(SliceStats.new(GM.BreadType.Wheat))
 	return order
 
 func does_sandwich_match_stats(bread: Bread3D) -> bool:

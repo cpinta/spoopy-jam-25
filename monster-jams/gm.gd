@@ -15,9 +15,9 @@ enum CamView {Counter, JellyTable}
 enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {
 	Toppings.StrawberryJam: StrawberryJam.new(),
-	Toppings.AppleJam: AppleJam.new(), 
 	Toppings.BlueberryJam: BlueberryJam.new(), 
 	Toppings.GrapeJam: GrapeJam.new(), 
+	Toppings.AppleJam: AppleJam.new(), 
 	Toppings.Ham: Ham.new()}
 enum BreadType {Wheat=0, Bagel=1}
 var dictBread = {
@@ -27,6 +27,10 @@ enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK}
 
 var cursor: Cursor
 var monsterManager: MonsterManager
+
+var entrance: PathNode
+
+var gameInstance: GameInstance
 
 var root: Node3D
 
@@ -39,6 +43,9 @@ func _ready():
 	jamTable = get_global_node("jamTable")
 	monsterManager = get_global_node("monsterManager")
 	monsterManager.initialize(get_global_node("counterfront"), get_global_node("waiting"))
+	entrance = get_global_node("entrance")
+	monsterManager.entrance = entrance
+	entrance.monster_arrived.connect(monsterManager.monster_at_front)
 	
 	jamTable.ToppingSelected.connect(cursor.topping_selected)
 	jamTable.BreadSelected.connect(cursor.bread_selected)
@@ -48,6 +55,18 @@ func _ready():
 	
 	ui.sTablePressed.connect(jamTable.cam_looking_at_jam_table)
 	ui.sCounterPressed.connect(jamTable.cam_looking_at_counter)
+	
+	start_game_instance()
+	pass
+
+func _process(delta):
+	if gameInstance:
+		gameInstance._process(delta)
+	pass
+
+func start_game_instance():
+	gameInstance = GameInstance.new()
+	gameInstance.start()
 	pass
 
 func get_global_node(str:String):
@@ -55,7 +74,18 @@ func get_global_node(str:String):
 		return get_tree().get_nodes_in_group(str)[0]
 	pass
 
+func get_current_jams_available() -> Array[Toppings]:
+	var arr: Array[Toppings] = []
+	for i in range(0, gameInstance.jamsAvailibleTilIndex+1):
+		arr.append(i)
+		pass
+	return arr
 
+func get_current_max_toppings() -> int:
+	return gameInstance.maxToppingsPerSlice
+	
+func get_current_max_sandwich_size() -> int:
+	return gameInstance.maxSandwichSize
 
 func _table_clicked():
 	set_cam_state(CamView.JellyTable)

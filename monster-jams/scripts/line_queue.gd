@@ -11,7 +11,7 @@ var linePositions: Array[LinePosition] = []
 #		- they spawn
 #		- they place their order and wait next to the others
 
-func add_monster_to_queue(monster: Monster):
+func add_monster_to_queue_back(monster: Monster):
 	var newPosition: Vector3 = global_position
 	if linePositions.size() > 0:
 		newPosition = linePositions[linePositions.size()-1].currentPosition + (direction * DIST_BT_POSITIONS)
@@ -20,6 +20,23 @@ func add_monster_to_queue(monster: Monster):
 	linePositions.append(linePos)
 	
 	return linePositions[linePositions.size()-1]
+
+func add_monster_to_queue_front(monster: Monster):
+	var newPosition: Vector3 = global_position
+	var linePos: LinePosition = LinePosition.new(monster, LinePosition.LineType.Counter, linePositions.size(), newPosition)
+	linePos.left_queue.connect(remove_monster_from_queue)
+	linePositions.insert(0, linePos)
+	
+	if linePositions.size() > 1:
+		for i in range(0, linePositions.size()):
+			linePositions[i] = linePositions[i+1]
+			if i > 0:
+				linePositions[i].set_line_position(i-1, linePositions[i-1].currentPosition)
+			else:
+				linePositions[0].set_line_position(0, global_position)
+			pass
+	
+	return linePos
 
 func remove_monster_from_front():
 	remove_monster_from_queue(0)

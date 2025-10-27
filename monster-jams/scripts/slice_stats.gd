@@ -8,7 +8,7 @@ var breadType: GM.BreadType
 
 const MARGIN_OF_ERROR: float = .3
 
-func _init(topp:Array[GM.Toppings], bread: GM.BreadType):
+func _init(bread: GM.BreadType, topp:Array[GM.Toppings] = []):
 	for i in range(0, topp.size()):
 		add_topping_percent(topp[i], 1/topp.size())
 	breadType = bread

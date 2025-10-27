@@ -1,15 +1,16 @@
-[gd_scene load_steps=24 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=25 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="Texture2D" uid="uid://d1e75onernii5" path="res://sprites/counter.png" id="3_jnlp7"]
 [ext_resource type="Script" uid="uid://irgbo4ytl3i" path="res://scripts/monster_manager.gd" id="3_l8v81"]
+[ext_resource type="Script" uid="uid://dcfqa1pt3kaie" path="res://scripts/path_node.gd" id="4_qt76e"]
 [ext_resource type="Script" uid="uid://dki77rwd3jh7w" path="res://scripts/jam_table.gd" id="6_bf3um"]
 [ext_resource type="PackedScene" uid="uid://cntnegmjxudhe" path="res://ui.tscn" id="6_l8v81"]
 [ext_resource type="Texture2D" uid="uid://b4147uhpv5drj" path="res://sprites/empty256x256.png" id="6_qw60f"]
-[ext_resource type="Script" uid="uid://ca616r1s6gdcf" path="res://line_queue.gd" id="6_r3r3k"]
+[ext_resource type="Script" uid="uid://ca616r1s6gdcf" path="res://scripts/line_queue.gd" id="6_r3r3k"]
 [ext_resource type="PackedScene" uid="uid://ddaegylgotei7" path="res://scenes/jam.tscn" id="7_gd4vy"]
 [ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="7_qw60f"]
-[ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://ui.gd" id="7_vyht1"]
+[ext_resource type="Script" uid="uid://cg8egcbo5oe5w" path="res://scripts/ui.gd" id="7_vyht1"]
 [ext_resource type="Script" uid="uid://2bpnwlnnu5uy" path="res://scripts/input_handler.gd" id="9_huihk"]
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
 [ext_resource type="Script" uid="uid://bw7pm5dnyeyff" path="res://scripts/selectable_bread.gd" id="10_qt76e"]
@@ -112,10 +113,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0.725)
 script = ExtResource("6_r3r3k")
 direction = Vector3(0, 0, -1)
 
-[node name="front door" type="Node3D" parent="." groups=["counterfront"]]
+[node name="front door" type="Node3D" parent="." groups=["entrance"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.25)
+script = ExtResource("4_qt76e")
 
-[node name="right side" type="Node3D" parent="." groups=["counterfront"]]
+[node name="right side" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
 [node name="waitingline" type="Node3D" parent="." groups=["waiting"]]
@@ -230,6 +232,22 @@ grow_vertical = 2
 
 [node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
 position = Vector2(0, 1)
+
+[node name="left" type="Control" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 232.0
+grow_vertical = 2
+
+[node name="OrderDisplay" type="Control" parent="UI/Control/left"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -459.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="input handler" type="Control" parent="UI" groups=["input"]]
 layout_mode = 3

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://clqklm2h0nuna" path="res://scripts/skeleton.gd" id="1_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://daqguqisip1bo" path="res://sprites/skeleton.png" id="2_txkty"]
-[ext_resource type="Script" uid="uid://di3gye6kn5s0j" path="res://speech_bubble.gd" id="3_5pgwy"]
+[ext_resource type="Script" uid="uid://di3gye6kn5s0j" path="res://scripts/speech_bubble.gd" id="3_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://d3muyuuo1c11l" path="res://sprites/speech bubble.png" id="4_ssl1b"]
-[ext_resource type="Script" uid="uid://uxdo134sifaa" path="res://selectable_monster.gd" id="5_w4hcs"]
+[ext_resource type="Script" uid="uid://uxdo134sifaa" path="res://scripts/selectable_monster.gd" id="5_w4hcs"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ivqcw"]
 animations = [{

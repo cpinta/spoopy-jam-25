@@ -11,7 +11,7 @@ const SPACE_UNDER_TOPPING: float = 0.02
 const SPACE_UNDER_SLICE: float = 0.06
 const ICON_PIXEL_SIZE: float = 0.0005
 
-const TIME_BT_PIECE: float = 0.5/5
+const TIME_BT_PIECE: float = 0.5
 
 var totalAddedHeight: float = 0
 

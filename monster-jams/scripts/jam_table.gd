@@ -26,6 +26,7 @@ func _ready():
 	breadstacks[GM.BreadType.Wheat] = breadstack
 	
 	bottomBreadLocation = $CurrentBreadLocation.global_position
+	cam_looking_at_counter()
 	pass
 
 func spawn_bread():

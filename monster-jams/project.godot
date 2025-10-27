@@ -35,6 +35,7 @@ jamTable=""
 root=""
 monsterManager=""
 waiting=""
+entrance=""
 
 [input]
 
