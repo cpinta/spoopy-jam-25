@@ -3,6 +3,11 @@ class_name Order
 # each slice has a bread stat. index 0 is the bottom slice
 var breadStatsArray: Array[SliceStats] = []
 
+const SCORE_PER_BREAD: int = 1
+const SCORE_PER_TOPPING: int = 1
+
+var scoreAmount: int = 0
+
 func _init(breadStats: Array[SliceStats]):
 	self.breadStatsArray = breadStats
 	pass
@@ -10,11 +15,13 @@ func _init(breadStats: Array[SliceStats]):
 static func generate_new(toppingChoices: Array[GM.Toppings], maxToppingsPerSlice: int = 1, maxSandwichSize: int = 2) -> Order:
 	var order: Order = Order.new([])
 	var sandwichSize: int = randi_range(1, maxSandwichSize)
+	order.scoreAmount += SCORE_PER_BREAD * sandwichSize
 	
 	for i in range(0, maxSandwichSize):
 		var toppingAmount: int = randi_range(1, maxToppingsPerSlice)
 		var sliceStats: SliceStats = SliceStats.new(GM.BreadType.Wheat)
-		for j in range(0, maxToppingsPerSlice):
+		order.scoreAmount += SCORE_PER_TOPPING * toppingAmount
+		for j in range(0, toppingAmount):
 			var topping: GM.Toppings = toppingChoices[randi_range(0, toppingChoices.size()-1)]
 			sliceStats.add_topping_percent(topping, 1/toppingAmount)
 			pass

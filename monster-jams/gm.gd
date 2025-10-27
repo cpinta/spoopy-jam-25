@@ -37,6 +37,8 @@ var gameInstance: GameInstance
 var root: Node3D
 var plate: Plate
 
+var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_display.tscn")
+
 # shop located in conneticut
 
 func _ready():
@@ -59,6 +61,7 @@ func _ready():
 	
 	monsterManager.entrance = entrance
 	monsterManager.monsterWasClickedWhileWaitingForOrder.connect(plate.check_if_has_monster_order)
+	monsterManager.monsterGivenCorrectOrder.connect(order_given_correctly)
 	
 	entrance.monster_arrived.connect(monsterManager.monster_at_front)
 	
@@ -74,6 +77,16 @@ func _ready():
 func _process(delta):
 	if gameInstance:
 		gameInstance._process(delta)
+	pass
+
+func order_given_correctly(monster: Monster):
+	add_score(monster.order.scoreAmount, monster.global_position)
+	pass
+
+func add_score(amt: int, pos: Vector3):
+	gameInstance.add_score(amt)
+	var pointDisplay: PointsAddedDisplay = spawn(scenePointsAddedDisplay)
+	pointDisplay.init(amt, pos)
 	pass
 
 func play_audio(stream: AudioStream):

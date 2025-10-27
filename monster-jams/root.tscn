@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=30 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="Script" uid="uid://cmgungng8x1ea" path="res://plate.gd" id="2_r3r3k"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
 [ext_resource type="Script" uid="uid://bw7pm5dnyeyff" path="res://scripts/selectable_bread.gd" id="10_qt76e"]
 [ext_resource type="PackedScene" uid="uid://4pp0l51nrqd4" path="res://bread/bread.gltf" id="10_qwhpj"]
+[ext_resource type="PackedScene" uid="uid://cyvrr6stkpohx" path="res://scenes/points_added_display.tscn" id="17_r3r3k"]
 
 [sub_resource type="Environment" id="Environment_28aoi"]
 background_mode = 1
@@ -297,6 +298,8 @@ mouse_filter = 2
 script = ExtResource("9_huihk")
 
 [node name="audio" type="AudioStreamPlayer" parent="."]
+
+[node name="pointsAddedDisplay" parent="." instance=ExtResource("17_r3r3k")]
 
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]

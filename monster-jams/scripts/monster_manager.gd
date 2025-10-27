@@ -20,6 +20,7 @@ var spawnTimer: float = 0
 var spawnCount: int = 0
 
 signal monsterWasClickedWhileWaitingForOrder(monster: Monster)
+signal monsterGivenCorrectOrder(monster: Monster)
 
 func _ready():
 	spawnLocations.append($"right side".global_position)
@@ -70,6 +71,7 @@ func orderWasTaken(monster: Monster, order: Order):
 func monster_given_order(monster: Monster):
 	monster.pathNode = leaveNode
 	monster.set_walk_dest(leaveNode.global_position)
+	monsterGivenCorrectOrder.emit(monster)
 	pass
 
 func monster_exited_scene(monster: Monster):

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyvrr6stkpohx"]
+
+[ext_resource type="Script" uid="uid://cho4o8eh0cs2o" path="res://points_added_display.gd" id="1_fybbc"]
+
+[node name="pointsAddedDisplay" type="Node3D"]
+script = ExtResource("1_fybbc")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7465976, 0)
+pixel_size = 0.01
+billboard = 1
+double_sided = false
+render_priority = 3
+modulate = Color(1.2032688e-06, 0.55876, 0.54623586, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "+10"
