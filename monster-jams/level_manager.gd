@@ -5,6 +5,7 @@ var levels: Array[Level] = []
 var currentIndex: int = 0
 
 var levelUI: LevelStartEndUI
+var titleScreen: TitleScreen
 
 var nightTimer: float = 0
 var inLevel: bool = false
@@ -16,11 +17,33 @@ signal noLevelsLeft()
 
 func _ready() -> void:
 	levelUI = $UI/LevelMenu
-	fade = $UI/Fade
 	levelUI.btnNext.pressed.connect(next_level)
 	levelUI.btnRetry.pressed.connect(retry_level)
+	fade = $FadeCanvas/Fade
+	fade.fade(Fade.Type.FromBlack)
+	fade.faded.connect(faded)
+	
+	titleScreen = $TitleScreen
+	titleScreen.start_clicked.connect(start_game_clicked)
 	
 	add_level(Level1.new())
+	pass
+
+func start_game_clicked():
+	fade.fade(Fade.Type.ToBlack)
+	pass
+
+func faded(type: Fade.Type):
+	match type:
+		Fade.Type.ToBlack:
+			if GM.state == GM.GameState.Title:
+				titleScreen.hide_title()
+				start_game()
+	pass
+
+func start_game():
+	start_current_level()
+	
 	pass
 
 func _process(delta: float) -> void:

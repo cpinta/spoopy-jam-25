@@ -32,7 +32,6 @@ func _ready():
 	leaveNode = $"leave node"
 	leaveNode.monster_arrived.connect(monster_exited_scene)
 	
-	spawn_monster_rand_loc(GM.Monster.Franken)
 	pass
 
 func _process(delta):
@@ -117,6 +116,8 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 		#SliceStats.new(GM.BreadType.Wheat, [GM.Toppings.StrawberryJam]), 
 		#SliceStats.new(GM.BreadType.Wheat, []), ]
 	
+	
+	
 	var order = generate_order()
 	
 	monster.set_order(order)
@@ -133,4 +134,4 @@ func monster_was_clicked_order_was_wrong(monster: Monster):
 	pass
 
 func generate_order() -> Order:
-	return Order.generate_new(GM.get_current_jams_available(), GM.get_current_max_toppings(), GM.get_current_max_sandwich_size())
+	return Order.generate_new()

@@ -7,7 +7,7 @@ var btnCounter: Button
 signal sTablePressed
 signal sCounterPressed
 
-var fade: Panel
+var fade: Fade
 
 func _ready():
 	fade = $Fade

@@ -4,7 +4,7 @@ extends Node
 enum GameState {Title, InGame}
 
 var debug: bool = true
-
+var state: GameState
 
 var ui: UI
 var cam: GameCamera
@@ -79,7 +79,15 @@ func _ready():
 	ui.sTablePressed.connect(_table_clicked)
 	ui.sCounterPressed.connect(_counter_clicked)
 	
-	start_game_instance()
+	pass
+
+func set_state(state: GameState):
+	self.state = state
+	match state:
+		GameState.Title:
+			pass
+		GameState.InGame:
+			pass
 	pass
 
 func _process(delta):
@@ -115,8 +123,6 @@ func start_game_instance():
 	
 	await get_tree().physics_frame
 	
-	get_current_jams_available
-	jamTable.set_shown_jams_til_index(gameInstance.jamsAvailibleTilIndex)
 	pass
 
 func get_global_node(str:String):

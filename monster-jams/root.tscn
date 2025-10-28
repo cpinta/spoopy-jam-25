@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=43 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
@@ -20,6 +20,8 @@
 [ext_resource type="Script" uid="uid://cb055r3cyhj30" path="res://fade.gd" id="16_3dlgs"]
 [ext_resource type="Script" uid="uid://bterrrbimuphj" path="res://level_startend_ui.gd" id="16_50g4q"]
 [ext_resource type="PackedScene" uid="uid://cyvrr6stkpohx" path="res://scenes/points_added_display.tscn" id="17_r3r3k"]
+[ext_resource type="Script" uid="uid://c8iw0xn2ee8hs" path="res://title_screen.gd" id="21_po8fv"]
+[ext_resource type="Texture2D" uid="uid://cshwfd4wnrmm4" path="res://sprites/outside render.png" id="21_vte5o"]
 
 [sub_resource type="Environment" id="Environment_28aoi"]
 background_mode = 1
@@ -67,11 +69,26 @@ size = Vector3(0.23989563, 0.01826172, 0.24083862)
 [sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
 size = Vector3(0.1, 0.02, 0.1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50g4q"]
-bg_color = Color(0, 0, 0, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_blcw0"]
 font_size = 32
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vte5o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ub8w1"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vte5o"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_po8fv"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_po8fv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ynlg5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dlgs"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="root" type="Node3D" groups=["levelManager", "root"]]
 script = ExtResource("1_blcw0")
@@ -230,18 +247,11 @@ shape = SubResource("BoxShape3D_qt76e")
 [node name="UI" parent="." groups=["ui"] instance=ExtResource("6_l8v81")]
 script = ExtResource("7_vyht1")
 
-[node name="Fade" type="Panel" parent="UI"]
-z_index = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_50g4q")
+[node name="Fade" type="CanvasModulate" parent="UI"]
 script = ExtResource("16_3dlgs")
 
 [node name="LevelMenu" type="Panel" parent="UI"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -366,6 +376,61 @@ script = ExtResource("9_huihk")
 [node name="audio" type="AudioStreamPlayer" parent="."]
 
 [node name="pointsAddedDisplay" parent="." instance=ExtResource("17_r3r3k")]
+
+[node name="TitleScreen" type="CanvasLayer" parent="."]
+script = ExtResource("21_po8fv")
+
+[node name="Control" type="Control" parent="TitleScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="TextureRect" parent="TitleScreen/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_vte5o")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="TitleScreen/Control/background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 531.0
+offset_top = 373.0
+offset_right = -531.0
+offset_bottom = -186.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vte5o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ub8w1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vte5o")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_po8fv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_po8fv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ynlg5")
+
+[node name="FadeCanvas" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Fade" type="CanvasModulate" parent="FadeCanvas"]
+color = Color(1, 1, 1, 0)
+script = ExtResource("16_3dlgs")
+
+[node name="Panel" type="Panel" parent="FadeCanvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3dlgs")
 
 [editable path="jam table/Jams/StrawberryJam"]
 [editable path="jam table/Jams/BlueberryJam"]

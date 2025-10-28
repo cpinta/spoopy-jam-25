@@ -1,30 +1,31 @@
-extends Panel
+extends CanvasModulate
 class_name Fade
 
-enum Type {ToBlack, FromBlack}
+enum Type {ToBlack = 1, FromBlack = 0}
 var _isFading: bool = false
 var type: Type
 var FADE_TIME: float = 1
 var timer: float = 0
 
-var styleBox: StyleBoxFlat
-
-func _ready():
-	styleBox = StyleBoxFlat.new()
-	styleBox.bg_color = Color.BLACK
-	
+signal faded(type: Fade.Type)
 
 func _process(delta: float) -> void:
 	if _isFading:
-		styleBox.bg_color = Color(Color.BLACK, timer/FADE_TIME)
+		if timer > 0:
+			match(type):
+				Type.ToBlack:
+					color.a = 1- timer/FADE_TIME
+				Type.FromBlack:
+					color.a = timer/FADE_TIME
+			timer -= delta
+		else:
+			color.a = type
+			_isFading = false
+			faded.emit(type)
 	pass
 
 func fade(type:Type):
-	match type:
-		Type.ToBlack:
-			timer = 0
-			pass
-		Type.FromBlack:
-			timer = FADE_TIME
-			pass
+	_isFading = true
+	timer = FADE_TIME
+	self.type = type
 	pass
