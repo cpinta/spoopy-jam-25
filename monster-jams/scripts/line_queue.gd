@@ -16,30 +16,24 @@ var linePositions: Array[LinePosition] = []
 #		- they place their order and wait next to the others
 
 func add_monster_to_queue_back(monster: Monster):
-	var newPosition: Vector3 = global_position
-	if linePositions.size() > 0:
-		newPosition = linePositions[linePositions.size()-1].currentPosition + (direction * DIST_BT_POSITIONS)
-	var linePos: LinePosition = LinePosition.new(monster, lineType, linePositions.size(), newPosition)
-	linePos.left_queue.connect(remove_monster_from_queue)
-	linePositions.append(linePos)
-	
-	return linePositions[linePositions.size()-1]
+	return add_monster_to_queue_at_index(monster, linePositions.size())
+
+func get_global_position_from_line_index(index: int):
+	if index > 0:
+		return global_position + (index * direction * DIST_BT_POSITIONS)
+	return global_position
 
 func add_monster_to_queue_front(monster: Monster):
-	var newPosition: Vector3 = global_position
-	var linePos: LinePosition = LinePosition.new(monster, lineType, linePositions.size(), newPosition)
+	return add_monster_to_queue_at_index(monster, 0)
+
+func add_monster_to_queue_at_index(monster:Monster, index: int) -> LinePosition:
+	var linePos: LinePosition = LinePosition.new(monster, lineType, index, get_global_position_from_line_index(index))
 	linePos.left_queue.connect(remove_monster_from_queue)
-	linePositions.insert(0, linePos)
-	
-	if linePositions.size() > 1:
-		for i in range(0, linePositions.size()):
-			linePositions[i] = linePositions[i+1]
-			if i > 0:
-				linePositions[i].set_line_position(i-1, linePositions[i-1].currentPosition)
-			else:
-				linePositions[0].set_line_position(0, global_position)
-			pass
-	
+	if index == linePositions.size():
+		linePositions.append(linePos)
+	else:
+		linePositions.insert(index, linePos)
+	update_line_positions_on_and_after_index(index+1)
 	return linePos
 
 func remove_monster_from_front():
@@ -47,12 +41,17 @@ func remove_monster_from_front():
 	pass
 
 func remove_monster_from_queue(index: int):
-	for i in range(index, linePositions.size()-1):
-		linePositions[i] = linePositions[i+1]
+	linePositions.remove_at(index)
+	update_line_positions_on_and_after_index(index)
+
+func update_line_positions_on_and_after_index(index: int):
+	if index >= linePositions.size():
+		return
+	for i in range(index, linePositions.size()):
 		if i > 0:
-			linePositions[i].set_line_position(i-1, linePositions[i-1].currentPosition)
+			linePositions[i].set_line_position(i, get_global_position_from_line_index(i))
 		else:
 			linePositions[0].set_line_position(0, global_position)
 		pass
-	linePositions.remove_at(linePositions.size()-1)
+	pass
 	pass

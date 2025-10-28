@@ -10,7 +10,7 @@ var AVAILABLE_MONSTERS: Array[GM.Monster] = []
 var MIN_TIME_BT_MONSTERS: float = 4
 var MAX_TIME_BT_MONSTERS: float = 8
 
-var MAX_MONSTER_SPAWN_COUNT: int = 10
+var MAX_MONSTER_SPAWN_COUNT: int = 5
 
 var monsters: Array[Monster]
 var spawnLocations: Array[Vector3]
