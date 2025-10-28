@@ -39,7 +39,7 @@ func transfer_to_sandwich(plate: Plate):
 func _bread_selected(bread: int):
 	var stack: SelectableBread = breadstacks[bread]
 	
-	var spawnedBread: Bread3D = GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
+	var spawnedBread: Bread3D = await GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
 	await get_tree().physics_frame
 	
 	spawnedBread.set_state(Bread3D.BreadState.MovingToSandwich)

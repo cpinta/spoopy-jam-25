@@ -10,6 +10,8 @@ var AVAILABLE_MONSTERS: Array[GM.Monster] = []
 var MIN_TIME_BT_MONSTERS: float = 4
 var MAX_TIME_BT_MONSTERS: float = 8
 
+var MAX_MONSTER_SPAWN_COUNT: int = 10
+
 var monsters: Array[Monster]
 var spawnLocations: Array[Vector3]
 var counterQueue: LineQueue
@@ -39,7 +41,7 @@ func _process(delta):
 		if spawnTimer > 0:
 			spawnTimer -= delta
 		else:
-			if spawnCount < 2:
+			if spawnCount < MAX_MONSTER_SPAWN_COUNT:
 				spawn_rand_monster()
 				spawnTimer = randf_range(MIN_TIME_BT_MONSTERS, MAX_TIME_BT_MONSTERS)
 	pass
@@ -99,11 +101,8 @@ func monster_exited_scene(monster: Monster):
 
 func spawn_monster(selection: GM.Monster, location: Vector3):
 	var scene: PackedScene = MONSTER_LIST[selection] 
-	var monster: Monster = scene.instantiate()
-	monster.visible = false
-	await get_tree().physics_frame
+	var monster: Monster = await GM.spawn(scene) as Monster
 	monster.global_position = location
-	add_child(monster)
 	
 	monster.orderWasTaken.connect(orderWasTaken)
 	monster.pathNode = entrance
@@ -112,20 +111,12 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	
 	monster.clickedWhileWaitingForOrder.connect(monster_was_clicked_while_waiting_for_order)
 	
-	#var stats: Array[SliceStats] = [
-		#SliceStats.new(GM.BreadType.Wheat, [GM.Toppings.StrawberryJam, GM.Toppings.GrapeJam]), 
-		#SliceStats.new(GM.BreadType.Wheat, [GM.Toppings.StrawberryJam]), 
-		#SliceStats.new(GM.BreadType.Wheat, []), ]
-	
-	
-	
 	var order = generate_order()
 	
 	monster.set_order(order)
 	
 	monsters.append(monster)
 	spawnCount += 1
-	monster.visible = true
 	return monster
 
 func monster_was_clicked_while_waiting_for_order(monster: Monster):

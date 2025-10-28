@@ -111,7 +111,7 @@ func order_given_correctly(monster: Monster):
 
 func add_score(amt: int, pos: Vector3):
 	gameInstance.add_score(amt)
-	var pointDisplay: PointsAddedDisplay = spawn(scenePointsAddedDisplay)
+	var pointDisplay: PointsAddedDisplay = await spawn(scenePointsAddedDisplay)
 	pointDisplay.init(amt, pos)
 	pass
 
@@ -169,6 +169,8 @@ func set_cam_state(state:GM.CamView):
 func spawn(scene: PackedScene):
 	var node = scene.instantiate()
 	root.add_child(node)
+	if not node.is_inside_tree():
+		await node.ready
 	return node
 
 func is_knife_topping(topping:Toppings):
