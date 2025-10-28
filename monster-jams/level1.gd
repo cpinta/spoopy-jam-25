@@ -9,6 +9,9 @@ func _init() -> void:
 	
 	MIN_TIME_BT_MONSTERS = 4
 	MAX_TIME_BT_MONSTERS = 8
+	if GM.debug:
+		MIN_TIME_BT_MONSTERS = 0.1
+		MAX_TIME_BT_MONSTERS = 1
 	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton

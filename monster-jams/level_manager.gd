@@ -74,7 +74,7 @@ func get_current_level():
 	return levels[currentIndex]
 
 func start_current_level():
-	startLevel.emit()
+	startLevel.emit(get_current_level())
 	inLevel = true
 	nightTimer = get_current_level().NIGHT_LENGTH
 	fade.fade(Fade.Type.FromBlack)

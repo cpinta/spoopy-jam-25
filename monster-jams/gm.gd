@@ -97,6 +97,8 @@ func _process(delta):
 
 func level_starting(level: Level):
 	monsterManager.AVAILABLE_MONSTERS = level.AVAILABLE_MONSTERS
+	monsterManager.MIN_TIME_BT_MONSTERS = level.MIN_TIME_BT_MONSTERS
+	monsterManager.MAX_TIME_BT_MONSTERS = level.MAX_TIME_BT_MONSTERS
 	Order.MAX_SANDWICH_SIZE = level.MAX_SANDWICH_SIZE
 	Order.MAX_TOPPINGS_PER_SLICE = level.MAX_TOPPINGS_PER_SLICE
 	Order.TOPPING_CHOICES = level.AVAILABLE_TOPPINGS

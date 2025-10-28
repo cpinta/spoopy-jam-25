@@ -100,13 +100,14 @@ func monster_exited_scene(monster: Monster):
 func spawn_monster(selection: GM.Monster, location: Vector3):
 	var scene: PackedScene = MONSTER_LIST[selection] 
 	var monster: Monster = scene.instantiate()
-	add_child(monster)
+	monster.visible = false
 	await get_tree().physics_frame
+	monster.global_position = location
+	add_child(monster)
 	
 	monster.orderWasTaken.connect(orderWasTaken)
 	monster.pathNode = entrance
 	monster.set_walk_dest(entrance.global_position)
-	monster.global_position = location
 	monster.wasGivenOrder.connect(monster_given_order)
 	
 	monster.clickedWhileWaitingForOrder.connect(monster_was_clicked_while_waiting_for_order)
@@ -124,6 +125,7 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	
 	monsters.append(monster)
 	spawnCount += 1
+	monster.visible = true
 	return monster
 
 func monster_was_clicked_while_waiting_for_order(monster: Monster):
