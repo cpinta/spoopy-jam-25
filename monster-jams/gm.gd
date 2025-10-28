@@ -17,7 +17,7 @@ var camState: GM.CamView = GM.CamView.Counter
 
 enum Monster { Franken, Skeleton }
 enum CamView {Counter, JellyTable}
-enum Toppings {StrawberryJam=0, BlueberryJam=1, GrapeJam=2, AppleJam=3, Ham=4,None=-1}
+enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {
 	Toppings.StrawberryJam: StrawberryJam.new(),
 	Toppings.BlueberryJam: BlueberryJam.new(), 
@@ -36,10 +36,13 @@ var entrance: PathNode
 var gameInstance: GameInstance
 var root: Node3D
 var plate: Plate
+var levelManager: LevelManager
+var inLevel: bool = false
 
 var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_display.tscn")
 
 # shop located in conneticut
+
 
 func _ready():
 	root = get_global_node("root")
@@ -98,6 +101,8 @@ func start_game_instance():
 	gameInstance.start()
 	
 	await get_tree().physics_frame
+	
+	get_current_jams_available
 	jamTable.set_shown_jams_til_index(gameInstance.jamsAvailibleTilIndex)
 	pass
 

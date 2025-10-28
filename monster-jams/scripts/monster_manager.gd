@@ -15,7 +15,6 @@ var entrance: PathNode
 
 var leaveNode: PathNode
 
-const SPAWN_EVERY: float = 1
 var spawnTimer: float = 0
 var spawnCount: int = 0
 

@@ -7,7 +7,10 @@ var btnCounter: Button
 signal sTablePressed
 signal sCounterPressed
 
+var fade: Panel
+
 func _ready():
+	fade = $Fade
 	btnTable = $Control/lowerhalf/TableButton
 	btnCounter = $Control/upperhalf/CounterButton
 	btnTable.button_up.connect(_table_pressed)
@@ -25,6 +28,8 @@ func _process(delta):
 			btnCounter.visible = true
 			pass
 	pass
+
+
 
 func _table_pressed():
 	sTablePressed.emit()

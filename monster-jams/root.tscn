@@ -1,5 +1,6 @@
-[gd_scene load_steps=30 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=35 format=3 uid="uid://b30031jciilha"]
 
+[ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
 [ext_resource type="Script" uid="uid://cmgungng8x1ea" path="res://plate.gd" id="2_r3r3k"]
 [ext_resource type="Texture2D" uid="uid://d1e75onernii5" path="res://sprites/counter.png" id="3_jnlp7"]
@@ -16,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://bkiakli6c0inb" path="res://scenes/cursor.tscn" id="9_tw3kd"]
 [ext_resource type="Script" uid="uid://bw7pm5dnyeyff" path="res://scripts/selectable_bread.gd" id="10_qt76e"]
 [ext_resource type="PackedScene" uid="uid://4pp0l51nrqd4" path="res://bread/bread.gltf" id="10_qwhpj"]
+[ext_resource type="Script" uid="uid://cb055r3cyhj30" path="res://fade.gd" id="16_3dlgs"]
+[ext_resource type="Script" uid="uid://bterrrbimuphj" path="res://level_startend_ui.gd" id="16_50g4q"]
 [ext_resource type="PackedScene" uid="uid://cyvrr6stkpohx" path="res://scenes/points_added_display.tscn" id="17_r3r3k"]
 
 [sub_resource type="Environment" id="Environment_28aoi"]
@@ -64,7 +67,14 @@ size = Vector3(0.23989563, 0.01826172, 0.24083862)
 [sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
 size = Vector3(0.1, 0.02, 0.1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50g4q"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_blcw0"]
+font_size = 32
+
 [node name="root" type="Node3D" groups=["root"]]
+script = ExtResource("1_blcw0")
 
 [node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0.55, 1.3627307)
@@ -219,6 +229,62 @@ shape = SubResource("BoxShape3D_qt76e")
 
 [node name="UI" parent="." groups=["ui"] instance=ExtResource("6_l8v81")]
 script = ExtResource("7_vyht1")
+
+[node name="Fade" type="Panel" parent="UI"]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_50g4q")
+script = ExtResource("16_3dlgs")
+
+[node name="LevelMenu" type="Panel" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("16_50g4q")
+
+[node name="text" type="Label" parent="UI/LevelMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -181.5
+offset_top = -174.0
+offset_right = 181.5
+offset_bottom = -128.99991
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Survived the Night!"
+label_settings = SubResource("LabelSettings_blcw0")
+
+[node name="Control" type="HBoxContainer" parent="UI/LevelMenu"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Retry Button" type="Button" parent="UI/LevelMenu/Control"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Retry"
+
+[node name="Next Button" type="Button" parent="UI/LevelMenu/Control"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Next"
 
 [node name="Control" type="Control" parent="UI"]
 layout_mode = 3

@@ -65,13 +65,14 @@ func cam_looking_at_counter():
 func cam_looking_at_jam_table():
 	cam_looking(false)
 
-func set_shown_jams_til_index(index: int):
+func set_shown_jams(map):
 	for i in range(0, toppings.size()):
-		if i <= index:
+		if map.Contains(toppings[i].toppingEnum):
 			toppings[i].visible = true
+			pass
 		else:
 			toppings[i].visible = false
-		pass
+			pass
 	pass
 
 func cam_looking(lookingAway:bool):
