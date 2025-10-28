@@ -1,7 +1,10 @@
 class_name GameManager
 extends Node
 
+enum GameState {Title, InGame}
+
 var debug: bool = true
+
 
 var ui: UI
 var cam: GameCamera
@@ -46,6 +49,7 @@ var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_displ
 
 func _ready():
 	root = get_global_node("root")
+	levelManager = root as LevelManager
 	ui = get_global_node("ui")
 	cam = get_global_node("camera")
 	input = get_global_node("input")
@@ -55,8 +59,9 @@ func _ready():
 	monsterManager.initialize(get_global_node("counterfront"), get_global_node("waiting"))
 	entrance = get_global_node("entrance")
 	plate = get_global_node("plate")
-	
 	audio = root.get_node("audio")
+	
+	levelManager.startLevel.connect(level_starting)
 	
 	plate.WasSelected.connect(jamTable.transfer_to_sandwich)
 	plate.didntGiveSandwich.connect(monsterManager.monster_was_clicked_order_was_wrong)
@@ -80,6 +85,14 @@ func _ready():
 func _process(delta):
 	if gameInstance:
 		gameInstance._process(delta)
+	pass
+
+func level_starting(level: Level):
+	monsterManager.AVAILABLE_MONSTERS = level.AVAILABLE_MONSTERS
+	Order.MAX_SANDWICH_SIZE = level.MAX_SANDWICH_SIZE
+	Order.MAX_TOPPINGS_PER_SLICE = level.MAX_TOPPINGS_PER_SLICE
+	Order.TOPPING_CHOICES = level.AVAILABLE_TOPPINGS
+	monsterManager.activate()
 	pass
 
 func order_given_correctly(monster: Monster):

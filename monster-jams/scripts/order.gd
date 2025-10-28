@@ -8,21 +8,25 @@ const SCORE_PER_TOPPING: int = 1
 
 var scoreAmount: int = 0
 
+static var TOPPING_CHOICES: Array[GM.Toppings] = []
+static var MAX_TOPPINGS_PER_SLICE: int = 1
+static var MAX_SANDWICH_SIZE: int = 1
+
 func _init(breadStats: Array[SliceStats]):
 	self.breadStatsArray = breadStats
 	pass
 
-static func generate_new(toppingChoices: Array[GM.Toppings], maxToppingsPerSlice: int = 1, maxSandwichSize: int = 2) -> Order:
+static func generate_new() -> Order:
 	var order: Order = Order.new([])
-	var sandwichSize: int = randi_range(1, maxSandwichSize)
+	var sandwichSize: int = randi_range(1, MAX_SANDWICH_SIZE)
 	order.scoreAmount += SCORE_PER_BREAD * sandwichSize
 	
-	for i in range(0, maxSandwichSize):
-		var toppingAmount: int = randi_range(1, maxToppingsPerSlice)
+	for i in range(0, MAX_SANDWICH_SIZE):
+		var toppingAmount: int = randi_range(1, MAX_TOPPINGS_PER_SLICE)
 		var sliceStats: SliceStats = SliceStats.new(GM.BreadType.Wheat)
 		order.scoreAmount += SCORE_PER_TOPPING * toppingAmount
 		for j in range(0, toppingAmount):
-			var topping: GM.Toppings = toppingChoices[randi_range(0, toppingChoices.size()-1)]
+			var topping: GM.Toppings = TOPPING_CHOICES[randi_range(0, TOPPING_CHOICES.size()-1)]
 			sliceStats.add_topping_percent(topping, 1/toppingAmount)
 			pass
 		pass

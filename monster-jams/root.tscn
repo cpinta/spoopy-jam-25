@@ -73,7 +73,7 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_blcw0"]
 font_size = 32
 
-[node name="root" type="Node3D" groups=["root"]]
+[node name="root" type="Node3D" groups=["levelManager", "root"]]
 script = ExtResource("1_blcw0")
 
 [node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]

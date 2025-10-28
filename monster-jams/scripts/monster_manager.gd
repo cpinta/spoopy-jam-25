@@ -4,8 +4,11 @@ extends Node3D
 @onready var MONSTER_LIST = {\
 	GM.Monster.Franken: load("res://scenes/franken.tscn"),
 	GM.Monster.Skeleton: load("res://scenes/skeleton.tscn")
-	
 }
+
+var AVAILABLE_MONSTERS: Array[GM.Monster] = []
+var MIN_TIME_BT_MONSTERS: float = 4
+var MAX_TIME_BT_MONSTERS: float = 8
 
 var monsters: Array[Monster]
 var spawnLocations: Array[Vector3]
@@ -15,6 +18,7 @@ var entrance: PathNode
 
 var leaveNode: PathNode
 
+var _spawningActive: bool = false
 var spawnTimer: float = 0
 var spawnCount: int = 0
 
@@ -32,12 +36,22 @@ func _ready():
 	pass
 
 func _process(delta):
-	if spawnTimer > 0:
-		spawnTimer -= delta
-	else:
-		if spawnCount < 2:
-			spawn_monster_rand_loc(GM.Monster.Skeleton)
-			spawnTimer = SPAWN_EVERY
+	if _spawningActive:
+		if spawnTimer > 0:
+			spawnTimer -= delta
+		else:
+			if spawnCount < 2:
+				spawn_rand_monster()
+				spawnTimer = randf_range(MIN_TIME_BT_MONSTERS, MAX_TIME_BT_MONSTERS)
+	pass
+
+func activate():
+	_spawningActive = true
+	spawnTimer = randf_range(MIN_TIME_BT_MONSTERS, MAX_TIME_BT_MONSTERS)
+	pass
+
+func deactivate():
+	_spawningActive = false
 	pass
 
 func set_monsters_targetability(value: bool):
@@ -57,9 +71,15 @@ func monster_at_front(monster:Monster):
 	monster.set_line_position(counterQueue.add_monster_to_queue_back(monster))
 	pass
 
+func spawn_rand_monster():
+	var monster: Monster = await spawn_monster(
+		AVAILABLE_MONSTERS[randi_range(0, AVAILABLE_MONSTERS.size()-1)], 
+		spawnLocations[randi_range(0, spawnLocations.size()-1)]
+	)
+	pass
+
 func spawn_monster_rand_loc(selection:GM.Monster):
 	var monster: Monster = await spawn_monster(selection, spawnLocations[randi_range(0, spawnLocations.size()-1)])
-	spawnCount += 1
 	return monster
 
 func orderWasTaken(monster: Monster, order: Order):
@@ -102,6 +122,7 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	monster.set_order(order)
 	
 	monsters.append(monster)
+	spawnCount += 1
 	return monster
 
 func monster_was_clicked_while_waiting_for_order(monster: Monster):
