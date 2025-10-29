@@ -1,5 +1,5 @@
 extends Level
-class_name Level1
+class_name Level2
 
 func _init() -> void:
 	INTRO_TEXT = "Tonight should be an easy night"
@@ -7,8 +7,8 @@ func _init() -> void:
 	MAX_TOPPINGS_PER_SLICE = 1
 	MAX_SANDWICH_SIZE = 1
 	
-	MIN_TIME_BT_MONSTERS = 0.1
-	MAX_TIME_BT_MONSTERS = 1
+	MIN_TIME_BT_MONSTERS = 5
+	MAX_TIME_BT_MONSTERS = 8
 	
 	
 	if GM.debug:
@@ -18,9 +18,10 @@ func _init() -> void:
 	NEEDED_PROFIT = 20
 	
 	AVAILABLE_MONSTERS = [
-		GM.Monster.Slime
+		GM.Monster.Skeleton
 	]
 	AVAILABLE_TOPPINGS = [
-		GM.Toppings.StrawberryJam
+		GM.Toppings.StrawberryJam,
+		GM.Toppings.BlueberryJam
 	]
 	pass

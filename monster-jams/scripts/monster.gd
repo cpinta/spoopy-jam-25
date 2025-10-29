@@ -10,17 +10,27 @@ enum MonsterPositionState{
 	Outside = 0,
 	AtCounter = 1,
 	WaitingForFood = 2,
-	LeavingRestaurant = 3
+	LeavingRestaurant = 3,
+	Angry = 4
+}
+
+enum MonsterWalkAnim{
+	Tilt = 0,
+	Squash = 1
 }
 
 var sprite: AnimatedSprite3D
 var spriteParent: Node3D
+var meter: Meter
+
+var walkAnim: MonsterWalkAnim = MonsterWalkAnim.Tilt
 
 var moveState: MonsterMoveState = MonsterMoveState.Standing
 
-var WALK_SPEED: int = 1
+var WALK_SPEED: int = 0.75
 var STEP_EVERY: float = 0.4
 var STEP_TILT: float = 7
+var STEP_SCALE_ADD: Vector2 = Vector2(0.5, 0.5)
 var stepTimer: float = 0
 var stepCount: int = 0
 
@@ -45,7 +55,7 @@ const TALK_ABOUT_ORDER: float = 3
 var speakingTimer: float = 0;
 
 var hasOrder: bool = false
-var orderTime: float = 5
+var orderTime: float = 20
 var orderTimer: float = 0
 
 var pathNode: PathNode
@@ -64,17 +74,21 @@ func _ready():
 	speechBubble.order_was_revealed.connect(order_was_taken)
 	thoughtBubble = $face/thoughtParent
 	thoughtBubble.visible = false
+	meter = $face/meter
 	
 	selectable = $hitbox
 	selectable.set_if_is_selectable(false)
 	selectable.WasSelected.connect(was_selected)
+	
+	sprite.play("default")
+	meter.visible = true
 	pass
 
 func set_order(order: Order):
 	self.order = order
 	speechBubble.make_from_order(order)
 	thoughtBubble.make_from_order(order)
-	orderTime = orderTimer
+	orderTimer = orderTime
 	hasOrder = true
 	pass
 
@@ -97,14 +111,13 @@ func intialize(order: Order, linePos: LinePosition):
 	set_line_position(linePos)
 	pass
 
-
-
 func order_was_taken():
 	set_pos_state(Monster.MonsterPositionState.WaitingForFood)
 	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
 	selectable.set_if_is_selectable(false)
 	set_order_timer(orderTime)
+	meter.visible = true
 	#show_speech_bubble_order()
 	pass
 	
@@ -116,7 +129,8 @@ func was_selected(obj):
 	if linePos:
 		match(linePos.lineType):
 			LineQueue.Type.Counter:
-				start_take_order()
+				if posState != MonsterPositionState.Angry:
+					start_take_order()
 			LineQueue.Type.WaitingForFood:
 				clicked_while_waiting()
 	pass
@@ -158,6 +172,8 @@ func set_pos_state(newState: MonsterPositionState):
 			pass
 		MonsterPositionState.LeavingRestaurant:
 			pass
+		MonsterPositionState.Angry:
+			pass
 	pass
 	
 func _process(delta):
@@ -174,15 +190,23 @@ func _process(delta):
 	
 	_walk_anim(delta)
 	
-	if hasOrder:
-		if orderTimer > 0:
-			orderTimer -= delta
-		else:
-			order_timed_out()
+	if order:
+		if not posState == Monster.MonsterPositionState.LeavingRestaurant:
+			if orderTimer > 0:
+				orderTimer -= delta
+				meter.set_meter(orderTimer, orderTime)
+			else:
+				order_timed_out()
 	pass
 
+signal orderTimedOut(monster: Monster)
+signal orderTimedOutToCounter(monster: Monster)
+signal waitedTooLongNoOrder(monster: Monster)
+
 func order_timed_out():
-	hasOrder = false
+	meter.visible = false
+	orderTimedOut.emit(self)
+	order = null
 	pass
 
 func _walk_anim(delta):
@@ -196,16 +220,39 @@ func _walk_anim(delta):
 			else:
 				stepTimer = STEP_EVERY
 				stepCount += 1
-				if stepCount % 2 == 0:
-					spriteParent.rotation_degrees.z = +STEP_TILT
-					pass
-				else:
-					spriteParent.rotation_degrees.z = -STEP_TILT
-					pass
-				pass
+				_step_anim()
 			pass
 	pass
-	
+
+func _step_anim():
+	match walkAnim:
+		MonsterWalkAnim.Tilt:
+			if stepCount % 2 == 0:
+				spriteParent.rotation_degrees.z = +STEP_TILT
+				pass
+			else:
+				spriteParent.rotation_degrees.z = -STEP_TILT
+				pass
+			pass
+		MonsterWalkAnim.Squash:
+			if stepCount % 4 == 0:
+				spriteParent.scale.x = 1-STEP_SCALE_ADD.x
+				spriteParent.scale.y = 1+STEP_SCALE_ADD.y
+				pass
+			elif stepCount % 4 == 1:
+				spriteParent.scale = Vector3.ONE
+				pass
+			elif stepCount % 4 == 2:
+				spriteParent.scale.x = 1+STEP_SCALE_ADD.x
+				spriteParent.scale.y = 1-STEP_SCALE_ADD.y
+				pass
+			else:
+				spriteParent.scale = Vector3.ONE
+				pass
+			pass
+			pass
+	pass
+
 func set_walk_dest(pos:Vector3):
 	walkDest = pos
 	has_walk_dest = true
@@ -216,6 +263,7 @@ func walk_dest_arrived():
 	global_position = walkDest
 	has_walk_dest = false
 	spriteParent.rotation.z = 0
+	spriteParent.scale = Vector3.ONE
 	moveState = MonsterMoveState.Standing
 	if pathNode:
 		pathNode.path_arrived(self)

@@ -18,7 +18,7 @@ var jamTable: JellyTable
 
 var camState: GM.CamView = GM.CamView.Counter
 
-enum Monster { Franken, Skeleton }
+enum Monster { Franken, Skeleton, Slime }
 enum CamView {Counter, JellyTable}
 enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {
@@ -75,6 +75,7 @@ func _ready():
 	monsterManager.entrance = entrance
 	monsterManager.monsterWasClickedWhileWaitingForOrder.connect(plate.check_if_has_monster_order)
 	monsterManager.monsterGivenCorrectOrder.connect(order_given_correctly)
+	monsterManager.monsterOrderTimeOut.connect(order_timed_out)
 	
 	entrance.monster_arrived.connect(monsterManager.monster_at_front)
 	
@@ -117,6 +118,9 @@ func level_starting(level: Level):
 
 func order_given_correctly(monster: Monster):
 	add_score(monster.order.scoreAmount, monster.global_position)
+	pass
+func order_timed_out(monster: Monster):
+	add_score(-monster.order.scoreAmount, monster.global_position)
 	pass
 
 func add_score(amt: int, pos: Vector3):

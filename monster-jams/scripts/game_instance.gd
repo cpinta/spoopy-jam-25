@@ -10,6 +10,7 @@ var score: int = 0
 
 signal scoreChanged(value:int)
 signal hourPassed(value:int)
+signal nightDone()
 
 func _process(delta):
 	if doIncreaseTimer:
@@ -17,6 +18,9 @@ func _process(delta):
 		if timer > (prevHour +1) * GM.HOUR_LENGTH:
 			prevHour += 1
 			hourPassed.emit(prevHour)
+			if prevHour == GM.NIGHT_LENGTHS_HOURS:
+				nightDone.emit()
+				pass
 			pass
 	pass
 

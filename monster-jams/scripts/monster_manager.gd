@@ -3,7 +3,8 @@ extends Node3D
 
 @onready var MONSTER_LIST = {\
 	GM.Monster.Franken: load("res://scenes/franken.tscn"),
-	GM.Monster.Skeleton: load("res://scenes/skeleton.tscn")
+	GM.Monster.Skeleton: load("res://scenes/skeleton.tscn"),
+	GM.Monster.Slime: load("res://scenes/slime.tscn")
 }
 
 var AVAILABLE_MONSTERS: Array[GM.Monster] = []
@@ -26,6 +27,7 @@ var spawnCount: int = 0
 
 signal monsterWasClickedWhileWaitingForOrder(monster: Monster)
 signal monsterGivenCorrectOrder(monster: Monster)
+signal monsterOrderTimeOut(monster: Monster)
 
 func _ready():
 	spawnLocations.append($"right side".global_position)
@@ -89,6 +91,7 @@ func orderWasTaken(monster: Monster, order: Order):
 	pass
 
 func monster_given_order(monster: Monster):
+	monster.set_pos_state(Monster.MonsterPositionState.LeavingRestaurant)
 	monster.leave_current_line_queue()
 	monster.pathNode = leaveNode
 	monster.set_walk_dest(leaveNode.global_position)
@@ -111,6 +114,8 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	monster.wasGivenOrder.connect(monster_given_order)
 	
 	monster.clickedWhileWaitingForOrder.connect(monster_was_clicked_while_waiting_for_order)
+	monster.orderTimedOutToCounter.connect(monster_order_timed_out_going_to_counter)
+	monster.orderTimedOut.connect(monster_order_timed_out_leaving)
 	
 	var order = generate_order()
 	
@@ -119,6 +124,18 @@ func spawn_monster(selection: GM.Monster, location: Vector3):
 	monsters.append(monster)
 	spawnCount += 1
 	return monster
+
+func monster_order_timed_out_leaving(monster: Monster):
+	monster.leave_current_line_queue()
+	monster.pathNode = leaveNode
+	monster.set_walk_dest(leaveNode.global_position)
+	monster.set_pos_state(Monster.MonsterPositionState.Angry)
+	monsterOrderTimeOut.emit(monster)
+	pass
+
+func monster_order_timed_out_going_to_counter(monster: Monster):
+	monster.set_line_position(counterQueue.add_monster_to_queue_front(monster))
+	pass
 
 func monster_was_clicked_while_waiting_for_order(monster: Monster):
 	monsterWasClickedWhileWaitingForOrder.emit(monster)

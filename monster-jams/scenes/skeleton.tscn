@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkkweykmijykh"]
+[gd_scene load_steps=10 format=3 uid="uid://dkkweykmijykh"]
 
 [ext_resource type="Script" uid="uid://clqklm2h0nuna" path="res://scripts/skeleton.gd" id="1_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://daqguqisip1bo" path="res://sprites/skeleton.png" id="2_txkty"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d3muyuuo1c11l" path="res://sprites/speech bubble.png" id="4_ssl1b"]
 [ext_resource type="PackedScene" uid="uid://e1k0sys0jhu3" path="res://scenes/thought_bubble.tscn" id="5_ssl1b"]
 [ext_resource type="Script" uid="uid://uxdo134sifaa" path="res://scripts/selectable_monster.gd" id="5_w4hcs"]
+[ext_resource type="PackedScene" uid="uid://bx4pag1f7jafp" path="res://scenes/meter.tscn" id="6_w4hcs"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ivqcw"]
 animations = [{
@@ -53,6 +54,9 @@ transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, -0.41, 0.389, 0)
 
 [node name="thoughtParent" parent="face" instance=ExtResource("5_ssl1b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1780284, 0.01)
+
+[node name="meter" parent="face" instance=ExtResource("6_w4hcs")]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.2747118, 0.036)
 
 [node name="hitbox" type="Node3D" parent="."]
 script = ExtResource("5_w4hcs")
