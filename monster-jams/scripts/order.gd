@@ -26,9 +26,14 @@ static func generate_new() -> Order:
 		var toppingAmount: int = randi_range(1, MAX_TOPPINGS_PER_SLICE)
 		var sliceStats: SliceStats = SliceStats.new(GM.BreadType.Wheat)
 		order.scoreAmount += SCORE_PER_TOPPING * toppingAmount
+		var tempTopping: Array[GM.Toppings] = TOPPING_CHOICES.duplicate()
 		for j in range(0, toppingAmount):
-			var topping: GM.Toppings = TOPPING_CHOICES[randi_range(0, TOPPING_CHOICES.size()-1)]
+			if tempTopping.size() == 0:
+				break
+			var toppingIndex: int = randi_range(0, tempTopping.size()-1)
+			var topping: GM.Toppings = tempTopping[toppingIndex]
 			sliceStats.add_topping_percent(topping, 1/toppingAmount)
+			tempTopping.remove_at(toppingIndex)
 			pass
 		pass
 		order.breadStatsArray.append(sliceStats)
