@@ -12,3 +12,4 @@ var MAX_MONSTERS_AT_A_TIME: int = 5
 var INTRO_TEXT: String = ""
 
 var NEEDED_PROFIT: int = 40
+var ORDER_TIME: float = 10

@@ -4,7 +4,8 @@ extends Node3D
 @onready var MONSTER_LIST = {\
 	GM.Monster.Franken: load("res://scenes/franken.tscn"),
 	GM.Monster.Skeleton: load("res://scenes/skeleton.tscn"),
-	GM.Monster.Slime: load("res://scenes/slime.tscn")
+	GM.Monster.Slime: load("res://scenes/slime.tscn"),
+	GM.Monster.Witch: load("res://scenes/witch.tscn")
 }
 
 var AVAILABLE_MONSTERS: Array[GM.Monster] = []

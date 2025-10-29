@@ -81,8 +81,12 @@ func _ready():
 	selectable.set_if_is_selectable(false)
 	selectable.WasSelected.connect(was_selected)
 	
+	orderTime = Order.ORDER_TIME
+	
 	sprite.play("default")
 	meter.visible = true
+	
+	set_pos_state(Monster.MonsterPositionState.Outside)
 	pass
 
 func set_order(order: Order):
@@ -118,14 +122,10 @@ func order_was_taken():
 	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
 	selectable.set_if_is_selectable(false)
-	set_order_timer(orderTime)
+	orderTimer = orderTime
 	meter.visible = true
 	currentlySpeaking = false
 	#show_speech_bubble_order()
-	pass
-	
-func set_order_timer(time: float):
-	orderTimer = time
 	pass
 	
 func was_selected(obj):
@@ -155,6 +155,7 @@ func start_take_order():
 	pass
 
 func set_currently_speaking(value: bool):
+	set_pos_state(Monster.MonsterPositionState.DescribingOrder)
 	currentlySpeaking = value
 	if currentlySpeaking:
 		speakingTimer = TALK_ABOUT_ORDER
@@ -194,7 +195,7 @@ func _process(delta):
 	_walk_anim(delta)
 	
 	if order:
-		if not posState == Monster.MonsterPositionState.LeavingRestaurant and not currentlySpeaking:
+		if posState == Monster.MonsterPositionState.AtCounter or posState == Monster.MonsterPositionState.WaitingForFood:
 			if orderTimer > 0:
 				orderTimer -= delta
 				meter.set_meter(orderTimer, orderTime)
@@ -276,6 +277,7 @@ func walk_dest_arrived():
 		match(linePos.lineType):
 			LineQueue.Type.Counter:
 				if linePos.index == 0:
+					set_pos_state(Monster.MonsterPositionState.AtCounter)
 					selectable.at_counter()
 					selectable.set_if_is_selectable(true)
 				else:

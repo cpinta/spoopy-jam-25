@@ -11,6 +11,7 @@ var scoreAmount: int = 0
 static var TOPPING_CHOICES: Array[GM.Toppings] = []
 static var MAX_TOPPINGS_PER_SLICE: int = 1
 static var MAX_SANDWICH_SIZE: int = 1
+static var ORDER_TIME: float = 5
 
 func _init(breadStats: Array[SliceStats]):
 	self.breadStatsArray = breadStats
@@ -21,7 +22,7 @@ static func generate_new() -> Order:
 	var sandwichSize: int = randi_range(1, MAX_SANDWICH_SIZE)
 	order.scoreAmount += SCORE_PER_BREAD * sandwichSize
 	
-	for i in range(0, MAX_SANDWICH_SIZE):
+	for i in range(0, sandwichSize):
 		var toppingAmount: int = randi_range(1, MAX_TOPPINGS_PER_SLICE)
 		var sliceStats: SliceStats = SliceStats.new(GM.BreadType.Wheat)
 		order.scoreAmount += SCORE_PER_TOPPING * toppingAmount

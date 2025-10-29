@@ -18,7 +18,7 @@ var jamTable: JellyTable
 
 var camState: GM.CamView = GM.CamView.Counter
 
-enum Monster { Franken, Skeleton, Slime }
+enum Monster { Franken, Skeleton, Slime, Witch }
 enum CamView {Counter, JellyTable}
 enum Toppings {StrawberryJam=0, AppleJam=1, BlueberryJam=2, GrapeJam=3, Ham=4,None=-1}
 var dictToppings = {
@@ -109,6 +109,7 @@ func level_starting(level: Level):
 	Order.MAX_SANDWICH_SIZE = level.MAX_SANDWICH_SIZE
 	Order.MAX_TOPPINGS_PER_SLICE = level.MAX_TOPPINGS_PER_SLICE
 	Order.TOPPING_CHOICES = level.AVAILABLE_TOPPINGS
+	Order.ORDER_TIME = level.ORDER_TIME
 	jamTable.available_jams_match_orders()
 	monsterManager.activate()
 	

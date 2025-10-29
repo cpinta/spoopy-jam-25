@@ -15,10 +15,12 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 20
+	NEEDED_PROFIT = 40
+	ORDER_TIME = 20
 	
 	AVAILABLE_MONSTERS = [
-		GM.Monster.Skeleton
+		GM.Monster.Skeleton,
+		GM.Monster.Slime
 	]
 	AVAILABLE_TOPPINGS = [
 		GM.Toppings.StrawberryJam,

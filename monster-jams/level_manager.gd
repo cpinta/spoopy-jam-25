@@ -26,7 +26,7 @@ func _ready() -> void:
 	titleScreen = $TitleScreen
 	titleScreen.start_clicked.connect(start_game_clicked)
 	
-	add_level(Level1.new())
+	add_level(Level5.new())
 	pass
 
 func start_game_clicked():

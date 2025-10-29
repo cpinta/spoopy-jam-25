@@ -45,6 +45,8 @@ func remove_sandwich(index:int):
 	sandwiches.remove_at(index)
 
 func check_if_has_order(order: Order) -> int:
+	if not order:
+		return -1
 	for i in range(0, sandwiches.size()):
 		if order.does_sandwich_match_stats(sandwiches[i]):
 			return i

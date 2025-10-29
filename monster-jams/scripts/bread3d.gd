@@ -27,6 +27,8 @@ var dest:Vector3
 const DEST_LERP: float = 10
 const DEST_MIN_DIST: float = 0.001
 
+const JAM_PX_MIN: int = 20000
+
 var jamAmountsApplied: = {}
 
 func _ready():
@@ -125,9 +127,12 @@ func write_pixel(pos: Vector2i, color:Color, update:bool = true):
 	if testcolor != color:
 		currentImage.set_pixelv(corrected_pos, color)
 		if update:
-			imgTex.update(currentImage)
+			update_texture()
 		return 1
 	return 0
+
+func update_texture():
+	imgTex.update(currentImage)
 
 func write_line(start_pos:Vector2i, end_pos:Vector2i, color:Color):
 	var slope = Vector2(end_pos.x - start_pos.x, end_pos.y - start_pos.y)
@@ -151,14 +156,14 @@ func write_circle(center: Vector2i, radius:int, color: Color):
 	var d:int = 3 - (2 * radius)
 	var sum: int = 0
 	while x <= y:
-		sum += write_pixel(Vector2i(center.x + x, center.y + y), color);
-		sum += write_pixel(Vector2i(center.x - x, center.y + y), color);
-		sum += write_pixel(Vector2i(center.x + x, center.y - y), color);
-		sum += write_pixel(Vector2i(center.x - x, center.y - y), color);
-		sum += write_pixel(Vector2i(center.x + y, center.y + x), color);
-		sum += write_pixel(Vector2i(center.x - y, center.y + x), color);
-		sum += write_pixel(Vector2i(center.x + y, center.y - x), color);
-		sum += write_pixel(Vector2i(center.x - y, center.y - x), color);
+		sum += write_pixel(Vector2i(center.x + x, center.y + y), color, false);
+		sum += write_pixel(Vector2i(center.x - x, center.y + y), color, false);
+		sum += write_pixel(Vector2i(center.x + x, center.y - y), color, false);
+		sum += write_pixel(Vector2i(center.x - x, center.y - y), color, false);
+		sum += write_pixel(Vector2i(center.x + y, center.y + x), color, false);
+		sum += write_pixel(Vector2i(center.x - y, center.y + x), color, false);
+		sum += write_pixel(Vector2i(center.x + y, center.y - x), color, false);
+		sum += write_pixel(Vector2i(center.x - y, center.y - x), color, false);
 
 		if (d < 0):
 			d = d + (4 * x) + 6
@@ -166,14 +171,15 @@ func write_circle(center: Vector2i, radius:int, color: Color):
 			d = d + (4 * (x - y)) + 10
 			y -= 1
 		x += 1
+	update_texture()
 	return sum
 
 func write_pixel_plus(pos: Vector2i, color:Color):
 	var sum: int = 0
 	sum += write_pixel(pos, color)
-	sum += write_pixel(pos + Vector2i(1,0), color)
-	sum += write_pixel(pos + Vector2i(-1,0), color)
-	sum += write_pixel(pos + Vector2i(0,1), color)
+	sum += write_pixel(pos + Vector2i(1,0), color, false)
+	sum += write_pixel(pos + Vector2i(-1,0), color, false)
+	sum += write_pixel(pos + Vector2i(0,1), color, false)
 	sum += write_pixel(pos + Vector2i(0,-1), color)
 	return sum
 
@@ -214,7 +220,7 @@ func clicked(camera: Node, event: InputEvent, event_position: Vector3, normal: V
 				if usePrevPos:
 					pxChanged = write_line(prevImagePos, finalpos, GM.cursor.curColor)
 				else:
-					pxChanged = write_pixel(finalpos, GM.cursor.curColor)
+					pxChanged = write_circle(finalpos, 10, GM.cursor.curColor)
 				prevImagePos = finalpos
 				usePrevPos = true
 				
