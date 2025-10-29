@@ -24,7 +24,7 @@ func _ready() -> void:
 	sandwichParent = $bubble/center/sandwichParent
 	
 	if GM.debug:
-		TIME_BT_PIECE = 0.01
+		TIME_BT_PIECE = 0.1
 	pass
 
 func reveal_order():

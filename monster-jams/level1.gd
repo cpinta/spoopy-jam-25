@@ -17,6 +17,7 @@ func _init() -> void:
 		GM.Monster.Skeleton
 	]
 	AVAILABLE_TOPPINGS = [
-		GM.Toppings.StrawberryJam
+		GM.Toppings.StrawberryJam,
+		GM.Toppings.BlueberryJam
 	]
 	pass

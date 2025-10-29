@@ -65,13 +65,12 @@ func cam_looking_at_counter():
 func cam_looking_at_jam_table():
 	cam_looking(false)
 
-func set_shown_jams(map):
+func available_jams_match_orders():
 	for i in range(0, toppings.size()):
-		if map.Contains(toppings[i].toppingEnum):
-			toppings[i].visible = true
-			pass
-		else:
-			toppings[i].visible = false
+		toppings[i].visible = false
+		for j in range(0, Order.TOPPING_CHOICES.size()):
+			if toppings[i].toppingEnum == Order.TOPPING_CHOICES[j]:
+				toppings[i].visible = true
 			pass
 	pass
 

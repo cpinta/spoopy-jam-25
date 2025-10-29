@@ -9,6 +9,11 @@ var timer: float = 0
 
 signal faded(type: Fade.Type)
 
+func _ready():
+	if GM.debug:
+		FADE_TIME = 0.1
+	pass
+
 func _process(delta: float) -> void:
 	if _isFading:
 		if timer > 0:

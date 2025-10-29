@@ -42,7 +42,7 @@ var plate: Plate
 var levelManager: LevelManager
 var inLevel: bool = false
 
-const HOUR_LENGTH: float = 10
+const HOUR_LENGTH: float = 20
 const NIGHT_LENGTHS_HOURS: int = 4
 
 var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_display.tscn")
@@ -108,6 +108,7 @@ func level_starting(level: Level):
 	Order.MAX_SANDWICH_SIZE = level.MAX_SANDWICH_SIZE
 	Order.MAX_TOPPINGS_PER_SLICE = level.MAX_TOPPINGS_PER_SLICE
 	Order.TOPPING_CHOICES = level.AVAILABLE_TOPPINGS
+	jamTable.available_jams_match_orders()
 	monsterManager.activate()
 	
 	if not gameInstance:
