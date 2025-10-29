@@ -9,6 +9,7 @@ enum MonsterMoveState{
 enum MonsterPositionState{
 	Outside = 0,
 	AtCounter = 1,
+	DescribingOrder = 5,
 	WaitingForFood = 2,
 	LeavingRestaurant = 3,
 	Angry = 4
@@ -95,7 +96,8 @@ func set_order(order: Order):
 func leave_current_line_queue():
 	if linePos:
 		linePos.leave_queue()
-		linePos.positionChanged.disconnect(line_pos_changed)
+		if linePos.positionChanged.is_connected(line_pos_changed):
+			linePos.positionChanged.disconnect(line_pos_changed)
 	pass
 
 func set_line_position(linePos:LinePosition):
@@ -118,6 +120,7 @@ func order_was_taken():
 	selectable.set_if_is_selectable(false)
 	set_order_timer(orderTime)
 	meter.visible = true
+	currentlySpeaking = false
 	#show_speech_bubble_order()
 	pass
 	
@@ -191,7 +194,7 @@ func _process(delta):
 	_walk_anim(delta)
 	
 	if order:
-		if not posState == Monster.MonsterPositionState.LeavingRestaurant:
+		if not posState == Monster.MonsterPositionState.LeavingRestaurant and not currentlySpeaking:
 			if orderTimer > 0:
 				orderTimer -= delta
 				meter.set_meter(orderTimer, orderTime)
