@@ -54,6 +54,8 @@ signal orderWasTaken(monster:Monster, order: Order)
 signal clickedWhileWaitingForOrder(monster:Monster)
 signal wasGivenOrder(monster:Monster)
 
+signal dead(monster:Monster)
+
 func _ready():
 	spriteParent = $spriteParent
 	sprite = $spriteParent/sprite
@@ -76,11 +78,15 @@ func set_order(order: Order):
 	hasOrder = true
 	pass
 
+func leave_current_line_queue():
+	if linePos:
+		linePos.leave_queue()
+		linePos.positionChanged.disconnect(line_pos_changed)
+	pass
+
 func set_line_position(linePos:LinePosition):
 	if self.linePos:
-		#self.linePos.remove_monster_from_front()
-		self.linePos.leave_queue()
-		self.linePos.positionChanged.disconnect(line_pos_changed)
+		leave_current_line_queue()
 	self.linePos = linePos
 	linePos.positionChanged.connect(line_pos_changed)
 	line_pos_changed(linePos.currentPosition)
@@ -230,6 +236,7 @@ func walk_dest_arrived():
 	pass
 
 func remove():
+	dead.emit()
 	queue_free()
 	pass
 

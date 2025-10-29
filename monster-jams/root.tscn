@@ -181,9 +181,9 @@ script = ExtResource("4_qt76e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
 [node name="waitingline" type="Node3D" parent="." groups=["waiting"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7268882, 0, -1.6694626)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7715213, 0, -1.6694626)
 script = ExtResource("6_r3r3k")
-direction = Vector3(1, 0, 0)
+direction = Vector3(-1, 0, 0)
 
 [node name="counter" type="Node3D" parent="." groups=["counter"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.030716658, 0.80254006)

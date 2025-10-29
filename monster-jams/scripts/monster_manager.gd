@@ -10,7 +10,7 @@ var AVAILABLE_MONSTERS: Array[GM.Monster] = []
 var MIN_TIME_BT_MONSTERS: float = 4
 var MAX_TIME_BT_MONSTERS: float = 8
 
-var MAX_MONSTER_SPAWN_COUNT: int = 5
+var MAX_MONSTERS_AT_A_TIME: int = 5
 
 var monsters: Array[Monster]
 var spawnLocations: Array[Vector3]
@@ -41,7 +41,7 @@ func _process(delta):
 		if spawnTimer > 0:
 			spawnTimer -= delta
 		else:
-			if spawnCount < MAX_MONSTER_SPAWN_COUNT:
+			if monsters.size() < MAX_MONSTERS_AT_A_TIME:
 				spawn_rand_monster()
 				spawnTimer = randf_range(MIN_TIME_BT_MONSTERS, MAX_TIME_BT_MONSTERS)
 	pass
@@ -89,6 +89,7 @@ func orderWasTaken(monster: Monster, order: Order):
 	pass
 
 func monster_given_order(monster: Monster):
+	monster.leave_current_line_queue()
 	monster.pathNode = leaveNode
 	monster.set_walk_dest(leaveNode.global_position)
 	monsterGivenCorrectOrder.emit(monster)

@@ -99,10 +99,14 @@ func level_starting(level: Level):
 	monsterManager.AVAILABLE_MONSTERS = level.AVAILABLE_MONSTERS
 	monsterManager.MIN_TIME_BT_MONSTERS = level.MIN_TIME_BT_MONSTERS
 	monsterManager.MAX_TIME_BT_MONSTERS = level.MAX_TIME_BT_MONSTERS
+	monsterManager.MAX_MONSTERS_AT_A_TIME = level.MAX_MONSTERS_AT_A_TIME
 	Order.MAX_SANDWICH_SIZE = level.MAX_SANDWICH_SIZE
 	Order.MAX_TOPPINGS_PER_SLICE = level.MAX_TOPPINGS_PER_SLICE
 	Order.TOPPING_CHOICES = level.AVAILABLE_TOPPINGS
 	monsterManager.activate()
+	
+	if not gameInstance:
+		start_game_instance()
 	pass
 
 func order_given_correctly(monster: Monster):
