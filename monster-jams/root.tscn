@@ -398,7 +398,7 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="CounterButton" type="Button" parent="UI/Control/upperhalf"]
-custom_minimum_size = Vector2(0, 86)
+custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 
 [node name="top ui" type="VBoxContainer" parent="UI/Control/upperhalf"]
@@ -448,13 +448,15 @@ grow_vertical = 0
 mouse_filter = 2
 
 [node name="TableButton" type="Button" parent="UI/Control/lowerhalf"]
+custom_minimum_size = Vector2(0, 225)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 238.0
+offset_top = -8.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
 position = Vector2(0, 1)

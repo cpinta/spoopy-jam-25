@@ -73,10 +73,6 @@ func _ready():
 	plate.gaveSandwichToMonster.connect(monsterManager.monster_given_order)
 	
 	monsterManager.entrance = entrance
-	monsterManager.monsterWasClickedWhileWaitingForOrder.connect(plate.check_if_has_monster_order)
-	monsterManager.monsterGivenCorrectOrder.connect(order_given_correctly)
-	monsterManager.monsterOrderTimeOut.connect(order_timed_out)
-	
 	entrance.monster_arrived.connect(monsterManager.monster_at_front)
 	
 	jamTable.ToppingSelected.connect(cursor.topping_selected)

@@ -16,7 +16,7 @@ func _init() -> void:
 		MAX_TIME_BT_MONSTERS = 0.2
 	
 	NEEDED_PROFIT = 100
-	ORDER_TIME = 30
+	ORDER_TIME = 20
 	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton,

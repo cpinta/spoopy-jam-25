@@ -37,6 +37,9 @@ func _ready():
 	leaveNode = $"leave node"
 	leaveNode.monster_arrived.connect(monster_exited_scene)
 	
+	monsterWasClickedWhileWaitingForOrder.connect(GM.plate.check_if_has_monster_order)
+	monsterGivenCorrectOrder.connect(GM.order_given_correctly)
+	monsterOrderTimeOut.connect(GM.order_timed_out)
 	pass
 
 func _process(delta):
