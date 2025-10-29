@@ -9,6 +9,4 @@ var MIN_TIME_BT_MONSTERS: float = 4
 var MAX_TIME_BT_MONSTERS: float = 8
 var MAX_MONSTERS_AT_A_TIME: int = 5
 
-var NIGHT_LENGTH: int = 180
-
 var INTRO_TEXT: String = ""

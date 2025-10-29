@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=45 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://cb055r3cyhj30" path="res://fade.gd" id="16_3dlgs"]
 [ext_resource type="Script" uid="uid://bterrrbimuphj" path="res://level_startend_ui.gd" id="16_50g4q"]
 [ext_resource type="PackedScene" uid="uid://cyvrr6stkpohx" path="res://scenes/points_added_display.tscn" id="17_r3r3k"]
+[ext_resource type="Script" uid="uid://d1bwifdny633l" path="res://top_ui.gd" id="18_ub8w1"]
 [ext_resource type="Script" uid="uid://c8iw0xn2ee8hs" path="res://title_screen.gd" id="21_po8fv"]
 [ext_resource type="Texture2D" uid="uid://cshwfd4wnrmm4" path="res://sprites/outside render.png" id="21_vte5o"]
 
@@ -70,6 +71,9 @@ size = Vector3(0.23989563, 0.01826172, 0.24083862)
 size = Vector3(0.1, 0.02, 0.1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_blcw0"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_1xb4a"]
 font_size = 32
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vte5o"]
@@ -307,7 +311,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="upperhalf" type="Control" parent="UI/Control"]
+[node name="upperhalf" type="VBoxContainer" parent="UI/Control"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -316,13 +320,43 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="CounterButton" type="Button" parent="UI/Control/upperhalf"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -250.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+
+[node name="top ui" type="VBoxContainer" parent="UI/Control/upperhalf"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("18_ub8w1")
+
+[node name="timeParent" type="HFlowContainer" parent="UI/Control/upperhalf/top ui"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="timeText" type="Label" parent="UI/Control/upperhalf/top ui/timeParent"]
+layout_mode = 2
+text = "Time:"
+label_settings = SubResource("LabelSettings_1xb4a")
+
+[node name="timeAmt" type="Label" parent="UI/Control/upperhalf/top ui/timeParent"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "2 AM"
+label_settings = SubResource("LabelSettings_1xb4a")
+
+[node name="scoreParent" type="HFlowContainer" parent="UI/Control/upperhalf/top ui"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="scoreText" type="Label" parent="UI/Control/upperhalf/top ui/scoreParent"]
+layout_mode = 2
+text = "Profit:"
+label_settings = SubResource("LabelSettings_1xb4a")
+
+[node name="scoreAmt" type="Label" parent="UI/Control/upperhalf/top ui/scoreParent"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "$200000000"
+label_settings = SubResource("LabelSettings_1xb4a")
 
 [node name="lowerhalf" type="Control" parent="UI/Control"]
 layout_mode = 1
@@ -347,22 +381,6 @@ grow_vertical = 2
 [node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
 position = Vector2(0, 1)
 
-[node name="left" type="Control" parent="UI/Control"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 232.0
-grow_vertical = 2
-
-[node name="OrderDisplay" type="Control" parent="UI/Control/left"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -459.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="input handler" type="Control" parent="UI" groups=["input"]]
 layout_mode = 3
 anchors_preset = 15
@@ -378,6 +396,7 @@ script = ExtResource("9_huihk")
 [node name="pointsAddedDisplay" parent="." instance=ExtResource("17_r3r3k")]
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("21_po8fv")
 
 [node name="Control" type="Control" parent="TitleScreen"]

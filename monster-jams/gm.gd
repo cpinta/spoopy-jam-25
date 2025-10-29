@@ -42,6 +42,9 @@ var plate: Plate
 var levelManager: LevelManager
 var inLevel: bool = false
 
+const HOUR_LENGTH: float = 10
+const NIGHT_LENGTHS_HOURS: int = 4
+
 var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_display.tscn")
 
 # shop located in conneticut
@@ -60,6 +63,8 @@ func _ready():
 	entrance = get_global_node("entrance")
 	plate = get_global_node("plate")
 	audio = root.get_node("audio")
+	
+	await get_tree().physics_frame
 	
 	levelManager.startLevel.connect(level_starting)
 	
@@ -125,6 +130,8 @@ func play_audio(stream: AudioStream):
 
 func start_game_instance():
 	gameInstance = GameInstance.new()
+	gameInstance.hourPassed.connect(ui.topUI.time_changed)
+	gameInstance.scoreChanged.connect(ui.topUI.score_changed)
 	gameInstance.start()
 	
 	await get_tree().physics_frame

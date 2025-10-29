@@ -1,23 +1,44 @@
 class_name GameInstance
 
 var doIncreaseTimer: bool = false
+
+
 var timer: float = 0
+var prevHour: int = 0
 
 var score: int = 0
+
+signal scoreChanged(value:int)
+signal hourPassed(value:int)
 
 func _process(delta):
 	if doIncreaseTimer:
 		timer += delta
+		if timer > (prevHour +1) * GM.HOUR_LENGTH:
+			prevHour += 1
+			hourPassed.emit(prevHour)
+			pass
 	pass
 
 func start():
 	doIncreaseTimer = true
-	timer = 0
-	score = 0
+	set_time(0)
+	set_score(0)
 	pass
 
 func add_score(value: int):
-	score += value
+	set_score(score + value)
+	pass
+
+func set_score(value: int):
+	score = value
+	scoreChanged.emit(score)
+	pass
+
+func set_time(value: int):
+	timer = value
+	prevHour = floor(value/GM.HOUR_LENGTH)
+	hourPassed.emit(prevHour)
 	pass
 
 func end():

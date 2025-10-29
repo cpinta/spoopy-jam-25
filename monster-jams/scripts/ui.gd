@@ -8,11 +8,13 @@ signal sTablePressed
 signal sCounterPressed
 
 var fade: Fade
+var topUI: TopUI
 
 func _ready():
 	fade = $Fade
 	btnTable = $Control/lowerhalf/TableButton
 	btnCounter = $Control/upperhalf/CounterButton
+	topUI = $"Control/upperhalf/top ui"
 	btnTable.button_up.connect(_table_pressed)
 	btnCounter.button_up.connect(_counter_pressed)
 	pass

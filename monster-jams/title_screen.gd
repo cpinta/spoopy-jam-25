@@ -6,6 +6,7 @@ var button: Button
 signal start_clicked
 
 func _ready() -> void:
+	visible = true
 	button = $Control/background/Button
 	button.pressed.connect(func_start_clicked)
 	pass
