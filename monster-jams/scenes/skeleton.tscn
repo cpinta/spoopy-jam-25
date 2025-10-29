@@ -29,6 +29,7 @@ script = ExtResource("1_5pgwy")
 [node name="sprite" type="AnimatedSprite3D" parent="spriteParent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 pixel_size = 0.0014
+shaded = true
 sprite_frames = SubResource("SpriteFrames_ivqcw")
 
 [node name="face" type="Node3D" parent="."]

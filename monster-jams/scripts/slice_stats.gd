@@ -33,4 +33,6 @@ func is_valid_stats(stats:SliceStats):
 	return true
 
 func get_topping_percent(topping: GM.Toppings):
+	if not toppingMap.has(topping):
+		return -1
 	return toppings[toppingMap[topping]]

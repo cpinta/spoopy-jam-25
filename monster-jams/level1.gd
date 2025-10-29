@@ -13,6 +13,8 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
+	NEEDED_PROFIT = 40
+	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton
 	]

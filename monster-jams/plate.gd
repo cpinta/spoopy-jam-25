@@ -41,6 +41,7 @@ func check_if_has_monster_order(monster: Monster):
 	pass
 
 func remove_sandwich(index:int):
+	sandwiches[index].queue_free()
 	sandwiches.remove_at(index)
 
 func check_if_has_order(order: Order) -> int:

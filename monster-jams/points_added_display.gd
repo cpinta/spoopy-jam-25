@@ -8,7 +8,7 @@ var timer:float = 0
 func init(amt: int, pos: Vector3) -> void:
 	global_position = pos
 	timer = LIFETIME
-	$Label3D.text = "+"+str(amt) if amt > 0 else str(amt)
+	$Label3D.text = "+$"+str(amt) if amt > 0 else str(amt)
 	pass
 
 func _process(delta: float) -> void:
