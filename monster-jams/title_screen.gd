@@ -30,6 +30,7 @@ var introSounds: Array[AudioStream] = [
 ]
 
 var button: Button
+var shopdoor: Panel
 var lblIntroTxt: Label
 var pnlIntro: Panel
 var audio: AudioStreamPlayer
@@ -60,6 +61,9 @@ func _ready() -> void:
 	
 	audio = $audio
 	
+	shopdoor = $"Control/background/shop door"
+	shopdoor.visible = false
+	
 	if GM.debug:
 		skip_intro()
 	
@@ -77,6 +81,8 @@ var stepCount: int = 0
 var intro_index: int = 0
 var frame_count: int = 11
 
+var wasPressed: bool = false
+
 func _process(delta: float) -> void:
 	if pnlIntro:
 		sprite.global_position = $Control.size/2
@@ -93,6 +99,9 @@ func _process(delta: float) -> void:
 				sprite.rotation_degrees = -stepTilt
 			stepTimer = stepTime
 			stepCount += 1
+		if wasPressed:
+			button.hover
+			pass
 	pass
 
 func intro_goto_frame(index: int):
@@ -108,6 +117,8 @@ func intro_goto_frame(index: int):
 	pass
 
 func func_start_clicked():
+	shopdoor.visible = true
+	button.queue_free()
 	start_clicked.emit()
 	pass
 
