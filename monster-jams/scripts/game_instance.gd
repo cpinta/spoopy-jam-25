@@ -13,6 +13,9 @@ signal hourPassed(value:int)
 signal nightDone()
 
 func _process(delta):
+	if GM.debug:
+		timer += delta * 10
+		pass
 	if doIncreaseTimer:
 		timer += delta
 		if timer > (prevHour +1) * GM.HOUR_LENGTH:

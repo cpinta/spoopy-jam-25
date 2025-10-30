@@ -123,6 +123,7 @@ func start_game_instance():
 	gameInstance = GameInstance.new()
 	gameInstance.hourPassed.connect(ui.topUI.time_changed)
 	gameInstance.scoreChanged.connect(ui.topUI.score_changed)
+	gameInstance.nightDone.connect(levelManager.show_end_current_level_menu)
 	gameInstance.start()
 	
 	await get_tree().physics_frame
