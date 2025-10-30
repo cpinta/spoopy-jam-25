@@ -18,6 +18,7 @@ var totalAddedHeight: float = 0
 var KEEP_SPRITES_VISIBLE_ON_CREATION: bool = false
 
 signal order_was_revealed
+signal order_piece_revealed
 
 func _ready() -> void:
 	center = $bubble/center
@@ -30,10 +31,14 @@ func _ready() -> void:
 func reveal_order():
 	self.visible = true
 	for i in range(0, sprite3Ds.size()):
+		if TIME_BT_PIECE > 0:
+			order_piece_revealed.emit()
 		await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
 		sprite3Ds[i].visible = true
 		pass
 	await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
+	if TIME_BT_PIECE > 0:
+		order_piece_revealed.emit()
 	order_was_revealed.emit()
 	pass
 

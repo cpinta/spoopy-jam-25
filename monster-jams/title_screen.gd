@@ -15,9 +15,24 @@ var introText: Array[String] = [
 	"Pam's Jam sandwiches would feed til monsters were consoled"
 ]
 
+var introSounds: Array[AudioStream] = [
+	load("res://sounds/intro1.mp3"),
+	load("res://sounds/intro2.mp3"),
+	load("res://sounds/intro3.mp3"),
+	load("res://sounds/intro4.mp3"),
+	load("res://sounds/intro5.mp3"),
+	load("res://sounds/intro2.mp3"),
+	load("res://sounds/intro6.mp3"),
+	load("res://sounds/intro7.mp3"),
+	load("res://sounds/intro8.mp3"),
+	load("res://sounds/intro9.mp3"),
+	load("res://sounds/intro10.mp3"),
+]
+
 var button: Button
 var lblIntroTxt: Label
 var pnlIntro: Panel
+var audio: AudioStreamPlayer
 
 var sprite: AnimatedSprite2D
 var pnlNonIntro: Panel
@@ -42,6 +57,9 @@ func _ready() -> void:
 	
 	sprite = $"Control/background/Intro Panel/AnimatedSprite2D"
 	sprite.play(intro_anim_prefix + str(0))
+	
+	audio = $audio
+	
 	pass
 
 var intro_anim_prefix: String = "new_animation_"
@@ -79,6 +97,8 @@ func intro_goto_frame(index: int):
 		sprite.play(intro_anim_prefix + str(index))
 		timer = intro_frame_time
 		lblIntroTxt.text = introText[intro_index]
+		audio.stream = introSounds[intro_index]
+		audio.play()
 		intro_index += 1
 	else:
 		skip_intro()

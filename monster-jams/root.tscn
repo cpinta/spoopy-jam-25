@@ -709,6 +709,8 @@ grow_vertical = 2
 text = "Press the Door to Go Inside"
 horizontal_alignment = 1
 
+[node name="audio" type="AudioStreamPlayer" parent="TitleScreen"]
+
 [node name="FadeCanvas" type="CanvasLayer" parent="."]
 layer = 3
 visible = false

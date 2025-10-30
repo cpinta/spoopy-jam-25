@@ -65,3 +65,7 @@ script = ExtResource("9_tyl0w")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4992102, 0)
 shape = SubResource("BoxShape3D_tp706")
+
+[node name="voice" type="AudioStreamPlayer" parent="."]
+
+[node name="step" type="AudioStreamPlayer" parent="."]

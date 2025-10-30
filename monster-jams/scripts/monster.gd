@@ -23,10 +23,17 @@ enum MonsterWalkAnim{
 var sprite: AnimatedSprite3D
 var spriteParent: Node3D
 var meter: Meter
+var voiceAudio: AudioStreamPlayer
+var stepAudio: AudioStreamPlayer
 
 var walkAnim: MonsterWalkAnim = MonsterWalkAnim.Tilt
 
 var moveState: MonsterMoveState = MonsterMoveState.Standing
+
+var soundsTalking: Array[AudioStream] = []
+var soundsAngry: Array[AudioStream] = []
+var soundsPleased: Array[AudioStream] = [] 
+var soundsStep: Array[AudioStream] = []
 
 var WALK_SPEED: int = 0.75
 var STEP_EVERY: float = 0.4
@@ -73,9 +80,13 @@ func _ready():
 	speechBubble = $face/bubbleParent
 	speechBubble.visible = false
 	speechBubble.order_was_revealed.connect(order_was_taken)
+	speechBubble.order_piece_revealed.connect(play_rand_talk)
 	thoughtBubble = $face/thoughtParent
 	thoughtBubble.visible = false
 	meter = $face/meter
+	
+	voiceAudio = $voice
+	stepAudio = $step
 	
 	selectable = $hitbox
 	selectable.set_if_is_selectable(false)
@@ -103,6 +114,22 @@ func leave_current_line_queue():
 		if linePos.positionChanged.is_connected(line_pos_changed):
 			linePos.positionChanged.disconnect(line_pos_changed)
 	pass
+
+func play_audio(audio: AudioStreamPlayer, stream: AudioStream):
+	audio.stream = stream
+	audio.play()
+
+func play_rand_audio(audio: AudioStreamPlayer, streams: Array[AudioStream]):
+	play_audio(audio, streams[randi_range(0, streams.size()-1)])
+
+func play_rand_step():
+	play_rand_audio(stepAudio, soundsStep)
+func play_rand_talk():
+	play_rand_audio(stepAudio, soundsTalking)
+func play_rand_pleased():
+	play_rand_audio(stepAudio, soundsPleased)
+func play_rand_angry():
+	play_rand_audio(stepAudio, soundsAngry)
 
 func set_line_position(linePos:LinePosition):
 	if self.linePos:
