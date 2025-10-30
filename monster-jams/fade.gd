@@ -10,6 +10,7 @@ var timer: float = 0
 signal faded(type: Fade.Type)
 
 func _ready():
+	visible = true
 	if GM.debug:
 		FADE_TIME = 0.1
 	pass

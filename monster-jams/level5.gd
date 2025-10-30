@@ -2,7 +2,7 @@ extends Level
 class_name Level5
 
 func _init() -> void:
-	INTRO_TEXT = "Tonight should be an easy night"
+	INTRO_TEXT = "they're extra rowdy tonight!\nsurvive with $100 and the monsters will leave!"
 	
 	MAX_TOPPINGS_PER_SLICE = 2
 	MAX_SANDWICH_SIZE = 2
@@ -27,7 +27,7 @@ func _init() -> void:
 	AVAILABLE_TOPPINGS = [
 		GM.Toppings.StrawberryJam,
 		GM.Toppings.BlueberryJam,
-		GM.Toppings.GrapeJam,
+		GM.Toppings.GrapeJam
 		#GM.Toppings.AppleJam
 	]
 	pass

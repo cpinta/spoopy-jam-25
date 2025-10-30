@@ -2,7 +2,7 @@ extends Level
 class_name Level4
 
 func _init() -> void:
-	INTRO_TEXT = "Tonight should be an easy night"
+	INTRO_TEXT = "$80!? lock in!\nuse that new jam we ordered"
 	
 	MAX_TOPPINGS_PER_SLICE = 2
 	MAX_SANDWICH_SIZE = 1

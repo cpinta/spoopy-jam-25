@@ -41,6 +41,8 @@ func _ready():
 	monsterGivenCorrectOrder.connect(GM.order_given_correctly)
 	monsterOrderTimeOut.connect(GM.order_timed_out)
 	
+	GM.levelManager.endLevel.connect(reset)
+	
 	entrance.monster_arrived.connect(monster_at_front)
 	pass
 
@@ -57,6 +59,12 @@ func _process(delta):
 func activate():
 	_spawningActive = true
 	spawnTimer = randf_range(MIN_TIME_BT_MONSTERS, MAX_TIME_BT_MONSTERS)
+	pass
+
+func reset(level: Level):
+	for i in range(0,monsters.size()):
+		monsters[i].remove()
+	monsters.clear()
 	pass
 
 func deactivate():

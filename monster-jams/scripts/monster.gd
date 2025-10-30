@@ -318,6 +318,8 @@ func walk_dest_arrived():
 
 func remove():
 	dead.emit()
+	if linePos:
+		leave_current_line_queue()
 	queue_free()
 	pass
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=65 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
@@ -92,6 +92,9 @@ font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_1xb4a"]
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_xu2l0"]
+font_size = 48
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vte5o"]
 
@@ -444,6 +447,7 @@ script = ExtResource("16_3dlgs")
 
 [node name="LevelMenu" type="Panel" parent="UI"]
 visible = false
+z_index = 4
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -571,6 +575,17 @@ grow_vertical = 0
 [node name="cursor" parent="UI/Control" groups=["knife"] instance=ExtResource("9_tw3kd")]
 position = Vector2(0, 1)
 
+[node name="centerText" type="Label" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xu2l0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="input handler" type="Control" parent="UI" groups=["input"]]
 layout_mode = 3
 anchors_preset = 15
@@ -586,6 +601,7 @@ script = ExtResource("9_huihk")
 [node name="pointsAddedDisplay" parent="." instance=ExtResource("17_r3r3k")]
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("21_po8fv")
 
 [node name="Control" type="Control" parent="TitleScreen"]
@@ -637,16 +653,17 @@ grow_vertical = 2
 [node name="intro text" type="Label" parent="TitleScreen/Control/background/Intro Panel"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -362.00006
-offset_top = -102.0
-offset_right = 362.00006
+anchor_bottom = 0.5
+offset_left = -362.0
+offset_top = 201.0
+offset_right = 362.00012
+offset_bottom = 303.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 text = "Pam always wanted to open a "
 label_settings = SubResource("LabelSettings_cr30j")
 horizontal_alignment = 1
@@ -716,7 +733,6 @@ horizontal_alignment = 1
 
 [node name="FadeCanvas" type="CanvasLayer" parent="."]
 layer = 3
-visible = false
 
 [node name="Fade" type="CanvasModulate" parent="FadeCanvas"]
 color = Color(1, 1, 1, 0)
@@ -730,6 +746,30 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3dlgs")
+
+[node name="Loading" type="CanvasLayer" parent="."]
+layer = 3
+visible = false
+
+[node name="Panel" type="Panel" parent="Loading"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_3dlgs")
+
+[node name="Label" type="Label" parent="Loading/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.88710815, 0.1033838, 0, -0.10930043, 0.8390874, 0, 0, 0, 1, 2.1786604, 0.80536073, -2.0886633)

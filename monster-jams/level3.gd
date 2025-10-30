@@ -2,7 +2,7 @@ extends Level
 class_name Level3
 
 func _init() -> void:
-	INTRO_TEXT = "Tonight should be an easy night"
+	INTRO_TEXT = "ya need $60, STAT\ncareful not to annoy Frankenstein's creation"
 	
 	MAX_TOPPINGS_PER_SLICE = 2
 	MAX_SANDWICH_SIZE = 1

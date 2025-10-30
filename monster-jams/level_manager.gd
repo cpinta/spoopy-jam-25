@@ -53,23 +53,14 @@ func faded(type: Fade.Type):
 		Fade.Type.ToBlack:
 			if fadingToNextLevel:
 				start_next_level()
-			pass
+			else:
+				start_current_level()
 		Fade.Type.FromBlack:
 			pass
 	pass
 
 func start_game():
 	start_current_level()
-	
-	pass
-
-func _process(delta: float) -> void:
-	if inLevel:
-		if nightTimer > 0:
-			nightTimer -= delta
-		else:
-			end_current_level(true)
-	pass
 
 func add_level(level: Level):
 	levels.append(level)
@@ -83,29 +74,34 @@ func start_next_level() -> bool:
 	return true
 
 func retry_level():
-	fadingToNextLevel = false
-	fade.fade(Fade.Type.ToBlack)
-	await get_tree().create_timer(1, true, false, true).timeout
 	end_current_level(false)
 	pass
 
 func get_current_level():
 	return levels[currentIndex]
 
+var INTRO_TEXT_TIME: float = 8
+
 func start_current_level():
 	startLevel.emit(get_current_level())
 	inLevel = true
 	fade.fade(Fade.Type.FromBlack)
+	GM.ui.set_center_text(get_current_level().INTRO_TEXT, INTRO_TEXT_TIME)
 	pass
 	
 func show_end_current_level_menu():
 	levelUI.visible = true
+	if get_current_level().NEEDED_PROFIT <= GM.gameInstance.score:
+		levelUI.show_win_screen()
+	else:
+		levelUI.show_lost_screen()
 	pass
 
 func end_current_level(gotoNext: bool):
 	endLevel.emit(get_current_level())
 	fadingToNextLevel = gotoNext
 	fade.fade(Fade.Type.ToBlack)
+	levelUI.visible = false
 	pass
 
 func set_level_index(index: int):

@@ -60,6 +60,9 @@ func _ready() -> void:
 	
 	audio = $audio
 	
+	if GM.debug:
+		skip_intro()
+	
 	pass
 
 var intro_anim_prefix: String = "new_animation_"

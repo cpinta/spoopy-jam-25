@@ -100,6 +100,8 @@ func level_starting(level: Level):
 	
 	if not gameInstance:
 		start_game_instance()
+	else:
+		gameInstance.start()
 	pass
 
 func order_given_correctly(monster: Monster):
@@ -116,6 +118,7 @@ func add_score(amt: int, pos: Vector3):
 	pass
 
 func start_game_instance():
+	state = GameState.InGame
 	gameInstance = GameInstance.new()
 	gameInstance.hourPassed.connect(ui.topUI.time_changed)
 	gameInstance.scoreChanged.connect(ui.topUI.score_changed)
