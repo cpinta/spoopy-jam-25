@@ -23,8 +23,8 @@ enum MonsterWalkAnim{
 var sprite: AnimatedSprite3D
 var spriteParent: Node3D
 var meter: Meter
-var voiceAudio: AudioStreamPlayer
-var stepAudio: AudioStreamPlayer
+var voiceAudio: AudioStreamPlayer3D
+var stepAudio: AudioStreamPlayer3D
 
 var walkAnim: MonsterWalkAnim = MonsterWalkAnim.Tilt
 
@@ -34,6 +34,7 @@ var soundsTalking: Array[AudioStream] = []
 var soundsAngry: Array[AudioStream] = []
 var soundsPleased: Array[AudioStream] = [] 
 var soundsStep: Array[AudioStream] = []
+var soundsSpecial: Array[AudioStream] = []
 
 var WALK_SPEED: int = 0.75
 var STEP_EVERY: float = 0.4
@@ -115,21 +116,16 @@ func leave_current_line_queue():
 			linePos.positionChanged.disconnect(line_pos_changed)
 	pass
 
-func play_audio(audio: AudioStreamPlayer, stream: AudioStream):
-	audio.stream = stream
-	audio.play()
-
-func play_rand_audio(audio: AudioStreamPlayer, streams: Array[AudioStream]):
-	play_audio(audio, streams[randi_range(0, streams.size()-1)])
-
 func play_rand_step():
-	play_rand_audio(stepAudio, soundsStep)
+	GM.play_rand_audio(stepAudio, soundsStep)
 func play_rand_talk():
-	play_rand_audio(stepAudio, soundsTalking)
+	GM.play_rand_audio(voiceAudio, soundsTalking)
 func play_rand_pleased():
-	play_rand_audio(stepAudio, soundsPleased)
+	GM.play_rand_audio(voiceAudio, soundsPleased)
 func play_rand_angry():
-	play_rand_audio(stepAudio, soundsAngry)
+	GM.play_rand_audio(voiceAudio, soundsAngry)
+func play_rand_special():
+	GM.play_rand_audio(voiceAudio, soundsSpecial)
 
 func set_line_position(linePos:LinePosition):
 	if self.linePos:
@@ -166,6 +162,7 @@ func was_selected(obj):
 	pass
 
 func was_given_order():
+	play_rand_pleased()
 	wasGivenOrder.emit(self)
 	pass
 
@@ -235,6 +232,7 @@ signal orderTimedOutToCounter(monster: Monster)
 signal waitedTooLongNoOrder(monster: Monster)
 
 func order_timed_out():
+	play_rand_angry()
 	meter.visible = false
 	orderTimedOut.emit(self)
 	order = null
@@ -259,9 +257,11 @@ func _step_anim():
 	match walkAnim:
 		MonsterWalkAnim.Tilt:
 			if stepCount % 2 == 0:
+				play_rand_step()
 				spriteParent.rotation_degrees.z = +STEP_TILT
 				pass
 			else:
+				play_rand_step()
 				spriteParent.rotation_degrees.z = -STEP_TILT
 				pass
 			pass
@@ -271,6 +271,7 @@ func _step_anim():
 				spriteParent.scale.y = 1+STEP_SCALE_ADD.y
 				pass
 			elif stepCount % 4 == 1:
+				play_rand_step()
 				spriteParent.scale = Vector3.ONE
 				pass
 			elif stepCount % 4 == 2:

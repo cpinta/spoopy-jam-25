@@ -15,3 +15,5 @@ animation = &"none"
 
 [node name="jam" type="Sprite2D" parent="sprite"]
 texture = ExtResource("3_ndevg")
+
+[node name="audio" type="AudioStreamPlayer" parent="."]

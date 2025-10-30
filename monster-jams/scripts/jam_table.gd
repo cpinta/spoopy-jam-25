@@ -26,6 +26,7 @@ func _ready():
 	
 	var breadstack: SelectableBread = $BreadStack
 	breadstack.WasSelected.connect(_bread_selected)
+	breadstack.WasSelected.connect(GM.cursor.bread_selected)
 	breadstacks[GM.BreadType.Wheat] = breadstack
 	
 	bottomBreadLocation = $CurrentBreadLocation.global_position

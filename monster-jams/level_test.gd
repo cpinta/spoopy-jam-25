@@ -1,15 +1,11 @@
 extends Level
-class_name Level1
+class_name Level_Test
 
 func _init() -> void:
 	INTRO_TEXT = "Tonight should be an easy night"
 	
-	MAX_TOPPINGS_PER_SLICE = 1
-	MAX_SANDWICH_SIZE = 1
-	
-	MIN_TIME_BT_MONSTERS = 5
-	MAX_TIME_BT_MONSTERS = 8
-	
+	MAX_TOPPINGS_PER_SLICE = 2
+	MAX_SANDWICH_SIZE = 2
 	
 	MIN_TIME_BT_MONSTERS = 0.1
 	MAX_TIME_BT_MONSTERS = 0.2
@@ -19,16 +15,16 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 20
+	NEEDED_PROFIT = 100
 	ORDER_TIME = 20
 	
-	MAX_MONSTERS_AT_A_TIME = 1
-	
 	AVAILABLE_MONSTERS = [
-		#GM.Monster.Skeleton,
-		GM.Monster.Witch
+		GM.Monster.Franken
 	]
 	AVAILABLE_TOPPINGS = [
-		GM.Toppings.StrawberryJam
+		GM.Toppings.StrawberryJam,
+		GM.Toppings.BlueberryJam,
+		GM.Toppings.GrapeJam,
+		#GM.Toppings.AppleJam
 	]
 	pass

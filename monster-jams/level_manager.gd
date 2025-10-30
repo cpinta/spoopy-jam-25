@@ -31,6 +31,10 @@ func _ready() -> void:
 	
 	startLevel.connect(GM.level_starting)
 	
+	add_level(Level1.new())
+	add_level(Level2.new())
+	add_level(Level3.new())
+	add_level(Level4.new())
 	add_level(Level5.new())
 	pass
 

@@ -233,6 +233,9 @@ sky_mode = 1
 [node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
 spot_angle = 80.83
 
+[node name="AudioListener3D" type="AudioListener3D" parent="Camera3D"]
+current = true
+
 [node name="plate" type="Node3D" parent="." groups=["plate"]]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.12864152, 0.41679597, 1.3240753)
 script = ExtResource("2_r3r3k")
@@ -505,7 +508,7 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="CounterButton" type="Button" parent="UI/Control/upperhalf"]
-custom_minimum_size = Vector2(0, 175)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [node name="top ui" type="VBoxContainer" parent="UI/Control/upperhalf"]
@@ -555,7 +558,7 @@ grow_vertical = 0
 mouse_filter = 2
 
 [node name="TableButton" type="Button" parent="UI/Control/lowerhalf"]
-custom_minimum_size = Vector2(0, 225)
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0

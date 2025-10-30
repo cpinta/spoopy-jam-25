@@ -5,6 +5,7 @@ extends Node2D
 var mode: GM.CursorMode
 var sprite: AnimatedSprite2D
 var curTopping: GM.Toppings = GM.Toppings.None
+var audio: AudioStreamPlayer
 
 const strNONE: String = "none"
 const strKNIFE: String = "knife"
@@ -12,6 +13,22 @@ const strBREAD: String = "bread"
 const strBAGEL: String = "bagel"
 const strHAM: String = "ham"
 const strTALK: String = "talk"
+
+var soundsJam: Array[AudioStream] = [
+	load("res://sounds/jam1.mp3"),
+	load("res://sounds/jam2.mp3"),
+	load("res://sounds/jam3.mp3"),
+	load("res://sounds/jam4.mp3"),
+	load("res://sounds/jam5.mp3"),
+]
+
+var soundsTsss: Array[AudioStream] = [
+	load("res://sounds/tsss.mp3"),
+	load("res://sounds/tsss2.mp3"),
+	load("res://sounds/tsss3.mp3"),
+]
+
+var soundsJamSpread: AudioStream = load("res://sounds/spread.mp3")
 
 var currentImage: Image
 var targetTexture: ImageTexture
@@ -29,12 +46,10 @@ var jamAmountsApplied: = {}
 func _ready():
 	sprite = $sprite
 	jamOverlay = $sprite/jam
+	audio = $audio
 	jamOverlay.visible = false
 	
 	amountJamOnKnife = MAX_JAM_AMOUNT
-	pass
-
-func _process(delta):
 	pass
 
 func get_current_jam() -> GM.Toppings:
@@ -53,6 +68,12 @@ func apply_jam_pixels(pxCount: int):
 	else:
 		var alpha: float = JAM_MIN_ALPHA + (amountJamOnKnife/MAX_JAM_AMOUNT)
 		jamOverlay.modulate = Color(curColor, alpha)
+		if not audio.stream == soundsJamSpread:
+			audio.stream = soundsJamSpread
+		if not audio.playing:
+			audio.play()
+		audio.volume_db = -20 + (1 * (pxCount/56))
+		audio.pitch_scale = 1.2 + amountJamOnKnife/MAX_JAM_AMOUNT
 	pass
 
 func has_jam_left_on_it():
@@ -62,6 +83,7 @@ func has_jam_left_on_it():
 
 func topping_selected(topping: GM.Toppings):
 	if GM.is_knife_topping(topping):
+		GM.play_rand_audio(audio, soundsJam)
 		set_cursor(GM.CursorMode.KNIFE)
 		jamOverlay.visible = true
 		curColor = GM.dictToppings[topping].color
@@ -77,7 +99,8 @@ func topping_selected(topping: GM.Toppings):
 	pass
 
 func bread_selected(bread: GM.BreadType):
-	set_cursor(GM.CursorMode.NONE)
+	#set_cursor(GM.CursorMode.NONE)
+	GM.play_rand_audio(audio, soundsTsss)
 	pass
 
 

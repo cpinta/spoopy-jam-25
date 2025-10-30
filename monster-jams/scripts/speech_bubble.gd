@@ -36,9 +36,9 @@ func reveal_order():
 		await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
 		sprite3Ds[i].visible = true
 		pass
-	await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
 	if TIME_BT_PIECE > 0:
 		order_piece_revealed.emit()
+	await get_tree().create_timer(TIME_BT_PIECE, true, false, true).timeout
 	order_was_revealed.emit()
 	pass
 

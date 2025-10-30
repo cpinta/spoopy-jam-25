@@ -3,7 +3,7 @@ extends Node
 
 enum GameState {Title, InGame}
 
-var debug: bool = true
+var debug: bool = false
 var state: GameState
 
 var ui: UI
@@ -115,10 +115,6 @@ func add_score(amt: int, pos: Vector3):
 	pointDisplay.init(amt, pos)
 	pass
 
-func play_audio(stream: AudioStream):
-	audio.stream = stream
-	audio.play()
-
 func start_game_instance():
 	gameInstance = GameInstance.new()
 	gameInstance.hourPassed.connect(ui.topUI.time_changed)
@@ -181,3 +177,12 @@ func is_knife_topping(topping:Toppings):
 	if Toppings.keys()[topping].contains("Jam"):
 		return true
 	return false
+
+func play_audio(audio, stream: AudioStream):
+	audio.stream = stream
+	audio.play()
+
+func play_rand_audio(audio, streams: Array[AudioStream]):
+	if streams.size() == 0:
+		return
+	play_audio(audio, streams[randi_range(0, streams.size()-1)])
