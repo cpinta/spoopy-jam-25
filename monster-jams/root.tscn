@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=64 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
@@ -25,6 +25,17 @@
 [ext_resource type="Script" uid="uid://d1bwifdny633l" path="res://top_ui.gd" id="18_ub8w1"]
 [ext_resource type="Script" uid="uid://c8iw0xn2ee8hs" path="res://title_screen.gd" id="21_po8fv"]
 [ext_resource type="Texture2D" uid="uid://cshwfd4wnrmm4" path="res://sprites/outside render.png" id="21_vte5o"]
+[ext_resource type="Texture2D" uid="uid://1a20o0njgt05" path="res://sprites/intro/1.png" id="26_1xb4a"]
+[ext_resource type="Texture2D" uid="uid://0fimx6181qfs" path="res://sprites/intro/2.png" id="27_cr30j"]
+[ext_resource type="Texture2D" uid="uid://cty2pd1q3eoda" path="res://sprites/intro/11.png" id="28_xu2l0"]
+[ext_resource type="Texture2D" uid="uid://4wc56bin08nk" path="res://sprites/intro/3.png" id="29_lci31"]
+[ext_resource type="Texture2D" uid="uid://dgciunkb02thn" path="res://sprites/intro/4.png" id="30_sc48t"]
+[ext_resource type="Texture2D" uid="uid://r7v0w0ibvxxj" path="res://sprites/intro/5.png" id="31_f6va0"]
+[ext_resource type="Texture2D" uid="uid://dy6kuw5gnnyed" path="res://sprites/intro/6.png" id="32_uk3k5"]
+[ext_resource type="Texture2D" uid="uid://c6q13sxhw2fmv" path="res://sprites/intro/7.png" id="33_0aysq"]
+[ext_resource type="Texture2D" uid="uid://d6mdsi5u30lv" path="res://sprites/intro/8.png" id="34_vnkct"]
+[ext_resource type="Texture2D" uid="uid://pek61r5bfvit" path="res://sprites/intro/9.png" id="35_obcww"]
+[ext_resource type="Texture2D" uid="uid://ccvh7ojgrb5q6" path="res://sprites/intro/10.png" id="36_mh7w8"]
 
 [sub_resource type="Environment" id="Environment_28aoi"]
 background_mode = 1
@@ -96,6 +107,102 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_po8fv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ynlg5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cr30j"]
+font_size = 32
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dnjj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_1xb4a")
+}],
+"loop": true,
+"name": &"new_animation_0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_cr30j")
+}],
+"loop": true,
+"name": &"new_animation_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_xu2l0")
+}],
+"loop": true,
+"name": &"new_animation_10",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_lci31")
+}],
+"loop": true,
+"name": &"new_animation_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("30_sc48t")
+}],
+"loop": true,
+"name": &"new_animation_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_f6va0")
+}],
+"loop": true,
+"name": &"new_animation_4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("32_uk3k5")
+}],
+"loop": true,
+"name": &"new_animation_5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("33_0aysq")
+}],
+"loop": true,
+"name": &"new_animation_6",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("34_vnkct")
+}],
+"loop": true,
+"name": &"new_animation_7",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("35_obcww")
+}],
+"loop": true,
+"name": &"new_animation_8",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("36_mh7w8")
+}],
+"loop": true,
+"name": &"new_animation_9",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ab83r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dlgs"]
 bg_color = Color(0, 0, 0, 1)
@@ -516,8 +623,95 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_po8fv")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_po8fv")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ynlg5")
 
+[node name="Intro Panel" type="Panel" parent="TitleScreen/Control/background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="intro text" type="Label" parent="TitleScreen/Control/background/Intro Panel"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -362.00006
+offset_top = -102.0
+offset_right = 362.00006
+grow_horizontal = 2
+grow_vertical = 0
+text = "Pam always wanted to open a "
+label_settings = SubResource("LabelSettings_cr30j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="TitleScreen/Control/background/Intro Panel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -194.0
+offset_top = -97.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Skip" type="Button" parent="TitleScreen/Control/background/Intro Panel/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = -60.5
+offset_right = 42.0
+offset_bottom = -29.499985
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skip Intro"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="TitleScreen/Control/background/Intro Panel"]
+position = Vector2(576, 324)
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_0dnjj")
+animation = &"new_animation_0"
+
+[node name="NonIntro Panel" type="Panel" parent="TitleScreen/Control/background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ab83r")
+
+[node name="press door label" type="Label" parent="TitleScreen/Control/background/NonIntro Panel"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.5
+offset_top = 176.0
+offset_right = 105.5
+offset_bottom = 199.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press the Door to Go Inside"
+horizontal_alignment = 1
+
 [node name="FadeCanvas" type="CanvasLayer" parent="."]
 layer = 3
+visible = false
 
 [node name="Fade" type="CanvasModulate" parent="FadeCanvas"]
 color = Color(1, 1, 1, 0)

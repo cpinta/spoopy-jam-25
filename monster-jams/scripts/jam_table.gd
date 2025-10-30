@@ -21,6 +21,9 @@ func _ready():
 		toppings[i].WasSelected.connect(_topping_selected)
 		pass
 	
+	ToppingSelected.connect(GM.cursor.topping_selected)
+	BreadSelected.connect(GM.cursor.bread_selected)
+	
 	var breadstack: SelectableBread = $BreadStack
 	breadstack.WasSelected.connect(_bread_selected)
 	breadstacks[GM.BreadType.Wheat] = breadstack

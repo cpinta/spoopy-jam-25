@@ -3,7 +3,7 @@ extends Node
 
 enum GameState {Title, InGame}
 
-var debug: bool = false
+var debug: bool = true
 var state: GameState
 
 var ui: UI
@@ -64,23 +64,12 @@ func _ready():
 	plate = get_global_node("plate")
 	audio = root.get_node("audio")
 	
+	monsterManager.entrance = entrance
 	await get_tree().physics_frame
 	
-	levelManager.startLevel.connect(level_starting)
-	
-	plate.WasSelected.connect(jamTable.transfer_to_sandwich)
-	plate.didntGiveSandwich.connect(monsterManager.monster_was_clicked_order_was_wrong)
-	plate.gaveSandwichToMonster.connect(monsterManager.monster_given_order)
-	
-	monsterManager.entrance = entrance
-	entrance.monster_arrived.connect(monsterManager.monster_at_front)
-	
-	jamTable.ToppingSelected.connect(cursor.topping_selected)
-	jamTable.BreadSelected.connect(cursor.bread_selected)
 	
 	ui.sTablePressed.connect(_table_clicked)
 	ui.sCounterPressed.connect(_counter_clicked)
-	
 	pass
 
 func set_state(state: GameState):

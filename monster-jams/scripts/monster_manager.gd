@@ -40,6 +40,8 @@ func _ready():
 	monsterWasClickedWhileWaitingForOrder.connect(GM.plate.check_if_has_monster_order)
 	monsterGivenCorrectOrder.connect(GM.order_given_correctly)
 	monsterOrderTimeOut.connect(GM.order_timed_out)
+	
+	entrance.monster_arrived.connect(monster_at_front)
 	pass
 
 func _process(delta):

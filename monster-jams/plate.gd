@@ -15,6 +15,10 @@ func _ready():
 	breadParent = $breadParent
 	WasSelectedSentItem = self
 	
+	WasSelected.connect(GM.jamTable.transfer_to_sandwich)
+	didntGiveSandwich.connect(GM.monsterManager.monster_was_clicked_order_was_wrong)
+	gaveSandwichToMonster.connect(GM.monsterManager.monster_given_order)
+	
 	super._ready()
 	pass
 
