@@ -28,7 +28,7 @@ func _init() -> void:
 	
 	AVAILABLE_MONSTERS = [
 		#GM.Monster.Skeleton,
-		GM.Monster.Franken
+		GM.Monster.Witch
 	]
 	AVAILABLE_TOPPINGS = [
 		GM.Toppings.StrawberryJam
