@@ -19,6 +19,9 @@ func _ready():
 	didntGiveSandwich.connect(GM.monsterManager.monster_was_clicked_order_was_wrong)
 	gaveSandwichToMonster.connect(GM.monsterManager.monster_given_order)
 	
+	
+	BeingHoveredCursorMode = GM.CursorMode.PLATE
+	
 	super._ready()
 	pass
 

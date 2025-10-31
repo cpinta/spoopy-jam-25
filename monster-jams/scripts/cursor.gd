@@ -13,6 +13,7 @@ const strBREAD: String = "bread"
 const strBAGEL: String = "bagel"
 const strHAM: String = "ham"
 const strTALK: String = "talk"
+const strPLATE: String = "plate"
 
 var soundsJam: Array[AudioStream] = [
 	load("res://sounds/jam1.mp3"),
@@ -133,6 +134,10 @@ func set_cursor(mode:GM.CursorMode):
 		GM.CursorMode.TALK:
 			jamOverlay.visible = false
 			sprite.play(strTALK)
+			pass
+		GM.CursorMode.PLATE:
+			jamOverlay.visible = false
+			sprite.play(strPLATE)
 			pass
 	pass
 

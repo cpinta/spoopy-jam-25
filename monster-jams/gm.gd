@@ -31,7 +31,7 @@ enum BreadType {Wheat=0, Bagel=1}
 var dictBread = {
 	BreadType.Wheat: Wheat.new(),
 	BreadType.Bagel: Bagel.new()}
-enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK}
+enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK, PLATE}
 
 var cursor: Cursor
 var monsterManager: MonsterManager
