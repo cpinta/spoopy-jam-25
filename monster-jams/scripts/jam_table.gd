@@ -64,6 +64,28 @@ func _bread_selected(bread: int):
 		bottomBread.set_destination(bottomBreadLocation)
 	pass
 
+func set_default_jam_placements():
+	toppings[0].toppingEnum = GM.Toppings.StrawberryJam
+	toppings[1].toppingEnum = GM.Toppings.BlueberryJam
+	toppings[2].toppingEnum = GM.Toppings.GrapeJam
+
+#func shuffle_jams():
+	#var toppingEnums: Array[GM.Toppings] = []
+	#var toppingIndexes = {}
+	#for i in range(0, toppings.size()):
+		#if toppings[i].visible:
+			#toppingIndexes[toppings[i].toppingEnum] = i
+			#toppingEnums.append(toppings[i].toppingEnum)
+		#pass
+	#
+	#var ind: int = 0
+	#while toppingEnums.size() > 0:
+		#var randind: int = randi_range(1, toppingIndexes.size()-1)
+		#var selected = toppingEnums[randind]
+		#toppings[ind].toppingEnum = selected
+		#toppingIndexes.remove
+		#pass
+
 func cam_looking_at_counter():
 	cam_looking(true)
 func cam_looking_at_jam_table():

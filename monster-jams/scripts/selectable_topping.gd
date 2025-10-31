@@ -7,11 +7,16 @@ func _ready():
 	target = $StaticBody3D
 	var jam: Sprite3D = $jam
 	await get_tree().physics_frame
-	var top:Topping = GM.dictToppings.get(toppingEnum)
 	jam.modulate = GM.dictToppings[toppingEnum].color
 	
 	WasSelectedSentItem = toppingEnum
 	BeingHoveredCursorMode = GM.CursorMode.KNIFE
 	
 	super._ready()
+	pass
+
+func change_jam(topping: GM.Toppings):
+	toppingEnum = topping
+	var jam: Sprite3D = $jam
+	jam.modulate = GM.dictToppings[toppingEnum].color
 	pass
