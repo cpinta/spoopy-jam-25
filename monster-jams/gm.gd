@@ -3,7 +3,7 @@ extends Node
 
 enum GameState {Title, InGame}
 
-var debug: bool = false
+var debug: bool = true
 var state: GameState
 
 var ui: UI

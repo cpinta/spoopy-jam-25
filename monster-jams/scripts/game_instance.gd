@@ -14,7 +14,7 @@ signal nightDone()
 
 func _process(delta):
 	if GM.debug:
-		timer += delta * 10
+		#timer += delta * 10
 		pass
 	if doIncreaseTimer:
 		timer += delta

@@ -114,6 +114,7 @@ func leave_current_line_queue():
 		linePos.leave_queue()
 		if linePos.positionChanged.is_connected(line_pos_changed):
 			linePos.positionChanged.disconnect(line_pos_changed)
+		linePos = null
 	pass
 
 func play_rand_step():
@@ -227,15 +228,16 @@ func _process(delta):
 				order_timed_out()
 	pass
 
-signal orderTimedOut(monster: Monster)
+signal orderTimedOut(monster: Monster, loseScore: bool)
 signal orderTimedOutToCounter(monster: Monster)
 signal waitedTooLongNoOrder(monster: Monster)
 
 func order_timed_out():
 	play_rand_angry()
 	meter.visible = false
-	orderTimedOut.emit(self)
+	orderTimedOut.emit(self, true)
 	order = null
+	set_pos_state(MonsterPositionState.Angry)
 	pass
 
 func _walk_anim(delta):
@@ -305,15 +307,21 @@ func walk_dest_arrived():
 		match(linePos.lineType):
 			LineQueue.Type.Counter:
 				if linePos.index == 0:
-					set_pos_state(Monster.MonsterPositionState.AtCounter)
-					selectable.at_counter()
-					selectable.set_if_is_selectable(true)
+					if posState == MonsterPositionState.Angry:
+						at_counter_angry_reaction()
+					else:
+						set_pos_state(Monster.MonsterPositionState.AtCounter)
+						selectable.at_counter()
+						selectable.set_if_is_selectable(true)
 				else:
 					selectable.set_if_is_selectable(false)
 			_:
 				selectable.in_line()
 				selectable.set_if_is_selectable(true)
 				pass
+	pass
+
+func at_counter_angry_reaction():
 	pass
 
 func remove():

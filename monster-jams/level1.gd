@@ -14,19 +14,21 @@ func _init() -> void:
 	MIN_TIME_BT_MONSTERS = 0.1
 	MAX_TIME_BT_MONSTERS = 0.2
 	
+	NEEDED_PROFIT = 20
+	ORDER_TIME = 20
+	
+	MAX_MONSTERS_AT_A_TIME = 5
 	
 	if GM.debug:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
+		ORDER_TIME = 1
+		MAX_MONSTERS_AT_A_TIME = 1
 	
-	NEEDED_PROFIT = 20
-	ORDER_TIME = 20
-	
-	MAX_MONSTERS_AT_A_TIME = 1
 	
 	AVAILABLE_MONSTERS = [
 		#GM.Monster.Skeleton,
-		GM.Monster.Witch
+		GM.Monster.Franken
 	]
 	AVAILABLE_TOPPINGS = [
 		GM.Toppings.StrawberryJam
