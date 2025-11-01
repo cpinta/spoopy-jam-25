@@ -1,9 +1,9 @@
 class_name GameManager
 extends Node
 
-enum GameState {Title, InGame}
+enum GameState {Title, InGame, End}
 
-var debug: bool = true
+var debug: bool = false
 var state: GameState
 
 var ui: UI
@@ -13,6 +13,7 @@ var input: InputHandler
 var audio: AudioStreamPlayer
 
 var asError: AudioStream = load("res://sounds/error sound.mp3")
+var asMusic: AudioStream = load("res://sounds/WTF! Ghost!.mp3")
 
 var jamTable: JellyTable
 
@@ -31,7 +32,7 @@ enum BreadType {Wheat=0, Bagel=1}
 var dictBread = {
 	BreadType.Wheat: Wheat.new(),
 	BreadType.Bagel: Bagel.new()}
-enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK, PLATE}
+enum CursorMode {NONE, KNIFE, BREAD, BAGEL, HAM, TALK, PLATE, RENT}
 
 var cursor: Cursor
 var monsterManager: MonsterManager
@@ -42,13 +43,14 @@ var plate: Plate
 var levelManager: LevelManager
 var inLevel: bool = false
 
-const HOUR_LENGTH: float = 20
+const HOUR_LENGTH: float = 25
 const NIGHT_LENGTHS_HOURS: int = 4
 
 var scenePointsAddedDisplay: PackedScene = load("res://scenes/points_added_display.tscn")
 
 # shop located in conneticut
-
+var end: End
+var endScene: PackedScene = load("res://scenes/end.tscn")
 
 func _ready():
 	root = get_global_node("root")
@@ -64,12 +66,15 @@ func _ready():
 	plate = get_global_node("plate")
 	audio = root.get_node("audio")
 	
+	levelManager.noLevelsLeft.connect(game_end)
+	
 	monsterManager.entrance = entrance
 	await get_tree().physics_frame
 	
 	
 	ui.sTablePressed.connect(_table_clicked)
 	ui.sCounterPressed.connect(_counter_clicked)
+	
 	pass
 
 func set_state(state: GameState):
@@ -81,9 +86,84 @@ func set_state(state: GameState):
 			pass
 	pass
 
+func game_end():
+	levelManager.fade.fade(Fade.Type.FromBlack)
+	state = GameState.End
+	monsterManager.deactivate()
+	monsterManager.reset(null)
+	end = await GM.spawn(endScene)
+	
+	end.shoe.WasSelected.connect(shoe_selected)
+	end.shoe.visible = false
+	end.shoe.set_if_is_selectable(false)
+	end.rent.WasSelected.connect(rent_selected)
+	end.rent.set_if_is_selectable(false)
+	end.rent.visible = true
+	
+	
+	GM.ui.set_center_text("Pam made enough to pay off rent", 3)
+	await get_tree().create_timer(3, true, false,true).timeout
+	
+	end.shoe.visible = true
+	GM.ui.set_center_text("Pam also made enough to buy some kicks instead", 3)
+	await get_tree().create_timer(3, true, false,true).timeout
+	
+	
+	GM.ui.set_center_text("What will Pam pick?", 3)
+	await get_tree().create_timer(3, true, false,true).timeout
+	
+	end.shoe.set_if_is_selectable(true)
+	end.rent.set_if_is_selectable(true)
+	pass
+
+var endMonst: Monster
+func shoe_selected(obj):
+	var monster: Monster = await monsterManager.spawn_monster_rand_loc(GM.Monster.Franken)
+	monster.posStateChanged.connect(shoe_selected_monst)
+	monster.WALK_SPEED = 20
+	monster.selectable.queue_free()
+	endMonst = monster
+	pass
+func shoe_selected_monst(posState: int):
+	if posState != 1:
+		return
+	endMonst.at_counter_angry_reaction()
+	await get_tree().create_timer(1, true, false,true).timeout
+	GM.ui.set_center_text("Pam didn't pay rent\nshe was mauled to death", 5)
+	await get_tree().create_timer(2, true, false,true).timeout
+	GM.levelManager.fade.fade(Fade.Type.ToBlack)
+	GM.levelManager.fade.faded.connect(dfasjkl_fade)
+	await get_tree().create_timer(3, true, false,true).timeout
+	pass
+
+func dfasjkl_fade(type: Fade.Type):
+	root.queue_free()
+	pass
+
+func rent_selected(obj):
+	GM.ui.set_center_text("Pam paid rent!", 2)
+	await get_tree().create_timer(2, true, false,true).timeout
+	GM.ui.set_center_text("she continued serving sandwiches for years!", 4)
+	await get_tree().create_timer(2, true, false,true).timeout
+	GM.levelManager.fade.fade(Fade.Type.ToBlack)
+	GM.levelManager.fade.faded.connect(dfassdaf_fade2)
+	await get_tree().create_timer(3, true, false,true).timeout
+	pass
+
+func dfassdaf_fade2(type: Fade.Type):
+	root.queue_free()
+	pass
+	
 func _process(delta):
 	if gameInstance:
 		gameInstance._process(delta)
+		if not audio.playing:
+			audio.stream = asMusic
+			audio.play()
+			pass
+	else:
+		audio.stream = null
+		audio.stop()
 	pass
 
 func level_starting(level: Level):
@@ -98,10 +178,15 @@ func level_starting(level: Level):
 	jamTable.available_jams_match_orders()
 	monsterManager.activate()
 	
+	cam.set_world_color(level.WORLD_COLOR)
+	
 	if not gameInstance:
 		start_game_instance()
 	else:
 		gameInstance.start()
+	
+	
+	#game_end()
 	pass
 
 func order_given_correctly(monster: Monster):
@@ -121,6 +206,7 @@ func start_game_instance():
 	state = GameState.InGame
 	gameInstance = GameInstance.new()
 	gameInstance.hourPassed.connect(ui.topUI.time_changed)
+	gameInstance.intervalPassed.connect(ui.topUI.time_changed_interval)
 	gameInstance.scoreChanged.connect(ui.topUI.score_changed)
 	gameInstance.nightDone.connect(levelManager.show_end_current_level_menu)
 	gameInstance.start()

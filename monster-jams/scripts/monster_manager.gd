@@ -19,6 +19,7 @@ var spawnLocations: Array[Vector3]
 var counterQueue: LineQueue
 var waitingQueue: LineQueue
 var entrance: PathNode
+var audioDoor: AudioStreamPlayer
 
 var leaveNode: PathNode
 
@@ -31,6 +32,9 @@ signal monsterGivenCorrectOrder(monster: Monster)
 signal monsterOrderTimeOut(monster: Monster)
 
 func _ready():
+	audioDoor = $audioDoor
+	audioDoor.stream = load("res://sounds/ding dong.mp3")
+	
 	spawnLocations.append($"right side".global_position)
 	spawnLocations.append($"left side".global_position)
 	
@@ -86,6 +90,7 @@ func initialize(counter:LineQueue, waiting:LineQueue):
 
 func monster_at_front(monster:Monster):
 	monster.set_line_position(counterQueue.add_monster_to_queue_back(monster))
+	audioDoor.play()
 	pass
 
 func spawn_rand_monster():

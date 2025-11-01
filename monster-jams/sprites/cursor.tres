@@ -1,10 +1,11 @@
-[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://dgtq2ixiutcfr"]
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://dgtq2ixiutcfr"]
 
 [ext_resource type="Texture2D" uid="uid://dt3ngixpnsptk" path="res://sprites/bread icon.png" id="1_hy0xd"]
 [ext_resource type="Texture2D" uid="uid://csna2gkwu1gs2" path="res://sprites/butter knife.png" id="1_ikv4d"]
 [ext_resource type="Texture2D" uid="uid://c0pcueiahbvj0" path="res://sprites/blank cursor.png" id="2_4ia1p"]
 [ext_resource type="Texture2D" uid="uid://bx7720g4hgxev" path="res://sprites/talking icon.png" id="4_svqne"]
 [ext_resource type="Texture2D" uid="uid://bt24qu71cb4ch" path="res://sprites/plate icon.png" id="4_ym0lx"]
+[ext_resource type="Texture2D" uid="uid://cwmm6popg2gy7" path="res://sprites/rent icon.png" id="5_ym0lx"]
 
 [resource]
 animations = [{
@@ -38,6 +39,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"plate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ym0lx")
+}],
+"loop": true,
+"name": &"rent",
 "speed": 5.0
 }, {
 "frames": [{

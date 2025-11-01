@@ -2,20 +2,19 @@ extends Level
 class_name Level2
 
 func _init() -> void:
-	INTRO_TEXT = "make $40 tonight\ncustomers want more variety"
 	
-	MAX_TOPPINGS_PER_SLICE = 1
+	MAX_TOPPINGS_PER_SLICE = 2
 	MAX_SANDWICH_SIZE = 1
 	
-	MIN_TIME_BT_MONSTERS = 5
-	MAX_TIME_BT_MONSTERS = 8
+	MIN_TIME_BT_MONSTERS = 3
+	MAX_TIME_BT_MONSTERS = 6
 	
 	
 	if GM.debug:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 40
+	NEEDED_PROFIT = 20
 	ORDER_TIME = 20
 	
 	AVAILABLE_MONSTERS = [
@@ -26,4 +25,7 @@ func _init() -> void:
 		GM.Toppings.StrawberryJam,
 		GM.Toppings.BlueberryJam
 	]
+	WORLD_COLOR = Color.hex(0x0064c8)
+
+	INTRO_TEXT = "make $"+str(NEEDED_PROFIT)+" tonight\ncustomers want more variety"
 	pass

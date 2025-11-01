@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://32mcn1scxa78"]
+
+[ext_resource type="Script" uid="uid://thadmvycex7r" path="res://selectable_rent.gd" id="1_qvtnj"]
+[ext_resource type="Texture2D" uid="uid://eobhniw3wjfb" path="res://sprites/rent.png" id="2_djbjy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uk3k5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_djbjy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tp706"]
+size = Vector3(1.1049976, 1.0500574, 0.1)
+
+[node name="rent" type="Node3D"]
+script = ExtResource("1_qvtnj")
+
+[node name="sprite" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+pixel_size = 0.0014
+sprite_frames = SubResource("SpriteFrames_uk3k5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015738502, 0.5570673, 0)
+shape = SubResource("BoxShape3D_tp706")

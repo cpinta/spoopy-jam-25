@@ -13,3 +13,5 @@ var INTRO_TEXT: String = ""
 
 var NEEDED_PROFIT: int = 40
 var ORDER_TIME: float = 10
+
+var WORLD_COLOR: Color = Color.hex(0x7200ff)

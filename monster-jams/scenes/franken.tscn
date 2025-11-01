@@ -38,7 +38,7 @@ animations = [{
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tp706"]
-size = Vector3(0.93, 0.9343433, 0.1)
+size = Vector3(1.1049976, 1.0500574, 0.1)
 
 [node name="franken" type="Node3D"]
 script = ExtResource("1_otarv")
@@ -91,3 +91,5 @@ max_distance = 10.0
 [node name="step" type="AudioStreamPlayer3D" parent="."]
 unit_size = 3.0
 max_distance = 9.0
+
+[editable path="face/meter"]

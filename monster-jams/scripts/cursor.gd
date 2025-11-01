@@ -6,6 +6,7 @@ var mode: GM.CursorMode
 var sprite: AnimatedSprite2D
 var curTopping: GM.Toppings = GM.Toppings.None
 var audio: AudioStreamPlayer
+var audioJam: AudioStreamPlayer
 
 const strNONE: String = "none"
 const strKNIFE: String = "knife"
@@ -14,6 +15,7 @@ const strBAGEL: String = "bagel"
 const strHAM: String = "ham"
 const strTALK: String = "talk"
 const strPLATE: String = "plate"
+const strRENT: String = "rent"
 
 var soundsJam: Array[AudioStream] = [
 	load("res://sounds/jam1.mp3"),
@@ -27,6 +29,15 @@ var soundsTsss: Array[AudioStream] = [
 	load("res://sounds/tsss.mp3"),
 	load("res://sounds/tsss2.mp3"),
 	load("res://sounds/tsss3.mp3"),
+]
+
+var soundsPlate: Array[AudioStream] = [
+	load("res://sounds/plate1.mp3"),
+	load("res://sounds/plate2.mp3"),
+	load("res://sounds/plate3.mp3"),
+	load("res://sounds/plate4.mp3"),
+	load("res://sounds/plate5.mp3"),
+	load("res://sounds/plate6.mp3")
 ]
 
 var soundsJamSpread: AudioStream = load("res://sounds/spread.mp3")
@@ -48,6 +59,7 @@ func _ready():
 	sprite = $sprite
 	jamOverlay = $sprite/jam
 	audio = $audio
+	audioJam = $audioJam
 	jamOverlay.visible = false
 	
 	amountJamOnKnife = MAX_JAM_AMOUNT
@@ -84,7 +96,7 @@ func has_jam_left_on_it():
 
 func topping_selected(topping: GM.Toppings):
 	if GM.is_knife_topping(topping):
-		GM.play_rand_audio(audio, soundsJam)
+		GM.play_rand_audio(audioJam, soundsJam)
 		set_cursor(GM.CursorMode.KNIFE)
 		jamOverlay.visible = true
 		curColor = GM.dictToppings[topping].color
@@ -138,6 +150,10 @@ func set_cursor(mode:GM.CursorMode):
 		GM.CursorMode.PLATE:
 			jamOverlay.visible = false
 			sprite.play(strPLATE)
+			pass
+		GM.CursorMode.RENT:
+			jamOverlay.visible = false
+			sprite.play(strRENT)
 			pass
 	pass
 

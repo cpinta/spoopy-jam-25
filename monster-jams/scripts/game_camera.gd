@@ -26,3 +26,7 @@ func _process(delta):
 				rotation_degrees.x = PAN_DOWN_X
 			pass
 	pass
+
+func set_world_color(color:Color):
+	environment.background_color = color
+	pass

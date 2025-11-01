@@ -67,6 +67,7 @@ func at_counter_angry_reaction():
 	play_rand_special()
 	sprite.position = ogSpritePos
 	sprite.position.y += POST_CAST_DEPTH
+	GM.add_score(-4, global_position)
 	await get_tree().create_timer(POST_CAST_LENGTH, true, false,true).timeout
 	sprite.play("default")
 	orderTimedOut.emit(self, false)

@@ -33,8 +33,9 @@ func _ready():
 	cam_looking_at_counter()
 	pass
 
-func transfer_to_sandwich(plate: Plate):
+func transfer_to_plate(plate: Plate):
 	if plate:
+		GM.play_rand_audio(GM.cursor.audio, GM.cursor.soundsPlate)
 		if bottomBread:
 			plate.add_sandwich(bottomBread)
 			bottomBread = null
@@ -42,6 +43,19 @@ func transfer_to_sandwich(plate: Plate):
 
 func _bread_selected(bread: int):
 	var stack: SelectableBread = breadstacks[bread]
+	
+	
+	var breadCount: int = 0
+	if bottomBread:
+		breadCount += 1
+		var curBread = bottomBread.breadOnTop
+		while curBread:
+			breadCount += 1
+			curBread = curBread.breadOnTop
+			pass
+	
+	if breadCount >= 3:
+		return
 	
 	var spawnedBread: Bread3D = await GM.spawn(GM.dictBread[stack.bread].scene) as Bread3D
 	await get_tree().physics_frame

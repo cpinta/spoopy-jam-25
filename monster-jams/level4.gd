@@ -2,10 +2,9 @@ extends Level
 class_name Level4
 
 func _init() -> void:
-	INTRO_TEXT = "$80!? lock in!\nuse that new jam we ordered"
 	
 	MAX_TOPPINGS_PER_SLICE = 2
-	MAX_SANDWICH_SIZE = 1
+	MAX_SANDWICH_SIZE = 2
 	
 	MIN_TIME_BT_MONSTERS = 3
 	MAX_TIME_BT_MONSTERS = 6
@@ -15,8 +14,8 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 80
-	ORDER_TIME = 20
+	NEEDED_PROFIT = 30
+	ORDER_TIME = 15
 	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton,
@@ -28,4 +27,7 @@ func _init() -> void:
 		GM.Toppings.BlueberryJam,
 		GM.Toppings.GrapeJam
 	]
+	WORLD_COLOR = Color.hex(0x9a5300)
+	INTRO_TEXT = "$"+str(NEEDED_PROFIT)+"!? lock in!\nuse that new jam we ordered"
+	
 	pass

@@ -17,3 +17,6 @@ animation = &"none"
 texture = ExtResource("3_ndevg")
 
 [node name="audio" type="AudioStreamPlayer" parent="."]
+
+[node name="audioJam" type="AudioStreamPlayer" parent="."]
+volume_db = 1.0

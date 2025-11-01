@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://b30031jciilha"]
+[gd_scene load_steps=65 format=3 uid="uid://b30031jciilha"]
 
 [ext_resource type="Script" uid="uid://c6s161r5dn3f0" path="res://level_manager.gd" id="1_blcw0"]
 [ext_resource type="Script" uid="uid://hg05h3dprdk2" path="res://scripts/game_camera.gd" id="1_vvh5c"]
@@ -21,7 +21,6 @@
 [ext_resource type="PackedScene" uid="uid://4pp0l51nrqd4" path="res://bread/bread.gltf" id="10_qwhpj"]
 [ext_resource type="Script" uid="uid://cb055r3cyhj30" path="res://fade.gd" id="16_3dlgs"]
 [ext_resource type="Script" uid="uid://bterrrbimuphj" path="res://level_startend_ui.gd" id="16_50g4q"]
-[ext_resource type="PackedScene" uid="uid://cyvrr6stkpohx" path="res://scenes/points_added_display.tscn" id="17_r3r3k"]
 [ext_resource type="Script" uid="uid://d1bwifdny633l" path="res://top_ui.gd" id="18_ub8w1"]
 [ext_resource type="Script" uid="uid://c8iw0xn2ee8hs" path="res://title_screen.gd" id="21_po8fv"]
 [ext_resource type="Texture2D" uid="uid://cshwfd4wnrmm4" path="res://sprites/outside render.png" id="21_vte5o"]
@@ -39,7 +38,7 @@
 
 [sub_resource type="Environment" id="Environment_28aoi"]
 background_mode = 1
-background_color = Color(0.44705883, 0, 1, 1)
+background_color = Color(0.77136326, 0, 0.010217388, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qt76e"]
 top_radius = 0.1
@@ -95,6 +94,8 @@ font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_xu2l0"]
 font_size = 48
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vte5o"]
 
@@ -220,7 +221,7 @@ size = Vector3(0.474, 0.805, 0.003)
 script = ExtResource("1_blcw0")
 
 [node name="Camera3D" type="Camera3D" parent="." groups=["camera"]]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0.55, 1.3627307)
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0.55, 1.3627307)
 environment = SubResource("Environment_28aoi")
 fov = 80.0
 script = ExtResource("1_vvh5c")
@@ -270,6 +271,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2.5597029)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6699193, 0, -0.07851136)
 script = ExtResource("4_qt76e")
 
+[node name="audioDoor" type="AudioStreamPlayer" parent="MonsterManager"]
+volume_db = -10.0
+
 [node name="world" type="Node3D" parent="."]
 
 [node name="Wall5" type="MeshInstance3D" parent="world"]
@@ -291,13 +295,13 @@ mesh = SubResource("PlaneMesh_28aoi")
 skeleton = NodePath("../..")
 
 [node name="Wall16" type="MeshInstance3D" parent="world"]
-transform = Transform3D(0.8331144, 0, 0, 0, -2.238023e-08, -0.5205064, 0, 0.51199996, -2.275206e-08, -2.1055195, 0.834591, -1.994)
+transform = Transform3D(1.0004815, 0, 0, 0, -2.238023e-08, -0.6932889, 0, 0.51199996, -3.0304626e-08, -2.1055195, 0.834591, -2.0054178)
 material_override = ExtResource("6_ynlg5")
 mesh = SubResource("PlaneMesh_28aoi")
 skeleton = NodePath("../..")
 
 [node name="Wall17" type="MeshInstance3D" parent="world"]
-transform = Transform3D(0.8331144, 0, 0, 0, -2.238023e-08, -0.5144518, 0, 0.51199996, -2.2487404e-08, 2.0962977, 0.8301838, -1.994)
+transform = Transform3D(1.0531803, 0, 0, 0, -2.238023e-08, -0.67047787, 0, 0.51199996, -2.930752e-08, 2.0962977, 0.8301838, -2.0054178)
 material_override = ExtResource("6_ynlg5")
 mesh = SubResource("PlaneMesh_28aoi")
 skeleton = NodePath("../..")
@@ -378,7 +382,7 @@ script = ExtResource("4_qt76e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2.25)
 
 [node name="waitingline" type="Node3D" parent="." groups=["waiting"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2567637, 0, -1.6694626)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9919457, 0, -1.6694626)
 script = ExtResource("6_r3r3k")
 direction = Vector3(1, 0, 0)
 DIST_BT_POSITIONS = 0.5
@@ -550,7 +554,7 @@ label_settings = SubResource("LabelSettings_1xb4a")
 [node name="scoreAmt" type="Label" parent="UI/Control/upperhalf/top ui/scoreParent"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "$200000000"
+text = "$0"
 label_settings = SubResource("LabelSettings_1xb4a")
 
 [node name="lowerhalf" type="Control" parent="UI/Control"]
@@ -585,6 +589,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+text = "lkxcaj;lgvsdc;xoljgfed;iog"
 label_settings = SubResource("LabelSettings_xu2l0")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -600,10 +605,10 @@ mouse_filter = 2
 script = ExtResource("9_huihk")
 
 [node name="audio" type="AudioStreamPlayer" parent="."]
-
-[node name="pointsAddedDisplay" parent="." instance=ExtResource("17_r3r3k")]
+volume_db = -35.0
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("21_po8fv")
 
 [node name="Control" type="Control" parent="TitleScreen"]

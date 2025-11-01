@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://crxkeo7oei1ox"]
+
+[ext_resource type="Script" uid="uid://bfggums4iwgaf" path="res://selectable_shoe.gd" id="1_bvfni"]
+[ext_resource type="Script" uid="uid://cutqovyrom6nd" path="res://scenes/end.gd" id="1_s4tl2"]
+[ext_resource type="Texture2D" uid="uid://bmsgnqfvdl828" path="res://sprites/kicks.png" id="2_s4tl2"]
+[ext_resource type="PackedScene" uid="uid://32mcn1scxa78" path="res://scenes/rent.tscn" id="3_8hmjt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f6va0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_s4tl2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tp706"]
+size = Vector3(0.89810395, 0.79272676, 0.1)
+
+[node name="end" type="Node3D" groups=["end"]]
+script = ExtResource("1_s4tl2")
+
+[node name="shoe" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62649846, 0, 0)
+script = ExtResource("1_bvfni")
+
+[node name="sprite" type="AnimatedSprite3D" parent="shoe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+pixel_size = 0.0014
+sprite_frames = SubResource("SpriteFrames_f6va0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="shoe"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="shoe/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.040197253, 0.47015214, 0)
+shape = SubResource("BoxShape3D_tp706")
+
+[node name="rent" parent="." instance=ExtResource("3_8hmjt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7272519, 0, 0)

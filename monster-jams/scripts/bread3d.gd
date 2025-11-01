@@ -7,6 +7,7 @@ var state: BreadState
 var breadType: GM.BreadType = GM.BreadType.Wheat
 
 var col: CollisionObject3D
+var plateCol: Node3D
 var mesh: MeshInstance3D
 
 var currentImage: Image
@@ -33,6 +34,10 @@ var jamAmountsApplied: = {}
 
 func _ready():
 	col = $StaticBody3D
+	plateCol = $StaticBody3D2
+	plateCol.process_mode = Node.PROCESS_MODE_DISABLED
+	(plateCol as SelectablePlate).WasSelected.connect(selected_plate)
+	
 	#col.visible = false
 	col.input_event.connect(clicked)
 	
@@ -68,6 +73,10 @@ func _ready():
 	GM.input.inputLeftClickReleased.connect(lifted_up)
 	pass
 
+func selected_plate(obj):
+	GM.jamTable.transfer_to_plate(GM.plate)
+	pass
+
 func _process(delta):
 	if movingToDest:
 		if dest.distance_to(self.position) < DEST_MIN_DIST:
@@ -95,14 +104,20 @@ func set_state(newState: BreadState):
 			col.visible = false
 			pass
 		BreadState.OnSandwich:
-			col.visible = true
+			if col:
+				col.visible = true
 			pass
 		BreadState.MovingToPlate:
-			col.visible = false
-			pass
+			if col:
+				col.queue_free()
+			if breadOnTop:
+				if breadOnTop.col:
+					breadOnTop.col.queue_free()
+					if breadOnTop.breadOnTop:
+						if breadOnTop.breadOnTop.col:
+							breadOnTop.breadOnTop.col.queue_free()
 		BreadState.OnPlate:
-			col.visible = false
-			pass
+			plateCol.process_mode = Node.PROCESS_MODE_ALWAYS
 	pass
 
 func set_destination(pos:Vector3):

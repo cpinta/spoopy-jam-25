@@ -20,7 +20,7 @@ signal noLevelsLeft()
 
 func _ready() -> void:
 	levelUI = $UI/LevelMenu
-	levelUI.btnNext.pressed.connect(end_current_level)
+	levelUI.btnNext.pressed.connect(start_end_current_level)
 	levelUI.btnRetry.pressed.connect(retry_level)
 	fade = $FadeCanvas/Fade
 	fade.fade(Fade.Type.FromBlack)
@@ -72,6 +72,10 @@ func start_next_level() -> bool:
 		return false
 	start_current_level()
 	return true
+
+func start_end_current_level():
+	end_current_level(true)
+	pass
 
 func retry_level():
 	end_current_level(false)

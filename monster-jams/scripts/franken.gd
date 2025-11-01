@@ -39,7 +39,7 @@ var slam1Length: float = 0.5
 var strSLAM2: String = "slam2"
 var slam2Length: float = 0.2
 
-var SLAM_POINT_DECREASE: int = 10
+var SLAM_POINT_DECREASE: int = 6
 
 var SHAKE_RATE: float = 0.05
 var SHAKE_DIST: float = 0.01
@@ -57,9 +57,11 @@ func at_counter_angry_reaction():
 	
 	sprite.position = ogSpritePos
 	play_rand_special()
+	play_rand_step()
 	sprite.play(strSLAM2)
 	sprite.position.y = ogSpritePos.y - SLAM_DEPTH
 	GM.add_score(-SLAM_POINT_DECREASE, global_position)
+	GM.ui.set_center_text("Monster damaged the counter", 2)
 	await get_tree().create_timer(slam2Length, true, false,true).timeout
 	sprite.position = ogSpritePos
 	await get_tree().create_timer(slam2Length, true, false,true).timeout

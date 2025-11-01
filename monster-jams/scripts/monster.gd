@@ -75,6 +75,8 @@ signal wasGivenOrder(monster:Monster)
 
 signal dead(monster:Monster)
 
+signal posStateChanged(posState: MonsterPositionState)
+
 func _ready():
 	spriteParent = $spriteParent
 	sprite = $spriteParent/sprite
@@ -145,7 +147,8 @@ func order_was_taken():
 	set_pos_state(Monster.MonsterPositionState.WaitingForFood)
 	orderWasTaken.emit(self, order)
 	speechBubble.visible = false
-	selectable.set_if_is_selectable(false)
+	if selectable:
+		selectable.set_if_is_selectable(false)
 	orderTimer = orderTime
 	meter.visible = true
 	currentlySpeaking = false
@@ -192,6 +195,7 @@ func line_pos_changed(pos:Vector3):
 	
 func set_pos_state(newState: MonsterPositionState):
 	posState = newState
+	posStateChanged.emit(posState)
 	match(posState):
 		MonsterPositionState.Outside:
 			pass
@@ -225,7 +229,8 @@ func _process(delta):
 				orderTimer -= delta
 				meter.set_meter(orderTimer, orderTime)
 			else:
-				order_timed_out()
+				if not GM.debug:
+					order_timed_out()
 	pass
 
 signal orderTimedOut(monster: Monster, loseScore: bool)
@@ -311,13 +316,16 @@ func walk_dest_arrived():
 						at_counter_angry_reaction()
 					else:
 						set_pos_state(Monster.MonsterPositionState.AtCounter)
-						selectable.at_counter()
-						selectable.set_if_is_selectable(true)
+						if selectable:
+							selectable.at_counter()
+							selectable.set_if_is_selectable(true)
 				else:
-					selectable.set_if_is_selectable(false)
+					if selectable:
+						selectable.set_if_is_selectable(false)
 			_:
-				selectable.in_line()
-				selectable.set_if_is_selectable(true)
+				if selectable:
+					selectable.in_line()
+					selectable.set_if_is_selectable(true)
 				pass
 	pass
 

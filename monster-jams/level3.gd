@@ -2,7 +2,6 @@ extends Level
 class_name Level3
 
 func _init() -> void:
-	INTRO_TEXT = "ya need $60, STAT\ncareful not to annoy Frankenstein's creation"
 	
 	MAX_TOPPINGS_PER_SLICE = 2
 	MAX_SANDWICH_SIZE = 1
@@ -15,8 +14,8 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 60
-	ORDER_TIME = 20
+	NEEDED_PROFIT = 25
+	ORDER_TIME = 15
 	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton,
@@ -27,4 +26,7 @@ func _init() -> void:
 		GM.Toppings.StrawberryJam,
 		GM.Toppings.BlueberryJam
 	]
+	WORLD_COLOR = Color.hex(0x007873)
+	INTRO_TEXT = "ya need $"+str(NEEDED_PROFIT)+", STAT\ncareful not to annoy Frankenstein's monster"
+
 	pass

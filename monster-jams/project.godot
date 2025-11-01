@@ -37,6 +37,7 @@ monsterManager=""
 waiting=""
 entrance=""
 plate=""
+end=""
 
 [input]
 

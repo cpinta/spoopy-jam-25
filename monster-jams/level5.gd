@@ -2,9 +2,8 @@ extends Level
 class_name Level5
 
 func _init() -> void:
-	INTRO_TEXT = "they're extra rowdy tonight!\nsurvive with $100 and the monsters will leave!"
 	
-	MAX_TOPPINGS_PER_SLICE = 2
+	MAX_TOPPINGS_PER_SLICE = 3
 	MAX_SANDWICH_SIZE = 2
 	
 	MIN_TIME_BT_MONSTERS = 3
@@ -15,8 +14,8 @@ func _init() -> void:
 		MIN_TIME_BT_MONSTERS = 0.1
 		MAX_TIME_BT_MONSTERS = 0.2
 	
-	NEEDED_PROFIT = 100
-	ORDER_TIME = 20
+	NEEDED_PROFIT = 40
+	ORDER_TIME = 10
 	
 	AVAILABLE_MONSTERS = [
 		GM.Monster.Skeleton,
@@ -30,4 +29,7 @@ func _init() -> void:
 		GM.Toppings.GrapeJam
 		#GM.Toppings.AppleJam
 	]
+	WORLD_COLOR = Color.hex(0xc50003)
+	INTRO_TEXT = "they're extra rowdy tonight!\nsurvive with $"+str(NEEDED_PROFIT)+" and the monsters will leave!"
+	
 	pass

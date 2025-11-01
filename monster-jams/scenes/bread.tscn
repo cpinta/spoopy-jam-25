@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=4 uid="uid://ldrwlrk0as00"]
+[gd_scene load_steps=13 format=4 uid="uid://ldrwlrk0as00"]
 
 [ext_resource type="Script" uid="uid://278anbqs2k5j" path="res://scripts/bread3d.gd" id="1_ihbfu"]
-[ext_resource type="Script" uid="uid://cweau7e845v0w" path="res://scenes/test collide.gd" id="3_bp5ul"]
+[ext_resource type="Script" uid="uid://wg70lt3aug3e" path="res://scenes/selectable_plate.gd" id="2_i0r6r"]
 [ext_resource type="Shape3D" uid="uid://c42clvopn3nml" path="res://scenes/bread convex polygon top.tres" id="3_i0r6r"]
 [ext_resource type="Shape3D" uid="uid://dlr7f7lxletx5" path="res://scenes/bread convex polygon bottom.tres" id="3_u136v"]
 [ext_resource type="Texture2D" uid="uid://b5wxhyfu7haj8" path="res://bread/bread noise.png" id="4_eqjjp"]
 [ext_resource type="Material" uid="uid://bm2w8cvkfa45l" path="res://scenes/transparent jam mat.tres" id="5_bp5ul"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i0r6r"]
+size = Vector3(0.17492676, 0.014036179, 0.175354)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w7slb"]
 resource_name = "inner"
@@ -84,8 +87,14 @@ size = Vector2(0.197, 0.198)
 [node name="Bread" type="Node3D"]
 script = ExtResource("1_ihbfu")
 
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+script = ExtResource("2_i0r6r")
+
+[node name="box" type="CollisionShape3D" parent="StaticBody3D2"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -0.0035888553, -0.00063512387, -0.001940921)
+shape = SubResource("BoxShape3D_i0r6r")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-script = ExtResource("3_bp5ul")
 
 [node name="bottom" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
